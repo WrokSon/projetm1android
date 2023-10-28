@@ -1,20 +1,21 @@
-package com.example.design
+package com.example.design.views
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.design.R
 
-class Connexion : AppCompatActivity() {
+class Marche : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_connexion)
+        setContentView(R.layout.activity_marche)
 
-        var goGame : Button = findViewById(R.id.btn_connexion)
+        var goGame : Button = findViewById(R.id.marche_retour)
         goGame.setOnClickListener{
-            val intent : Intent = Intent(this,MainActivity::class.java)
+            val intent : Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }

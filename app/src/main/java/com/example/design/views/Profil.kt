@@ -1,19 +1,19 @@
-package com.example.design
+package com.example.design.views
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
+import com.example.design.R
 
-class Inventaire : AppCompatActivity() {
+class Profil : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_inventaire)
+        setContentView(R.layout.activity_profil)
 
-        var goGame : Button = findViewById(R.id.inventaire_retour)
+        var goGame : Button = findViewById(R.id.profil_retour)
         goGame.setOnClickListener{
-            val intent : Intent = Intent(this,MainActivity::class.java)
+            val intent : Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }

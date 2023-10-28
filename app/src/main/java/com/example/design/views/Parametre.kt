@@ -1,10 +1,11 @@
-package com.example.design
+package com.example.design.views
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.design.R
 
 class Parametre : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -14,13 +15,13 @@ class Parametre : AppCompatActivity() {
 
         var goGame : Button = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
-            val intent : Intent = Intent(this,MainActivity::class.java)
+            val intent : Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
         var goConnection : Button = findViewById(R.id.btn_deconnexion)
         goConnection.setOnClickListener{
-            val intent : Intent = Intent(this,Connexion::class.java)
+            val intent : Intent = Intent(this, Connexion::class.java)
             startActivity(intent)
         }
 
