@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import com.example.design.R
 
 class Parametre : AppCompatActivity() {
@@ -13,7 +14,7 @@ class Parametre : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parametre)
 
-        var goGame : Button = findViewById(R.id.parametre_retour)
+        var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
             val intent : Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

@@ -6,16 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".views.MainActivity">
 
-    <com.google.android.gms.maps.MapView
+    <org.osmdroid.views.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0">
+    </org.osmdroid.views.MapView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,11 +28,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/inv"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:text="INV"
+            android:src="@drawable/img_inventaire"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
             android:background="@drawable/btnmenushape"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,12 +43,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.058" />
 
-        <Button
+        <ImageButton
             android:id="@+id/mar"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginBottom="96dp"
-            android:text="MAR"
+            android:src="@drawable/img_market"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
             android:background="@drawable/btnmenushape"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,11 +59,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
-        <Button
+        <ImageButton
             android:id="@+id/pro"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:text="PRO"
+            android:src="@drawable/img_profil"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
             android:background="@drawable/btnmenushape"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,12 +74,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.058" />
 
-        <Button
+        <ImageButton
             android:id="@+id/par"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginBottom="96dp"
-            android:text="PAR"
+            android:src="@drawable/img_parametre"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
             android:background="@drawable/btnmenushape"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,4 +102,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/map"
         app:layout_constraintVertical_bias="0.932" />
+
+    <FrameLayout
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/btn_me"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_loupe"
+            android:background="@drawable/btnreturnshape"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="18dp"
+            android:text="Moi"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#000000" />
+
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

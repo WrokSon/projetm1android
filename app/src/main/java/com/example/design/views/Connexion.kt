@@ -46,7 +46,7 @@ class Connexion : AppCompatActivity() {
             }
 
         }
-
-
-        }
     }
+
+    override fun onBackPressed() {}
+}
