@@ -12,19 +12,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Inventaire"
+        android:textSize="50dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/inventaire_retour"
         android:layout_width="45dp"
         android:layout_height="39dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/btnreturnshape"
-        android:text="r"
+        android:src="@drawable/img_retour"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,6 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="672dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inventaire_retour"
+        app:layout_constraintTop_toBottomOf="@+id/inventaire_title"
         tools:layout_editor_absoluteX="1dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,4 +19,6 @@ class Connexion : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    override fun onBackPressed() {}
 }

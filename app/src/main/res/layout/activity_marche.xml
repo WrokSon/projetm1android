@@ -12,18 +12,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Marché"
+        android:textSize="50dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/marche_retour"
         android:layout_width="45dp"
         android:layout_height="39dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/btnreturnshape"
-        android:text="r"
+        android:src="@drawable/img_retour"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,6 +37,7 @@
         android:layout_width="122dp"
         android:layout_height="40dp"
         android:text="Acheter"
+        android:backgroundTint="#037ffc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.29"
@@ -44,6 +50,7 @@
         android:layout_width="122dp"
         android:layout_height="40dp"
         android:text="Vendre"
+        android:backgroundTint="#F30c0c"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.757"

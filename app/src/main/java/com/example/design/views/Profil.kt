@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import com.example.design.R
 
 class Profil : AppCompatActivity() {
@@ -11,7 +12,7 @@ class Profil : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profil)
 
-        var goGame : Button = findViewById(R.id.profil_retour)
+        var goGame : ImageButton = findViewById(R.id.profil_retour)
         goGame.setOnClickListener{
             val intent : Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
