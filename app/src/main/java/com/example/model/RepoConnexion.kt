@@ -2,6 +2,8 @@ package com.example.model
 
 class RepoConnexion private constructor() {
 
+    private var autoConnect = true
+
     companion object {
         @Volatile
         private var INSTANCE: RepoConnexion? = null
@@ -11,6 +13,12 @@ class RepoConnexion private constructor() {
                 INSTANCE ?: RepoConnexion().also { INSTANCE = it }
             }
         }
+    }
+
+    fun getValueAutoConnect() = autoConnect
+
+    fun setValueAutoConnect(newValue : Boolean){
+        autoConnect = newValue
     }
 
     private var session = 0

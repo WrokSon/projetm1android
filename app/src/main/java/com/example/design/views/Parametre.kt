@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import com.example.design.R
+import com.example.model.RepoConnexion
 import com.example.model.SaveLocal
 
 class Parametre : AppCompatActivity() {
@@ -14,6 +15,7 @@ class Parametre : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parametre)
+        val repoConnect = RepoConnexion.getInstance() //a changer avec le viewModel
 
         var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
@@ -23,6 +25,8 @@ class Parametre : AppCompatActivity() {
 
         var goConnection : Button = findViewById(R.id.btn_deconnexion)
         goConnection.setOnClickListener{
+            //annuler auto connexion
+            repoConnect.setValueAutoConnect(false)
             val intent : Intent = Intent(this, Connexion::class.java)
             startActivity(intent)
         }

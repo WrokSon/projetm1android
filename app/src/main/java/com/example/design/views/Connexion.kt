@@ -33,20 +33,16 @@ class Connexion : AppCompatActivity() {
         val ko: TextView = findViewById(R.id.titlecon)
         val login: EditText = findViewById(R.id.user)
         val passwd: EditText = findViewById(R.id.password)
-        Log.d(
-            "ID",
-            "login:'${saveData.getUsername().toString()}' password:'${
-                saveData.getPassword().toString()
-            }'"
-        )
 
-        Log.d("CONNEXION","recu = ${Intent().getIntExtra("DECONNEXION", 0)}")
         goGame.setOnClickListener {
             var thread = Thread {
                 if (login.text.isNotBlank() || passwd.text.isNotBlank()) {
                     constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())
                     if (constatus == "OK") {
+                        //enregistrer les identifiants
                         saveData.saveUser(login.text.toString(), passwd.text.toString())
+                        //activer l'autoconnexio
+                        viewModel.setValueAutoConnection(true)
                         val intent: Intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     }
@@ -64,7 +60,7 @@ class Connexion : AppCompatActivity() {
     }
 
     fun autoConnexion() {
-        if (saveData.getUsername().toString() != "") {
+        if (saveData.getUsername().toString() != "" && viewModel.getValueAutoConnection()) {
             var thread = Thread {
                 constatus = viewModel.connexion(
                     saveData.getUsername().toString(),

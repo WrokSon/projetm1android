@@ -45,6 +45,11 @@ class ConnViewModel : ViewModel() {
         val doc = db.parse(connection.getInputStream())
         val status = doc.getElementsByTagName("STATUS").item(0).textContent
     }
+
+    fun getValueAutoConnection () = repository.getValueAutoConnect()
+    fun setValueAutoConnection(newValue:Boolean){
+        repository.setValueAutoConnect(newValue)
+    }
     fun getSession(): Int{
         return repository.getSession()
     }
