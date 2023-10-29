@@ -4,16 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
-import com.example.model.ConnViewModel
+import com.example.viewmodel.ConnViewModel
 import com.example.model.SaveLocal
 
 class Connexion : AppCompatActivity() {

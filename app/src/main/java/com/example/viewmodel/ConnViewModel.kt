@@ -1,10 +1,10 @@
-package com.example.model
+package com.example.viewmodel
 
 import androidx.lifecycle.ViewModel
 import java.net.URL
 import java.security.MessageDigest
-import java.util.Base64
 import android.util.Log
+import com.example.model.RepoConnexion
 import javax.xml.parsers.DocumentBuilderFactory
 
 class ConnViewModel : ViewModel() {
