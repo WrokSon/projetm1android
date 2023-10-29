@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import com.example.design.R
+import com.example.model.SaveLocal
 
 class Parametre : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")

@@ -11,9 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:gravity="center"
         android:text="Marché"
         android:textSize="50dp"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,35 +36,37 @@
         android:id="@+id/btn_acheter"
         android:layout_width="122dp"
         android:layout_height="40dp"
-        android:text="Acheter"
         android:backgroundTint="#037ffc"
+        android:text="Acheter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintHorizontal_bias="0.304"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintTop_toBottomOf="@+id/marche_title"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btn_vendre"
         android:layout_width="122dp"
         android:layout_height="40dp"
-        android:text="Vendre"
         android:backgroundTint="#F30c0c"
+        android:text="Vendre"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.757"
+        app:layout_constraintHorizontal_bias="0.768"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintTop_toBottomOf="@+id/marche_title"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="608dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_acheter"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
