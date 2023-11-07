@@ -1,7 +1,7 @@
 package com.example.model
 
-class Item {
-    //TODO objet item
+data class Item(val nom : String, val type : Char, val rarity : Int, val image : String,
+                val desc_en : String, val desc_fr : String)
     /**
      * ressemble a ça
      * <PARAMS>
@@ -13,4 +13,3 @@ class Item {
      * <DESC_FR>Une roche friable, sans autre intérêt que de pouvoir écrire des trucs avec</DESC_FR>
      * </PARAMS>
      */
-}

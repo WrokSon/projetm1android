@@ -1,6 +1,8 @@
 package com.example.model
 
-class Player {
+import java.util.ArrayList
+
+data class Player(val login : String, val lat : Double, val long : Double, val money : Int, val pick : Int, val items : ArrayList<Item>)
     //TODO player object
     /** ressemble à ça
      * <PARAMS>
@@ -13,4 +15,3 @@ class Player {
      * <ITEMS/>
      * </PARAMS>
      */
-}

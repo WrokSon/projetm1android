@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
+import com.example.model.Player
 import com.example.viewmodel.ConnViewModel
 import com.example.model.SaveLocal
 
@@ -23,6 +24,7 @@ class Connexion : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ConnViewModel::class.java)
         saveData = SaveLocal(this)
+
         var constatus = ""
         autoConnexion()
         setContentView(R.layout.activity_connexion)
@@ -47,10 +49,15 @@ class Connexion : AppCompatActivity() {
                 }
             }
             thread.start()
-            if (constatus == "KO - WRONG CREDENTIALS") {
-                ko.setText("Mauvais identifiants")
-            } else {
-                ko.setText("Identifiants manquants")
+
+            if (!(constatus == "OK")) {
+
+                if (constatus == "KO - WRONG CREDENTIALS") {
+                    ko.setText("Mauvais identifiants")
+                }
+                else{
+                    ko.setText("Identifiants manquants")
+                }
             }
 
         }

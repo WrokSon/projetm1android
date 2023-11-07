@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 import java.net.URL
 import java.security.MessageDigest
 import android.util.Log
+import com.example.model.Item
+import com.example.model.Player
 import com.example.model.RepoConnexion
+import org.w3c.dom.Document
 import javax.xml.parsers.DocumentBuilderFactory
 
 class ConnViewModel : ViewModel() {
@@ -30,8 +33,9 @@ class ConnViewModel : ViewModel() {
         val status = doc.getElementsByTagName("STATUS").item(0).textContent
         //si bon identifiants -> redirection main activity
         if(status == "OK"){
-            repository.collectCon(doc.getElementsByTagName("SESSION").item(0).textContent.toInt(),
+            repository.collectCon(login,doc.getElementsByTagName("SESSION").item(0).textContent.toInt(),
                  doc.getElementsByTagName("SIGNATURE").item(0).textContent.toLong())
+            playerStatus()
         }
         return status
     }
@@ -44,6 +48,19 @@ class ConnViewModel : ViewModel() {
         val db = dbf.newDocumentBuilder()
         val doc = db.parse(connection.getInputStream())
         val status = doc.getElementsByTagName("STATUS").item(0).textContent
+        if(status == "OK"){
+            repository.updatePlayer(
+                //mettre le vrai code des qu'il y a la récupération des positions
+                //doc.getElementsByTagName("LATITUDE").item(0).textContent.toDouble(),
+                0.0000,
+                //doc.getElementsByTagName("LONGITUDE").item(0).textContent.toDouble(),
+                0.0000,
+                doc.getElementsByTagName("MONEY").item(0).textContent.toInt(),
+                doc.getElementsByTagName("PICKAXE").item(0).textContent.toInt(),
+                //liste vide pour l'instant
+                ArrayList<Item>()
+            )
+        }
     }
 
     fun getValueAutoConnection () = repository.getValueAutoConnect()
@@ -56,5 +73,9 @@ class ConnViewModel : ViewModel() {
 
     fun getSignature(): Long{
         return repository.getSignature()
+    }
+
+    fun getPlayer(): Player {
+        return repository.getPlayer()
     }
 }
