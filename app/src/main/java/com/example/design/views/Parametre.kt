@@ -31,15 +31,6 @@ class Parametre : AppCompatActivity() {
             val intent : Intent = Intent(this, Connexion::class.java)
             startActivity(intent)
         }
-        //mettre a jour les infos
-        var name : TextView = findViewById(R.id.profil_name)
-        name.text = viewModel.getName()
-
-        var money : TextView = findViewById(R.id.profil_money)
-        money.text = viewModel.getMoney().toString()
-
-        var pick : TextView = findViewById(R.id.profil_level)
-        pick.text = viewModel.getPick().toString()
 
     }
 }
