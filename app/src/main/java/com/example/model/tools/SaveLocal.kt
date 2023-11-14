@@ -1,4 +1,4 @@
-package com.example.model
+package com.example.model.tools
 
 import android.content.Context
 import android.content.SharedPreferences

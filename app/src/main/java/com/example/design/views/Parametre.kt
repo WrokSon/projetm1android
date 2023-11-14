@@ -6,11 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import androidx.lifecycle.ViewModel
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
-import com.example.model.RepoConnexion
-import com.example.model.SaveLocal
 import com.example.viewmodel.ParametreViewModel
 
 class Parametre : AppCompatActivity() {
@@ -33,6 +31,15 @@ class Parametre : AppCompatActivity() {
             val intent : Intent = Intent(this, Connexion::class.java)
             startActivity(intent)
         }
+        //mettre a jour les infos
+        var name : TextView = findViewById(R.id.profil_name)
+        name.text = viewModel.getName()
+
+        var money : TextView = findViewById(R.id.profil_money)
+        money.text = viewModel.getMoney().toString()
+
+        var pick : TextView = findViewById(R.id.profil_level)
+        pick.text = viewModel.getPick().toString()
 
     }
 }

@@ -1,19 +1,22 @@
 package com.example.model
 
 import android.util.Log
+import com.example.model.data.Item
+import com.example.model.data.Player
 import java.util.ArrayList
 
-class RepoConnexion private constructor() {
+class Repository private constructor() {
 
     private var autoConnect = true
+    private val baseURL = "https://test.vautard.fr/creuse_srv/"
 
     companion object {
         @Volatile
-        private var INSTANCE: RepoConnexion? = null
+        private var INSTANCE: Repository? = null
 
-        fun getInstance(): RepoConnexion {
+        fun getInstance(): Repository {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: RepoConnexion().also { INSTANCE = it }
+                INSTANCE ?: Repository().also { INSTANCE = it }
             }
         }
     }
@@ -37,21 +40,29 @@ class RepoConnexion private constructor() {
         Log.d("SIGNATURE",signature.toString())
     }
 
-    fun updatePlayer(lat : Double, long : Double, money : Int, pick : Int, items : ArrayList<Item>){
+    fun updatePlayer(lat : Float, long : Float, money : Int, pick : Int, items : ArrayList<Item>){
         player = Player(login,lat,long,money,pick,items)
+    }
+
+    fun updatePosition(lat:Float, long: Float){
+        player.lat = lat
+        player.long = long
     }
 
     fun getSession(): Int{
         return session
     }
 
+    fun getBaseURL(): String = baseURL
+
     fun getSignature(): Long{
         return signature
     }
 
-    fun getPlayer(): Player{
+    fun getPlayer(): Player {
         return player
     }
+
 }
 
 

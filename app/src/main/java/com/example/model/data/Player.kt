@@ -1,8 +1,8 @@
-package com.example.model
+package com.example.model.data
 
 import java.util.ArrayList
 
-data class Player(val login : String, val lat : Double, val long : Double, val money : Int, val pick : Int, val items : ArrayList<Item>)
+data class Player(val login : String, var lat : Float, var long : Float, var money : Int, var pick : Int, var items : ArrayList<Item>)
     //TODO player object
     /** ressemble à ça
      * <PARAMS>

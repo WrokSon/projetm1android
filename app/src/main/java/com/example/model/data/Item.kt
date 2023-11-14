@@ -1,4 +1,4 @@
-package com.example.model
+package com.example.model.data
 
 data class Item(val nom : String, val type : Char, val rarity : Int, val image : String,
                 val desc_en : String, val desc_fr : String)

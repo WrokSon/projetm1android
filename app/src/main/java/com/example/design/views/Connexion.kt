@@ -10,9 +10,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
-import com.example.model.Player
 import com.example.viewmodel.ConnViewModel
-import com.example.model.SaveLocal
+import com.example.model.tools.SaveLocal
+import com.example.model.tools.Status
 
 class Connexion : AppCompatActivity() {
     private lateinit var viewModel: ConnViewModel
@@ -37,7 +37,7 @@ class Connexion : AppCompatActivity() {
             var thread = Thread {
                 if (login.text.isNotBlank() || passwd.text.isNotBlank()) {
                     constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())
-                    if (constatus == "OK") {
+                    if (constatus == Status.OK.value) {
                         //enregistrer les identifiants
                         saveData.saveUser(login.text.toString(), passwd.text.toString())
                         //activer l'autoconnexio
@@ -50,9 +50,9 @@ class Connexion : AppCompatActivity() {
             }
             thread.start()
 
-            if (!(constatus == "OK")) {
+            if (!(constatus == Status.OK.value)) {
 
-                if (constatus == "KO - WRONG CREDENTIALS") {
+                if (constatus == Status.WRONGCREDENTIALS.value) {
                     ko.setText("Mauvais identifiants")
                 }
                 else{
@@ -70,7 +70,7 @@ class Connexion : AppCompatActivity() {
                     saveData.getUsername().toString(),
                     saveData.getPassword().toString()
                 )
-                if (constatus == "OK") {
+                if (constatus == Status.OK.value) {
                     val intent: Intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
