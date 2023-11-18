@@ -50,10 +50,8 @@ class ConnViewModel : ViewModel() {
         if(status == "OK"){
             repository.updatePlayer(
                 //mettre le vrai code des qu'il y a la récupération des positions
-                //doc.getElementsByTagName("LATITUDE").item(0).textContent.toDouble(),
-                0.0f,
-                //doc.getElementsByTagName("LONGITUDE").item(0).textContent.toDouble(),
-                0.0f,
+                doc.getElementsByTagName("LATITUDE").item(0).textContent.toFloat(),
+                doc.getElementsByTagName("LONGITUDE").item(0).textContent.toFloat(),
                 doc.getElementsByTagName("MONEY").item(0).textContent.toInt(),
                 doc.getElementsByTagName("PICKAXE").item(0).textContent.toInt(),
                 //liste vide pour l'instant
