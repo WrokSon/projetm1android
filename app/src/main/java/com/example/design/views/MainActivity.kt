@@ -17,6 +17,7 @@ import androidx.core.graphics.scale
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.example.design.R
+import com.example.model.tools.Status
 import com.example.viewmodel.MainViewModel
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
@@ -26,6 +27,9 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import org.w3c.dom.Document
+import java.util.Timer
+import java.util.TimerTask
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var map : MapView
     private lateinit var mapController : IMapController
     private lateinit var myLoc: MyLocationNewOverlay
+    private lateinit var doccreuse : Document
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +48,10 @@ class MainActivity : AppCompatActivity() {
         initMap()
         gestionBtns()
         deplacement()
+        val thread = Thread(){
+            viewModel.playerStatus()
+        }
+        thread.start()
     }
 
     private fun gestionBtns() {
@@ -70,10 +79,28 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        var btnCreuser: Button = findViewById(R.id.pick)
+        val btnCreuser: Button = findViewById(R.id.pick)
         btnCreuser.setOnClickListener {
             mapController.setZoom(20.0)
             myLoc.enableFollowLocation()
+            val thread = Thread{
+                doccreuse = viewModel.creuser()
+            }
+            thread.start()
+            thread.join()
+            val status = doccreuse.getElementsByTagName("STATUS").item(0).textContent
+            if(status == Status.OUTOFBOUNDS.value){
+                Toast.makeText(applicationContext,"t'es pas à l'université",Toast.LENGTH_SHORT).show()
+            }
+            if(status == Status.BADPICKAXE.value){
+                Toast.makeText(applicationContext,"meilleur pioche requise",Toast.LENGTH_SHORT).show()
+            }
+            if(status == Status.TOOFAST.value){
+                Toast.makeText(applicationContext,"ralenti mon gars",Toast.LENGTH_SHORT).show()
+            }
+            if(status == Status.OK.value){
+                Toast.makeText(applicationContext,"tout va bien mec",Toast.LENGTH_SHORT).show()
+            }
         }
 
         var btnMe: ImageButton = findViewById(R.id.btn_me)
@@ -142,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         map.onResume()
     }
-
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {}
 
     private fun checkLocationPermission(): Boolean {

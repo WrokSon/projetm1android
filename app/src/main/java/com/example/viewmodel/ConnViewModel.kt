@@ -34,31 +34,11 @@ class ConnViewModel : ViewModel() {
         if(status == "OK"){
             repository.collectCon(login,doc.getElementsByTagName("SESSION").item(0).textContent.toInt(),
                  doc.getElementsByTagName("SIGNATURE").item(0).textContent.toLong())
-            playerStatus()
         }
         return status
     }
 
-    fun playerStatus(){
-        val url = URL(repository.getBaseURL()+"status_joueur.php?session="+getSession()+
-                "&signature=" + getSignature())
-        val connection = url.openConnection()
-        val dbf = DocumentBuilderFactory.newInstance()
-        val db = dbf.newDocumentBuilder()
-        val doc = db.parse(connection.getInputStream())
-        val status = doc.getElementsByTagName("STATUS").item(0).textContent
-        if(status == "OK"){
-            repository.updatePlayer(
-                //mettre le vrai code des qu'il y a la récupération des positions
-                doc.getElementsByTagName("LATITUDE").item(0).textContent.toFloat(),
-                doc.getElementsByTagName("LONGITUDE").item(0).textContent.toFloat(),
-                doc.getElementsByTagName("MONEY").item(0).textContent.toInt(),
-                doc.getElementsByTagName("PICKAXE").item(0).textContent.toInt(),
-                //liste vide pour l'instant
-                ArrayList<Item>()
-            )
-        }
-    }
+
 
     fun getValueAutoConnection () = repository.getValueAutoConnect()
     fun setValueAutoConnection(newValue:Boolean){

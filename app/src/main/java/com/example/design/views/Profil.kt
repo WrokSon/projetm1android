@@ -9,16 +9,17 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.viewmodel.ConnViewModel
+import com.example.viewmodel.MainViewModel
 import org.w3c.dom.Document
 import org.w3c.dom.Text
 
 class Profil : AppCompatActivity() {
-    private lateinit var viewModel: ConnViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profil)
-        viewModel = ViewModelProvider(this).get(ConnViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         var goGame : ImageButton = findViewById(R.id.profil_retour)
         goGame.setOnClickListener{
             val intent : Intent = Intent(this, MainActivity::class.java)
