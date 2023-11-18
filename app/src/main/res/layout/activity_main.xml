@@ -142,11 +142,10 @@
 
     <TextView
         android:id="@+id/texte_zone"
-        android:layout_width="73dp"
-        android:layout_height="27dp"
-        android:layout_gravity="center"
-        android:text="Hors Zone"
-        android:textColor="#F30c0c"
+        android:layout_width="256dp"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:textColor="#1f02fa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

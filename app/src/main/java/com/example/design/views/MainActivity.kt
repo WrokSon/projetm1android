@@ -163,11 +163,7 @@ class MainActivity : AppCompatActivity() {
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 5.0f) {
                         viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
-                    }
-                    else if (viewModel.getHorsZone()) {
-                        textZone.text = "Hors Zone"
-                    } else {
-                        textZone.text = ""
+                        textZone.text = "lon: " + dernierLoc.longitude.toFloat() + " / lat: " + dernierLoc.latitude.toFloat()
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")

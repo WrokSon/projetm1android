@@ -5,8 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.viewmodel.ParametreViewModel
@@ -30,6 +32,18 @@ class Parametre : AppCompatActivity() {
             viewModel.disconnect()
             val intent : Intent = Intent(this, Connexion::class.java)
             startActivity(intent)
+        }
+
+        var changeNameET : EditText = findViewById(R.id.name_player)
+        var changeNameBtn : Button = findViewById(R.id.btn_change_name)
+        changeNameBtn.setOnClickListener{
+            if (!changeNameET.text.isNullOrBlank()) {
+                val thread = Thread {
+                    viewModel.changeName(changeNameET.text.toString())
+                    changeNameET.text.clear()
+                }
+                thread.start()
+            }
         }
 
     }

@@ -9,11 +9,6 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class MainViewModel : ViewModel() {
     private val repository = Repository.getInstance()
-
-    private var horsZone : Boolean = true
-
-    fun getHorsZone() : Boolean = horsZone
-
     fun updatePos(lon : Float,lat : Float){
         val url = URL(repository.getBaseURL()+"deplace.php?signature="+repository.getSignature()+
         "&session="+repository.getSession()+ "&lon="+lon+"&lat="+lat)
@@ -24,11 +19,6 @@ class MainViewModel : ViewModel() {
         val status = doc.getElementsByTagName("STATUS").item(0).textContent
         if(status == Status.OK.value){
             repository.updatePosition(lat,lon)
-            horsZone = false
-        }
-        else if (status == Status.OUTOFBOUNDS.value){
-            //a revoir le sens
-            horsZone = true
         }
     }
 
