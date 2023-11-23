@@ -89,14 +89,16 @@ class MainActivity : AppCompatActivity() {
             thread.start()
             thread.join()
             val status = doccreuse.getElementsByTagName("STATUS").item(0).textContent
+            Log.d("STATUSPICK",status)
             if(status == Status.OUTOFBOUNDS.value){
                 Toast.makeText(applicationContext,"t'es pas à l'université",Toast.LENGTH_SHORT).show()
             }
             if(status == Status.BADPICKAXE.value){
                 Toast.makeText(applicationContext,"meilleur pioche requise",Toast.LENGTH_SHORT).show()
             }
-            if(status == Status.TOOFAST.value){
-                Toast.makeText(applicationContext,"ralenti mon gars",Toast.LENGTH_SHORT).show()
+            if(status.startsWith(Status.TOOFAST.value)){
+                val time = 5 - status.takeLast(1).toInt()
+                Toast.makeText(applicationContext,"ralenti mon gars, " + time + " secondes",Toast.LENGTH_SHORT).show()
             }
             if(status == Status.OK.value){
                 Toast.makeText(applicationContext,"tout va bien mec",Toast.LENGTH_SHORT).show()
