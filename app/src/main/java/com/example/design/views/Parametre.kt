@@ -46,5 +46,11 @@ class Parametre : AppCompatActivity() {
             }
         }
 
+        var resetBtn : Button = findViewById(R.id.reinisialiser)
+        resetBtn.setOnClickListener{
+            Thread{viewModel.reset()}.start()
+            Toast.makeText(this,"frero c'est fait",Toast.LENGTH_LONG).show()
+        }
+
     }
 }

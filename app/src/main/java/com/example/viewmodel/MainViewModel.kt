@@ -7,8 +7,7 @@ import com.example.model.tools.Status
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
-class MainViewModel : ViewModel() {
-    private val repository = Repository.getInstance()
+class MainViewModel : ViewModelSuper() {
     fun updatePos(lon : Float,lat : Float){
         val url = URL(repository.getBaseURL()+"deplace.php?signature="+repository.getSignature()+
         "&session="+repository.getSession()+ "&lon="+lon+"&lat="+lat)

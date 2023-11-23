@@ -7,8 +7,7 @@ import com.example.model.tools.Status
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
-class ParametreViewModel : ViewModel() {
-    private val repository = Repository.getInstance()
+class ParametreViewModel : ViewModelSuper() {
     fun disconnect() = repository.setValueAutoConnect(false)
 
     fun changeName(name:String){
@@ -22,6 +21,19 @@ class ParametreViewModel : ViewModel() {
         if (status == Status.OK.value){
             Log.d("ICI","je suis passé par là")
             repository.getPlayer().login = name
+        }
+    }
+
+    fun reset(){
+        val url = URL(repository.getBaseURL()+"reinit_joueur.php?signature="+repository.getSignature()+
+                "&session="+repository.getSession())
+        val connection = url.openConnection()
+        val dbf = DocumentBuilderFactory.newInstance()
+        val db = dbf.newDocumentBuilder()
+        val doc = db.parse(connection.getInputStream())
+        val status = doc.getElementsByTagName("STATUS").item(0).textContent
+        if (status == Status.OK.value){
+            Log.d("IzzCI","je suis passé par là")
         }
     }
 
