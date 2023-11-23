@@ -162,6 +162,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onPause() {
         super.onPause()
         map.onPause()
