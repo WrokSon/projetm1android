@@ -9,9 +9,7 @@ import com.example.model.data.Player
 import com.example.model.Repository
 import javax.xml.parsers.DocumentBuilderFactory
 
-class ConnViewModel : ViewModel() {
-    private val repository = Repository.getInstance()
-
+class ConnViewModel : ViewModelSuper() {
     fun connexion(login : String, passwd : String): String{
         //SHA256
         val bytes = passwd.toByteArray()
@@ -34,25 +32,8 @@ class ConnViewModel : ViewModel() {
         if(status == "OK"){
             repository.collectCon(login,doc.getElementsByTagName("SESSION").item(0).textContent.toInt(),
                  doc.getElementsByTagName("SIGNATURE").item(0).textContent.toLong())
+            playerStatus()
         }
         return status
-    }
-
-
-
-    fun getValueAutoConnection () = repository.getValueAutoConnect()
-    fun setValueAutoConnection(newValue:Boolean){
-        repository.setValueAutoConnect(newValue)
-    }
-    fun getSession(): Int{
-        return repository.getSession()
-    }
-
-    fun getSignature(): Long{
-        return repository.getSignature()
-    }
-
-    fun getPlayer(): Player {
-        return repository.getPlayer()
     }
 }

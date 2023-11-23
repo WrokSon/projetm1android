@@ -34,6 +34,7 @@ class Parametre : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         var changeNameET : EditText = findViewById(R.id.name_player)
         var changeNameBtn : Button = findViewById(R.id.btn_change_name)
         changeNameBtn.setOnClickListener{
@@ -44,6 +45,12 @@ class Parametre : AppCompatActivity() {
                 }
                 thread.start()
             }
+        }
+
+        var resetBtn : Button = findViewById(R.id.reinisialiser)
+        resetBtn.setOnClickListener{
+            Thread{viewModel.reset()}.start()
+            Toast.makeText(this,"frero c'est fait",Toast.LENGTH_LONG).show()
         }
 
     }
