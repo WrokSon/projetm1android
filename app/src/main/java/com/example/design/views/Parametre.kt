@@ -34,6 +34,7 @@ class Parametre : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         var changeNameET : EditText = findViewById(R.id.name_player)
         var changeNameBtn : Button = findViewById(R.id.btn_change_name)
         changeNameBtn.setOnClickListener{
