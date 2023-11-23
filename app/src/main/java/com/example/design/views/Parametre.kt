@@ -22,8 +22,7 @@ class Parametre : AppCompatActivity() {
 
         var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
-            val intent : Intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
         }
 
         var goConnection : Button = findViewById(R.id.btn_deconnexion)

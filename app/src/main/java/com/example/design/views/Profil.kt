@@ -22,8 +22,7 @@ class Profil : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         var goGame : ImageButton = findViewById(R.id.profil_retour)
         goGame.setOnClickListener{
-            val intent : Intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
         }
         val thread = Thread {
             viewModel.playerStatus()

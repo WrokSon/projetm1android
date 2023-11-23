@@ -14,8 +14,7 @@ class Inventaire : AppCompatActivity() {
 
         var goGame : ImageButton = findViewById(R.id.inventaire_retour)
         goGame.setOnClickListener{
-            val intent : Intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
         }
     }
 }

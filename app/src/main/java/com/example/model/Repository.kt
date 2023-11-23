@@ -44,6 +44,10 @@ class Repository private constructor() {
         player = Player(login,lat,long,money,pick,items)
     }
 
+    fun setLogin(log : String){
+        login = log
+    }
+
     fun updatePosition(lat:Float, long: Float){
         player.lat = lat
         player.long = long

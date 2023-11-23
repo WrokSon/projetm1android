@@ -20,7 +20,7 @@ class ParametreViewModel : ViewModelSuper() {
         val status = doc.getElementsByTagName("STATUS").item(0).textContent
         if (status == Status.OK.value){
             Log.d("ICI","je suis passé par là")
-            repository.getPlayer().login = name
+            repository.setLogin(name)
         }
     }
 

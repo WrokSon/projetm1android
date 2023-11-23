@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             viewModel.playerStatus()
         }
         thread.start()
+        Log.d("TESTXDDDD","je passe la ou quoi")
     }
 
     private fun gestionBtns() {
