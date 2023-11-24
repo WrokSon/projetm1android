@@ -1,7 +1,8 @@
 package com.example.model.data
 
-data class Item(val nom : String, val type : Char, val rarity : Int, val image : String,
-                val desc_en : String, val desc_fr : String)
+data class Item(
+    var id : Int, var nom : String, var type : Char, var rarity : Int, var image : String,
+    var desc_en : String, var desc_fr : String)
     /**
      * ressemble a ça
      * <PARAMS>

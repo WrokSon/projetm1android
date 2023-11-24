@@ -2,7 +2,7 @@ package com.example.model.data
 
 import java.util.ArrayList
 
-data class Player(var login : String, var lat : Float, var long : Float, var money : Int, var pick : Int, var items : ArrayList<Item>)
+data class Player(var login : String, var lat : Float, var long : Float, var money : Int, var pick : Int, var items : HashMap<Item,Int>)
     //TODO player object
     /** ressemble à ça
      * <PARAMS>

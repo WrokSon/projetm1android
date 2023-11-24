@@ -34,6 +34,8 @@ class ParametreViewModel : ViewModelSuper() {
         val status = doc.getElementsByTagName("STATUS").item(0).textContent
         if (status == Status.OK.value){
             Log.d("IzzCI","je suis passé par là")
+            repository.resetLogin()
+            playerStatus()
         }
     }
 

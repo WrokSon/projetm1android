@@ -30,17 +30,23 @@ class Repository private constructor() {
     private var session = 0
     private var signature : Long = 0
     private var login = ""
+    private var baselogin = ""
     private lateinit var player : Player
 
     fun collectCon(log : String,sess : Int, sign : Long){
-        login = log
+        baselogin = log
+        login = baselogin
         session = sess
         signature = sign
         Log.d("SESSION",session.toString())
         Log.d("SIGNATURE",signature.toString())
     }
 
-    fun updatePlayer(lat : Float, long : Float, money : Int, pick : Int, items : ArrayList<Item>){
+    fun resetLogin(){
+        login = baselogin
+    }
+
+    fun updatePlayer(lat : Float, long : Float, money : Int, pick : Int, items : HashMap<Item,Int>){
         player = Player(login,lat,long,money,pick,items)
     }
 
