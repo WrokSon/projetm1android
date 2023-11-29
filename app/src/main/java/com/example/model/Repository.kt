@@ -6,8 +6,6 @@ import com.example.model.data.Player
 import java.util.ArrayList
 
 class Repository private constructor() {
-
-    private var autoConnect = true
     private val baseURL = "https://test.vautard.fr/creuse_srv/"
 
     companion object {
@@ -19,12 +17,6 @@ class Repository private constructor() {
                 INSTANCE ?: Repository().also { INSTANCE = it }
             }
         }
-    }
-
-    fun getValueAutoConnect() = autoConnect
-
-    fun setValueAutoConnect(newValue : Boolean){
-        autoConnect = newValue
     }
 
     private var session = 0

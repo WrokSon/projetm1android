@@ -29,7 +29,7 @@ class Inventaire : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         var thread = Thread{
-            viewModel.playerStatus()
+            viewModel.playerStatus(this)
         }
         thread.start()
         val itemList : TableLayout = findViewById(R.id.items)

@@ -1,28 +1,34 @@
 package com.example.viewmodel
 
+import android.content.Context
 import android.location.Location
-import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.ViewModel
+import androidx.appcompat.app.AppCompatActivity
 import com.example.model.Repository
 import com.example.model.data.Item
 import com.example.model.data.Player
 import com.example.model.tools.Status
 import org.w3c.dom.Document
 import java.net.URL
+import java.net.URLConnection
 import javax.xml.parsers.DocumentBuilderFactory
 
 class MainViewModel : ViewModelSuper() {
-    fun updatePos(lon : Float,lat : Float){
-        val url = URL(repository.getBaseURL()+"deplace.php?signature="+repository.getSignature()+
-        "&session="+repository.getSession()+ "&lon="+lon+"&lat="+lat)
-        val connection = url.openConnection()
-        val dbf = DocumentBuilderFactory.newInstance()
-        val db = dbf.newDocumentBuilder()
-        val doc = db.parse(connection.getInputStream())
-        val status = doc.getElementsByTagName("STATUS").item(0).textContent
-        if(status == Status.OK.value){
-            repository.updatePosition(lat,lon)
+    fun updatePos(contextApp: AppCompatActivity, lon : Float,lat : Float){
+        try{
+            val url = URL(
+                repository.getBaseURL() + "deplace.php?signature=" + repository.getSignature() +
+                        "&session=" + repository.getSession() + "&lon=" + lon + "&lat=" + lat
+            )
+            val connection = url.openConnection()
+            val dbf = DocumentBuilderFactory.newInstance()
+            val db = dbf.newDocumentBuilder()
+            val doc = db.parse(connection.getInputStream())
+            val status = doc.getElementsByTagName("STATUS").item(0).textContent
+            if (status == Status.OK.value) {
+                repository.updatePosition(lat, lon)
+            }
+        }catch (e : Exception){
+            checkNoConnexion(contextApp)
         }
     }
 
@@ -48,13 +54,10 @@ class MainViewModel : ViewModelSuper() {
         return distance[0]
     }
 
-
-
-
     fun creuser(): Document{
         val url = URL(repository.getBaseURL()+"creuse.php?session="+repository.getSession()+
                 "&signature=" + repository.getSignature()+"&lon="+getLongitude()+"&lat="+getLatitude())
-        val connection = url.openConnection()
+        val connection : URLConnection = url.openConnection()
         val dbf = DocumentBuilderFactory.newInstance()
         val db = dbf.newDocumentBuilder()
         val doc = db.parse(connection.getInputStream())

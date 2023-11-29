@@ -27,8 +27,6 @@ class Parametre : AppCompatActivity() {
 
         var goConnection : Button = findViewById(R.id.btn_deconnexion)
         goConnection.setOnClickListener{
-            //annuler auto connexion
-            viewModel.disconnect()
             val intent : Intent = Intent(this, Connexion::class.java)
             startActivity(intent)
         }
@@ -48,7 +46,7 @@ class Parametre : AppCompatActivity() {
 
         var resetBtn : Button = findViewById(R.id.reinisialiser)
         resetBtn.setOnClickListener{
-            Thread{viewModel.reset()}.start()
+            Thread{viewModel.reset(this)}.start()
             Toast.makeText(this,"frero c'est fait",Toast.LENGTH_LONG).show()
         }
 

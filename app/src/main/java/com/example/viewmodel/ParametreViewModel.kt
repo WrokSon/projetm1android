@@ -1,6 +1,7 @@
 package com.example.viewmodel
 
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.example.model.Repository
 import com.example.model.tools.Status
@@ -8,7 +9,6 @@ import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
 class ParametreViewModel : ViewModelSuper() {
-    fun disconnect() = repository.setValueAutoConnect(false)
 
     fun changeName(name:String){
         val url = URL(repository.getBaseURL()+"changenom.php?signature="+repository.getSignature()+
@@ -24,7 +24,7 @@ class ParametreViewModel : ViewModelSuper() {
         }
     }
 
-    fun reset(){
+    fun reset(context:AppCompatActivity){
         val url = URL(repository.getBaseURL()+"reinit_joueur.php?signature="+repository.getSignature()+
                 "&session="+repository.getSession())
         val connection = url.openConnection()
@@ -35,7 +35,7 @@ class ParametreViewModel : ViewModelSuper() {
         if (status == Status.OK.value){
             Log.d("IzzCI","je suis passé par là")
             repository.resetLogin()
-            playerStatus()
+            playerStatus(context)
         }
     }
 

@@ -33,7 +33,7 @@ class Connexion : AppCompatActivity() {
         var login: EditText = findViewById(R.id.user)
         var passwd: EditText = findViewById(R.id.password)
 
-        if (saveData.getUsername().toString() != "" && viewModel.getValueAutoConnection()) {
+        if (saveData.getUsername().toString() != "") {
             login.setText(this.saveData.getUsername().toString())
             passwd.setText(this.saveData.getPassword().toString())
         }
@@ -41,12 +41,10 @@ class Connexion : AppCompatActivity() {
         goGame.setOnClickListener {
             var thread = Thread {
                 if (login.text.isNotBlank() || passwd.text.isNotBlank()) {
-                    constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())
+                    constatus = viewModel.connexion(this,login.text.toString(), passwd.text.toString())
                     if (constatus == Status.OK.value) {
                         //enregistrer les identifiants
                         saveData.saveUser(login.text.toString(), passwd.text.toString())
-                        //activer l'autoconnexion
-                        viewModel.setValueAutoConnection(true)
                         val intent: Intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()

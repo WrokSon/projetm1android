@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         gestionBtns()
         deplacement()
         val thread = Thread(){
-            viewModel.playerStatus()
+            viewModel.playerStatus(this)
         }
         thread.start()
         Log.d("TESTXDDDD","je passe la ou quoi")
@@ -193,7 +193,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("VOILA","lon : " + dernierLoc.longitude + " lat: "+dernierLoc.latitude)
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 5.0f) {
-                        viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
+                        viewModel.updatePos(this,dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
                         textZone.text = "lon: " + dernierLoc.longitude.toFloat() + " / lat: " + dernierLoc.latitude.toFloat()
                     }
                 }else{

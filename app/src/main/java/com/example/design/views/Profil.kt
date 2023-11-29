@@ -25,7 +25,7 @@ class Profil : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         val thread = Thread {
-            viewModel.playerStatus()
+            viewModel.playerStatus(this)
         }
         thread.start()
         val login: TextView = findViewById(R.id.profil_name)
