@@ -1,15 +1,10 @@
 package com.example.viewmodel
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import com.example.design.views.Connexion
-import com.example.design.views.Marche
 import com.example.model.Repository
 import com.example.model.data.Item
 import com.example.model.data.Player
@@ -55,7 +50,7 @@ open class ViewModelSuper : ViewModel() {
                 )
             }
         }catch (e : Exception){
-            checkNoConnexion(context)
+            actionNoConnexion(context)
         }
     }
 
@@ -81,10 +76,11 @@ open class ViewModelSuper : ViewModel() {
         return item
     }
 
-    fun checkNoConnexion(context : AppCompatActivity){
-        val intent: Intent = Intent(context, Connexion::class.java)
+    fun actionNoConnexion(context : AppCompatActivity){
+        /*val intent: Intent = Intent(context, Connexion::class.java)
         context.startActivity(intent)
-        context.finish()
+        context.finish()*/
+        Toast.makeText(context,"Vous n'etes pas connecter ;)",Toast.LENGTH_LONG).show()
     }
 
     fun getSession(): Int{

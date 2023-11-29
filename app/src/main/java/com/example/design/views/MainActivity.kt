@@ -185,6 +185,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun deplacement(){
         val textZone : TextView = findViewById(R.id.texte_zone)
+        textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
         //met a jour la postion tous les 5 secondes
         var thread = Thread {
             while (true){
@@ -194,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 5.0f) {
                         viewModel.updatePos(this,dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
-                        textZone.text = "lon: " + dernierLoc.longitude.toFloat() + " / lat: " + dernierLoc.latitude.toFloat()
+                        textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")

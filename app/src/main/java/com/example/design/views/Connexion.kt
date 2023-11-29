@@ -33,8 +33,8 @@ class Connexion : AppCompatActivity() {
         var login: EditText = findViewById(R.id.user)
         var passwd: EditText = findViewById(R.id.password)
 
-        if (saveData.getUsername().toString() != "") {
-            login.setText(this.saveData.getUsername().toString())
+        if (saveData.getLogin().toString() != "") {
+            login.setText(this.saveData.getLogin().toString())
             passwd.setText(this.saveData.getPassword().toString())
         }
 
@@ -55,18 +55,14 @@ class Connexion : AppCompatActivity() {
             thread.start()
             thread.join()
             if (!(constatus == Status.OK.value)) {
-
                 if (constatus == Status.WRONGCREDENTIALS.value) {
                     ko.setText("Mauvais identifiants")
-                }else if(constatus == ""){
-                  ko.setText("Pas de connexion")
-                } else{
-                    ko.setText("Identifiants manquants")
+                }else{
+                  ko.setText("Pas de connexion ou champs vides")
                 }
             }
 
         }
-        Toast.makeText(this,"je suis lancé",Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("MissingSuperCall")

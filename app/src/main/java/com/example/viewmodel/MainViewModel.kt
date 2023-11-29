@@ -1,11 +1,7 @@
 package com.example.viewmodel
 
-import android.content.Context
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
-import com.example.model.Repository
-import com.example.model.data.Item
-import com.example.model.data.Player
 import com.example.model.tools.Status
 import org.w3c.dom.Document
 import java.net.URL
@@ -28,7 +24,7 @@ class MainViewModel : ViewModelSuper() {
                 repository.updatePosition(lat, lon)
             }
         }catch (e : Exception){
-            checkNoConnexion(contextApp)
+            actionNoConnexion(contextApp)
         }
     }
 

@@ -22,13 +22,14 @@ class Parametre : AppCompatActivity() {
 
         var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         var goConnection : Button = findViewById(R.id.btn_deconnexion)
         goConnection.setOnClickListener{
             val intent : Intent = Intent(this, Connexion::class.java)
             startActivity(intent)
+            finish()
         }
 
 
@@ -37,7 +38,7 @@ class Parametre : AppCompatActivity() {
         changeNameBtn.setOnClickListener{
             if (!changeNameET.text.isNullOrBlank()) {
                 val thread = Thread {
-                    viewModel.changeName(changeNameET.text.toString())
+                    viewModel.changeName(this,changeNameET.text.toString())
                     changeNameET.text.clear()
                 }
                 thread.start()
