@@ -29,13 +29,12 @@ class Repository private constructor() {
 
     private var session = 0
     private var signature : Long = 0
-    private var login = ""
     private var baselogin = ""
-    private lateinit var player : Player
+    private var player : Player = Player("",0.0f,0.0f,0,1,HashMap<Item,Int>())
 
     fun collectCon(log : String,sess : Int, sign : Long){
         baselogin = log
-        login = baselogin
+        player.login = baselogin
         session = sess
         signature = sign
         Log.d("SESSION",session.toString())
@@ -43,15 +42,20 @@ class Repository private constructor() {
     }
 
     fun resetLogin(){
-        login = baselogin
+        player.login = baselogin
     }
 
     fun updatePlayer(lat : Float, long : Float, money : Int, pick : Int, items : HashMap<Item,Int>){
-        player = Player(login,lat,long,money,pick,items)
+        player.lat = lat
+        player.long = long
+        player.money = money
+        player.pick = pick
+        player.items = items
+
     }
 
     fun setLogin(log : String){
-        login = log
+        player.login = log
     }
 
     fun updatePosition(lat:Float, long: Float){

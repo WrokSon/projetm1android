@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ListView
@@ -26,6 +27,7 @@ class Inventaire : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(InvViewModel::class.java)
         var goGame : ImageButton = findViewById(R.id.inventaire_retour)
         goGame.setOnClickListener{
+            Log.d("MDRBCVGV","je suis passé par la de ouf")
             onBackPressedDispatcher.onBackPressed()
         }
         var thread = Thread{
