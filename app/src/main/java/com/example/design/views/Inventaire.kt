@@ -1,21 +1,19 @@
 package com.example.design.views
 
-import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ListView
+import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.view.size
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.viewmodel.InvViewModel
-import com.example.viewmodel.MainViewModel
+import com.squareup.picasso.Picasso
 
 class Inventaire : AppCompatActivity() {
     private lateinit var viewModel: InvViewModel
@@ -27,15 +25,23 @@ class Inventaire : AppCompatActivity() {
         var goGame : ImageButton = findViewById(R.id.inventaire_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
+            finish()
         }
         var thread = Thread{
             viewModel.playerStatus()
         }
         thread.start()
+        thread.join()
         val itemList : TableLayout = findViewById(R.id.items)
         val items = viewModel.getPlayer().items
         for(i in items){
-            var itemText = TextView(applicationContext)
+            val itemIcon = ImageView(applicationContext)
+            Picasso.with(this).load("https://test.vautard.fr/creuse_imgs/"+i.key.image).into(itemIcon)
+            itemIcon.scaleType = ImageView.ScaleType.FIT_CENTER
+            itemIcon.adjustViewBounds = true
+            itemIcon.maxWidth = 80
+            itemIcon.maxHeight = 80
+            val itemText = TextView(applicationContext)
             itemText.text = i.key.nom
             when(i.key.rarity){
                 1 -> itemText.setTextColor(Color.WHITE)
@@ -50,9 +56,14 @@ class Inventaire : AppCompatActivity() {
             }
             itemText.text = itemText.text as String + "\nQuantité : "+i.value.toString()
             val line = TableRow(applicationContext)
+            line.addView(itemIcon)
             line.addView(itemText)
             line.setOnClickListener {
-                Toast.makeText(applicationContext,i.key.nom,Toast.LENGTH_SHORT).show()
+                val popup = AlertDialog.Builder(this@Inventaire)
+                popup.setIcon(Drawable.createFromPath("https://test.vautard.fr/creuse_imgs/"+i.key.image))
+                popup.setTitle(i.key.nom)
+                popup.setMessage(itemText.text as String + "\n" + i.key.desc_fr)
+                popup.show()
             }
             line.setBackgroundColor(Color.LTGRAY)
             itemList.addView(line)

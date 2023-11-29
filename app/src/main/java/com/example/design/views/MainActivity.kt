@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
             viewModel.playerStatus()
         }
         thread.start()
-        Log.d("TESTXDDDD","je passe la ou quoi")
     }
 
     private fun gestionBtns() {
@@ -81,6 +80,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val btnCreuser: Button = findViewById(R.id.pick)
+        val prof = findViewById<TextView>(R.id.depth_zone)
+        val item = findViewById<TextView>(R.id.item_zone)
         btnCreuser.setOnClickListener {
             mapController.setZoom(20.0)
             myLoc.enableFollowLocation()
@@ -102,7 +103,13 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext,"ralenti mon gars, " + time + " secondes",Toast.LENGTH_SHORT).show()
             }
             if(status == Status.OK.value){
+                prof.text = "Profondeur : " + doccreuse.getElementsByTagName("DEPTH").item(0).textContent + "m"
+                item.text = "Item : non"
+                if(doccreuse.getElementsByTagName("ITEM_ID").length != 0){
+                    item.text = "Item : " + doccreuse.getElementsByTagName("ITEM_ID").item(0).textContent
+                }
                 Toast.makeText(applicationContext,"tout va bien mec",Toast.LENGTH_SHORT).show()
+
             }
         }
 

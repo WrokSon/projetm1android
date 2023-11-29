@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingClass">
+
     </org.osmdroid.views.MapView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -151,5 +152,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.022" />
+
+    <TextView
+        android:id="@+id/depth_zone"
+        android:layout_width="256dp"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:text="Profondeur : 0m"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/texte_zone"
+        app:layout_constraintVertical_bias="0.033" />
+    <TextView
+        android:id="@+id/item_zone"
+        android:layout_width="256dp"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:text="Item : non"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/depth_zone"
+        app:layout_constraintVertical_bias="0.044" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
