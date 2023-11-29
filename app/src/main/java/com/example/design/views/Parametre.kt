@@ -11,14 +11,23 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
+import com.example.model.tools.SaveLocal
 import com.example.viewmodel.ParametreViewModel
 
 class Parametre : AppCompatActivity() {
+    private lateinit var saveData: SaveLocal
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parametre)
         val viewModel = ViewModelProvider(this).get(ParametreViewModel::class.java)
+        saveData = SaveLocal(this)
+
+        // load le username
+        val userNameSave = saveData.getUsername()
+        if( userNameSave != ""  && userNameSave != null){
+            viewModel.getPlayer().login = userNameSave
+        }
 
         var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
@@ -37,11 +46,14 @@ class Parametre : AppCompatActivity() {
         var changeNameBtn : Button = findViewById(R.id.btn_change_name)
         changeNameBtn.setOnClickListener{
             if (!changeNameET.text.isNullOrBlank()) {
+                val name = changeNameET.text.toString()
                 val thread = Thread {
-                    viewModel.changeName(this,changeNameET.text.toString())
+                    viewModel.changeName(this,name)
                     changeNameET.text.clear()
                 }
                 thread.start()
+                thread.join()
+                saveData.saveUserName(name)
             }
         }
 
