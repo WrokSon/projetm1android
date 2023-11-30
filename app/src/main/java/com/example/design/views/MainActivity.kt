@@ -159,6 +159,7 @@ class MainActivity : AppCompatActivity() {
             map.post {
                 mapController.setZoom(16.0)
                 myLoc.enableFollowLocation()
+                mapController.setCenter(myLoc.myLocation)
             }
         } else {
             Toast.makeText(this, "Location permission is required to show your location.", Toast.LENGTH_SHORT).show()
@@ -223,6 +224,7 @@ class MainActivity : AppCompatActivity() {
                     if (distance >= 5.0f) {
                         viewModel.updatePos(this,dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
                         textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
+                        mapController.setCenter(dernierLoc)
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")
