@@ -77,10 +77,9 @@ open class ViewModelSuper : ViewModel() {
     }
 
     fun actionNoConnexion(context : AppCompatActivity){
-        /*val intent: Intent = Intent(context, Connexion::class.java)
+        val intent: Intent = Intent(context, Connexion::class.java)
         context.startActivity(intent)
-        context.finish()*/
-        Toast.makeText(context,"Vous n'etes pas connecter ;)",Toast.LENGTH_LONG).show()
+        context.finish()
     }
 
     fun getSession(): Int{
