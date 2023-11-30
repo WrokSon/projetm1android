@@ -91,7 +91,15 @@ open class ViewModelSuper : ViewModel() {
         return repository.getSignature()
     }
 
+    fun getBaseLogin() = repository.getBaseLogin()
+
     fun getPlayer(): Player {
         return repository.getPlayer()
     }
+
+    fun setResetValue(value:Boolean){
+        repository.setResetValue(value)
+    }
+
+    fun getResetValue() = repository.getResetValue()
 }

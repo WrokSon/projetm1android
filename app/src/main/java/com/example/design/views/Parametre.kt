@@ -15,19 +15,12 @@ import com.example.model.tools.SaveLocal
 import com.example.viewmodel.ParametreViewModel
 
 class Parametre : AppCompatActivity() {
-    private lateinit var saveData: SaveLocal
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parametre)
         val viewModel = ViewModelProvider(this).get(ParametreViewModel::class.java)
-        saveData = SaveLocal(this)
-
-        // load le username
-        val userNameSave = saveData.getUsername()
-        if( userNameSave != ""  && userNameSave != null){
-            viewModel.getPlayer().login = userNameSave
-        }
 
         var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
@@ -53,13 +46,13 @@ class Parametre : AppCompatActivity() {
                 }
                 thread.start()
                 thread.join()
-                saveData.saveUserName(name)
             }
         }
 
         var resetBtn : Button = findViewById(R.id.reinisialiser)
         resetBtn.setOnClickListener{
             Thread{viewModel.reset(this)}.start()
+            viewModel.setResetValue(true)
             Toast.makeText(this,"frero c'est fait",Toast.LENGTH_LONG).show()
         }
 

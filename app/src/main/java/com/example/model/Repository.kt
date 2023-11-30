@@ -3,11 +3,8 @@ package com.example.model
 import android.util.Log
 import com.example.model.data.Item
 import com.example.model.data.Player
-import java.util.ArrayList
 
 class Repository private constructor() {
-    private val baseURL = "https://test.vautard.fr/creuse_srv/"
-
     companion object {
         @Volatile
         private var INSTANCE: Repository? = null
@@ -18,15 +15,16 @@ class Repository private constructor() {
             }
         }
     }
-
+    private val baseURL = "https://test.vautard.fr/creuse_srv/"
     private var session = 0
     private var signature : Long = 0
     private var baselogin = ""
     private var player : Player = Player("",0.0f,0.0f,0,1,HashMap<Item,Int>())
+    private var reset : Boolean = false
 
     fun collectCon(log : String,sess : Int, sign : Long){
         baselogin = log
-        player.login = baselogin
+        player.username = baselogin
         session = sess
         signature = sign
         Log.d("SESSION",session.toString())
@@ -34,8 +32,10 @@ class Repository private constructor() {
     }
 
     fun resetLogin(){
-        player.login = baselogin
+        player.username = baselogin
     }
+
+    fun getBaseLogin() : String = baselogin
 
     fun updatePlayer(lat : Float, long : Float, money : Int, pick : Int, items : HashMap<Item,Int>){
         player.lat = lat
@@ -47,7 +47,7 @@ class Repository private constructor() {
     }
 
     fun setLogin(log : String){
-        player.login = log
+        player.username = log
     }
 
     fun updatePosition(lat:Float, long: Float){
@@ -68,6 +68,12 @@ class Repository private constructor() {
     fun getPlayer(): Player {
         return player
     }
+
+    fun setResetValue(value:Boolean){
+        reset = value
+    }
+
+    fun getResetValue() = reset
 
 }
 
