@@ -11,6 +11,7 @@ import com.example.model.data.Item
 import com.example.model.data.Player
 import com.example.model.tools.Status
 import java.net.URL
+import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
 
 open class ViewModelSuper : ViewModel() {
@@ -31,7 +32,7 @@ open class ViewModelSuper : ViewModel() {
                 repository.getBaseURL() + "status_joueur.php?session=" + repository.getSession() +
                         "&signature=" + repository.getSignature()
             )
-            val items = HashMap<Item, Int>()
+            val items = HashMap<Int, Int>()
             val connection = url.openConnection()
             val dbf = DocumentBuilderFactory.newInstance()
             val db = dbf.newDocumentBuilder()
@@ -41,13 +42,8 @@ open class ViewModelSuper : ViewModel() {
             var long = doc.getElementsByTagName("LONGITUDE").item(0).textContent
             val inv = doc.getElementsByTagName("ITEMS").item(0).childNodes
             for (i in 0..<inv.length) {
-                var item = Item(-1, "", '_', 0, "", "", "")
-                val thread = Thread {
-                    item = getItemDetail(inv.item(i).childNodes.item(0).textContent.toInt())
-                }
-                thread.start()
-                thread.join()
-                items[item] = inv.item(i).childNodes.item(1).textContent.toInt()
+                val id = inv.item(i).childNodes.item(0).textContent.toInt()
+                items[id] = inv.item(i).childNodes.item(1).textContent.toInt()
             }
             if (lat == "" || long == "") {
                 lat = "0.0"
@@ -61,31 +57,36 @@ open class ViewModelSuper : ViewModel() {
                     items
                 )
             }
-        }catch (e : Exception){
+        }catch (e : UnknownHostException){
             actionNoConnexion(context)
         }
     }
 
-    fun getItemDetail(id: Int): Item{
-        val url = URL(
-            repository.getBaseURL() + "item_detail.php?session=" + repository.getSession() +
-                    "&signature=" + repository.getSignature() + "&item_id=" + id)
-        val connection = url.openConnection()
-        val dbf = DocumentBuilderFactory.newInstance()
-        val db = dbf.newDocumentBuilder()
-        val doc = db.parse(connection.getInputStream())
-        val infos = doc.getElementsByTagName("PARAMS").item(0).childNodes
-        val item = Item(-1,"",'_',0,"","","")
+    //fonction qui récupère tout les détails de tout les items afin de pas avoir à appeler à chaque fois le ws
+    fun getItemsDetails(){
+        var list = ArrayList<Item>()
+        for(i in 1 .. 13){
+            val url = URL(
+                repository.getBaseURL() + "item_detail.php?session=" + repository.getSession() +
+                        "&signature=" + repository.getSignature() + "&item_id=" + i)
+            val connection = url.openConnection()
+            val dbf = DocumentBuilderFactory.newInstance()
+            val db = dbf.newDocumentBuilder()
+            val doc = db.parse(connection.getInputStream())
+            val infos = doc.getElementsByTagName("PARAMS").item(0).childNodes
+            val item = Item(-1,"",'_',0,"","","")
 
-        item.id = id
-        item.nom = infos.item(0).textContent
-        item.type = infos.item(1).textContent[0]
-        item.rarity = infos.item(2).textContent.toInt()
-        item.image = infos.item(3).textContent
-        item.desc_en = infos.item(4).textContent
-        item.desc_fr = infos.item(5).textContent
+            item.id = i
+            item.nom = infos.item(0).textContent
+            item.type = infos.item(1).textContent[0]
+            item.rarity = infos.item(2).textContent.toInt()
+            item.image = infos.item(3).textContent
+            item.desc_en = infos.item(4).textContent
+            item.desc_fr = infos.item(5).textContent
 
-        return item
+            list.add(item)
+        }
+        repository.setItemDetailList(list)
     }
 
     fun actionNoConnexion(context : AppCompatActivity){
@@ -114,4 +115,6 @@ open class ViewModelSuper : ViewModel() {
     }
 
     fun getResetValue() = repository.getResetValue()
+
+    fun getItemDetail(id : Int) = repository.getItemDetail(id)
 }

@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         loadUsername()
         val thread = Thread(){
             viewModel.playerStatus(this)
+            viewModel.getItemsDetails()
         }
         thread.start()
     }

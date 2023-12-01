@@ -7,10 +7,11 @@ import com.example.model.tools.Status
 import org.w3c.dom.Document
 import java.net.URL
 import java.net.URLConnection
+import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
 
 class MainViewModel : ViewModelSuper() {
-    private lateinit var doc : Document
+    private var doc : Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
     fun updatePos(contextApp: AppCompatActivity, lon: Float, lat: Float) {
         try {
             val url = URL(
@@ -25,7 +26,7 @@ class MainViewModel : ViewModelSuper() {
             if (status == Status.OK.value) {
                 repository.updatePosition(lat, lon)
             }
-        } catch (e: Exception) {
+        } catch (e: UnknownHostException) {
             actionNoConnexion(contextApp)
         }
     }
@@ -62,8 +63,7 @@ class MainViewModel : ViewModelSuper() {
             val dbf = DocumentBuilderFactory.newInstance()
             val db = dbf.newDocumentBuilder()
             doc = db.parse(connection.getInputStream())
-            return doc
-        } catch (e: Exception) {
+        } catch (e: UnknownHostException) {
             actionNoConnexion(contextApp)
         }
         return doc

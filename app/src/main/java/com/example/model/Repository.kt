@@ -19,8 +19,9 @@ class Repository private constructor() {
     private var session = 0
     private var signature : Long = 0
     private var baselogin = ""
-    private var player : Player = Player("",0.0f,0.0f,0,1,HashMap<Item,Int>())
+    private var player : Player = Player("",0.0f,0.0f,0,1,HashMap<Int,Int>())
     private var reset : Boolean = false
+    private var itemDetailList = ArrayList<Item>()
 
     fun collectCon(log : String,sess : Int, sign : Long){
         baselogin = log
@@ -37,7 +38,7 @@ class Repository private constructor() {
 
     fun getBaseLogin() : String = baselogin
 
-    fun updatePlayer(lat : Float, long : Float, money : Int, pick : Int, items : HashMap<Item,Int>){
+    fun updatePlayer(lat : Float, long : Float, money : Int, pick : Int, items : HashMap<Int,Int>){
         player.lat = lat
         player.long = long
         player.money = money
@@ -74,6 +75,14 @@ class Repository private constructor() {
     }
 
     fun getResetValue() = reset
+
+    fun setItemDetailList(list : ArrayList<Item>){
+        itemDetailList = list
+    }
+
+    fun getItemDetail(id : Int): Item{
+        return itemDetailList[id]
+    }
 
 }
 
