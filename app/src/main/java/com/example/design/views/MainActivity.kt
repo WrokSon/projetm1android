@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,11 +13,13 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.scale
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.example.design.R
+import com.example.model.data.Item
 import com.example.model.tools.SaveLocal
 import com.example.model.tools.Status
 import com.example.viewmodel.MainViewModel
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             mapController.setZoom(20.0)
             myLoc.enableFollowLocation()
             val thread = Thread{
-                doccreuse = viewModel.creuser()
+                doccreuse = viewModel.creuser(this)
             }
             thread.start()
             thread.join()
@@ -105,11 +108,27 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext,"ralenti mon gars, " + time + " secondes",Toast.LENGTH_SHORT).show()
             }
             if(status == Status.OK.value){
-                prof.text = "Profondeur : " + doccreuse.getElementsByTagName("DEPTH").item(0).textContent + "m"
-                item.text = "Item : non"
+                val depth = doccreuse.getElementsByTagName("DEPTH").item(0).textContent + "m"
+                prof.text = "Profondeur : " + depth
                 if(doccreuse.getElementsByTagName("ITEM_ID").length != 0){
-                    item.text = "Item : " + doccreuse.getElementsByTagName("ITEM_ID").item(0).textContent
+                    val itemid = doccreuse.getElementsByTagName("ITEM_ID").item(0).textContent.toInt()
+                    item.text = "Item : " + itemid
+                    var itemm : Item? = null
+                    val thread = Thread{
+                       itemm = viewModel.getItemDetail(itemid)
+                    }
+                    thread.start()
+                    thread.join()
+                    val popup = AlertDialog.Builder(this@MainActivity)
+                    popup.setIcon(Drawable.createFromPath("https://test.vautard.fr/creuse_imgs/"+itemm?.image))
+                    popup.setTitle("Item trouvé : "+itemm?.nom + " ( Profondeur : " + depth + ")")
+                    popup.setMessage(itemm?.desc_fr)
+                    popup.show()
                 }
+                else{
+                    item.text = "Item : non"
+                }
+
                 Toast.makeText(applicationContext,"tout va bien mec",Toast.LENGTH_SHORT).show()
 
             }
@@ -220,6 +239,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun deplacement(){
         val textZone : TextView = findViewById(R.id.texte_zone)
+        val depthZone : TextView = findViewById(R.id.depth_zone)
         textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
         //met a jour la postion tous les 5 secondes
         var thread = Thread {
@@ -231,7 +251,7 @@ class MainActivity : AppCompatActivity() {
                     if (distance >= 10.0f) {
                         viewModel.updatePos(this,dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
                         textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
-
+                        depthZone.setText("Profondeur : 0m")
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")
