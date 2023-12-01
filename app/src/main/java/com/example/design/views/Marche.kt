@@ -20,3 +20,19 @@ class Marche : AppCompatActivity() {
         }
     }
 }
+
+/*
+<root>
+<STATUS>OK</STATUS>
+<PARAMS>
+<OFFERS>
+<item0>
+<OFFER_ID>41</OFFER_ID>
+<ITEM_ID>10</ITEM_ID>
+<QUANTITE>1</QUANTITE>
+<PRIX>12000</PRIX>
+</item0>
+</OFFERS>
+</PARAMS>
+</root>
+ */

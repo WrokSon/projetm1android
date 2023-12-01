@@ -1,12 +1,15 @@
 package com.example.viewmodel
 
 import android.content.Intent
+import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.example.design.views.Connexion
 import com.example.model.Repository
 import com.example.model.data.Item
 import com.example.model.data.Player
+import com.example.model.tools.Status
 import java.net.URL
 import javax.xml.parsers.DocumentBuilderFactory
 
@@ -22,32 +25,6 @@ open class ViewModelSuper : ViewModel() {
         }
         return "OK"
     }
-    fun playerStatus() {
-        val url = URL(
-            repository.getBaseURL() + "status_joueur.php?session=" + repository.getSession() +
-                    "&signature=" + repository.getSignature()
-        )
-        val items = HashMap<Item,Int>()
-        val connection = url.openConnection()
-        val dbf = DocumentBuilderFactory.newInstance()
-        val db = dbf.newDocumentBuilder()
-        val doc = db.parse(connection.getInputStream())
-        val status = doc.getElementsByTagName("STATUS").item(0).textContent
-        if(checkSession(status) != "OK"){
-            return
-        }
-        var lat = doc.getElementsByTagName("LATITUDE").item(0).textContent
-        var long = doc.getElementsByTagName("LONGITUDE").item(0).textContent
-        val inv = doc.getElementsByTagName("ITEMS").item(0).childNodes
-        for(i in 0..<inv.length){
-            var item = Item(-1,"",'_',0,"","","")
-            val thread = Thread{
-                item = getItemDetail(inv.item(i).childNodes.item(0).textContent.toInt())
-            }
-            thread.start()
-            thread.join()
-            items[item] = inv.item(i).childNodes.item(1).textContent.toInt()
-        }
     fun playerStatus(context : AppCompatActivity) {
         try{
             val url = URL(
@@ -113,6 +90,8 @@ open class ViewModelSuper : ViewModel() {
 
     fun actionNoConnexion(context : AppCompatActivity){
         val intent: Intent = Intent(context, Connexion::class.java)
+        Looper.prepare()
+        Toast.makeText(context,"Connexion perdue",Toast.LENGTH_SHORT).show()
         context.startActivity(intent)
         context.finish()
     }

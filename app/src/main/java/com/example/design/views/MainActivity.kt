@@ -228,10 +228,10 @@ class MainActivity : AppCompatActivity() {
                 if(dernierLoc != null) {
                     Log.d("VOILA","lon : " + dernierLoc.longitude + " lat: "+dernierLoc.latitude)
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
-                    if (distance >= 5.0f) {
+                    if (distance >= 10.0f) {
                         viewModel.updatePos(this,dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
                         textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
-                        mapController.setCenter(dernierLoc)
+
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")

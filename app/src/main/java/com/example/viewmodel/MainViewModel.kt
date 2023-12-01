@@ -24,6 +24,7 @@ class MainViewModel : ViewModelSuper() {
                 repository.updatePosition(lat, lon)
             }
         }catch (e : Exception){
+            e.printStackTrace()
             actionNoConnexion(contextApp)
         }
     }

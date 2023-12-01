@@ -37,6 +37,7 @@ class ConnViewModel : ViewModelSuper() {
             if(status == "OK"){
                 repository.collectCon(login,doc.getElementsByTagName("SESSION").item(0).textContent.toInt(),
                     doc.getElementsByTagName("SIGNATURE").item(0).textContent.toLong())
+                    Log.d("SESSION/SIGNATURE",doc.getElementsByTagName("SESSION").item(0).textContent+"/"+doc.getElementsByTagName("SIGNATURE").item(0).textContent)
                 playerStatus(context)
             }
         }catch (e : Exception){
