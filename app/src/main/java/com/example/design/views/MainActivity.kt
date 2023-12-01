@@ -17,6 +17,7 @@ import androidx.core.graphics.scale
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.example.design.R
+import com.example.model.tools.SaveLocal
 import com.example.model.tools.Status
 import com.example.viewmodel.MainViewModel
 import org.osmdroid.api.IMapController
@@ -28,8 +29,6 @@ import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import org.w3c.dom.Document
-import java.util.Timer
-import java.util.TimerTask
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mapController : IMapController
     private lateinit var myLoc: MyLocationNewOverlay
     private lateinit var doccreuse : Document
+    private lateinit var saveData: SaveLocal
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +45,13 @@ class MainActivity : AppCompatActivity() {
             PreferenceManager.getDefaultSharedPreferences(applicationContext))
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        saveData = SaveLocal(this)
         initMap()
         gestionBtns()
         deplacement()
+        loadUsername()
         val thread = Thread(){
-            viewModel.playerStatus()
+            viewModel.playerStatus(this)
         }
         thread.start()
     }
@@ -164,6 +166,7 @@ class MainActivity : AppCompatActivity() {
             map.post {
                 mapController.setZoom(16.0)
                 myLoc.enableFollowLocation()
+                mapController.setCenter(myLoc.myLocation)
             }
         } else {
             Toast.makeText(this, "Location permission is required to show your location.", Toast.LENGTH_SHORT).show()
@@ -179,6 +182,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         map.onResume()
+        loadUsername()
     }
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {}
@@ -190,8 +194,33 @@ class MainActivity : AppCompatActivity() {
         return ContextCompat.checkSelfPermission(this, permission) == granted
     }
 
+    private fun loadUsername(){
+        // load le username
+        val userNameSave = saveData.getUsername()
+        val userNLocal = viewModel.getPlayer().username
+        //il y a eu reset
+        if(userNLocal == viewModel.getBaseLogin() && viewModel.getResetValue()){
+            saveData.saveUserName(userNLocal)
+            viewModel.setResetValue(false)
+        }
+        // il n'y a pas eu d'enregistrement avant
+        else if( userNameSave == ""  || userNameSave == null){
+            if(userNLocal != viewModel.getBaseLogin()) {
+                saveData.saveUserName(userNLocal)
+            }
+        } else{ // il y a eu enregistrement et pas le meme userName
+            // chagement avant
+            if(userNLocal != viewModel.getBaseLogin() && userNLocal != userNameSave) {
+                saveData.saveUserName(userNLocal)
+            }else{ // pas chagement avant
+                viewModel.getPlayer().username = userNameSave
+            }
+        }
+    }
+
     private fun deplacement(){
         val textZone : TextView = findViewById(R.id.texte_zone)
+        textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
         //met a jour la postion tous les 5 secondes
         var thread = Thread {
             while (true){
@@ -200,8 +229,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d("VOILA","lon : " + dernierLoc.longitude + " lat: "+dernierLoc.latitude)
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 5.0f) {
-                        viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
-                        textZone.text = "lon: " + dernierLoc.longitude.toFloat() + " / lat: " + dernierLoc.latitude.toFloat()
+                        viewModel.updatePos(this,dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
+                        textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
+                        mapController.setCenter(dernierLoc)
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")

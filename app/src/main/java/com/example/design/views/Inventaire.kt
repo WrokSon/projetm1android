@@ -28,7 +28,7 @@ class Inventaire : AppCompatActivity() {
             finish()
         }
         var thread = Thread{
-            viewModel.playerStatus()
+            viewModel.playerStatus(this)
         }
         thread.start()
         thread.join()

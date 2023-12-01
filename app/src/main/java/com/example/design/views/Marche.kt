@@ -16,7 +16,7 @@ class Marche : AppCompatActivity() {
 
         var goGame : ImageButton = findViewById(R.id.marche_retour)
         goGame.setOnClickListener{
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 }

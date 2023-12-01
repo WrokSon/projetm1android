@@ -11,9 +11,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
+import com.example.model.tools.SaveLocal
 import com.example.viewmodel.ParametreViewModel
 
 class Parametre : AppCompatActivity() {
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,15 +24,14 @@ class Parametre : AppCompatActivity() {
 
         var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         var goConnection : Button = findViewById(R.id.btn_deconnexion)
         goConnection.setOnClickListener{
-            //annuler auto connexion
-            viewModel.disconnect()
             val intent : Intent = Intent(this, Connexion::class.java)
             startActivity(intent)
+            finish()
         }
 
 
@@ -38,17 +39,20 @@ class Parametre : AppCompatActivity() {
         var changeNameBtn : Button = findViewById(R.id.btn_change_name)
         changeNameBtn.setOnClickListener{
             if (!changeNameET.text.isNullOrBlank()) {
+                val name = changeNameET.text.toString()
                 val thread = Thread {
-                    viewModel.changeName(changeNameET.text.toString())
+                    viewModel.changeName(this,name)
                     changeNameET.text.clear()
                 }
                 thread.start()
+                thread.join()
             }
         }
 
         var resetBtn : Button = findViewById(R.id.reinisialiser)
         resetBtn.setOnClickListener{
-            Thread{viewModel.reset()}.start()
+            Thread{viewModel.reset(this)}.start()
+            viewModel.setResetValue(true)
             Toast.makeText(this,"frero c'est fait",Toast.LENGTH_LONG).show()
         }
 
