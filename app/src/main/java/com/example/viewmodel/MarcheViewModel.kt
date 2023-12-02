@@ -9,7 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class MarcheViewModel : ViewModelSuper() {
 
-    var
+    private  var lesOffres = ArrayList<Offre>()
 
     fun getMarche(context : AppCompatActivity) {
         try{
@@ -36,6 +36,8 @@ class MarcheViewModel : ViewModelSuper() {
 
                 val offer : Offre = Offre(offer_id.toInt(),item_id.toInt(),qte.toInt(),prix.toInt())
 
+                lesOffres.add(offer)
+
                 Log.d("MARCHE","offer id = "+offer_id+" item id = " + item_id + " quantite = "+ qte+ " prix = "+ prix)
             }
 
@@ -44,6 +46,8 @@ class MarcheViewModel : ViewModelSuper() {
             //actionNoConnexion(context)
         }
     }
+
+    fun getListe() = lesOffres
 
 
 }

@@ -58,10 +58,12 @@
         app:layout_constraintTop_toBottomOf="@+id/marche_title"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/march_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="608dp"
         android:layout_marginTop="2dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

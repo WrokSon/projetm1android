@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.recyclerview.widget.RecyclerView
 import com.example.design.R
 import com.example.viewmodel.MainViewModel
 import com.example.viewmodel.MarcheViewModel
@@ -15,6 +16,7 @@ import com.example.viewmodel.MarcheViewModel
 class Marche : AppCompatActivity() {
 
     private lateinit var viewModel : MarcheViewModel
+    private lateinit var adapter: OfferRecycleViewAdapter
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +28,14 @@ class Marche : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        Thread{viewModel.getMarche(this)}.start()
+        adapter = OfferRecycleViewAdapter()
+        var recycle : RecyclerView = findViewById(R.id.march_recycle_view)
+        recycle.adapter = adapter
+
+        val thread = Thread{viewModel.getMarche(this)}
+        thread.start()
+        thread.join()
+        adapter.updateList(viewModel.getListe())
     }
 }
 
