@@ -32,43 +32,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_acheter"
-        android:layout_width="122dp"
-        android:layout_height="40dp"
-        android:backgroundTint="#037ffc"
-        android:text="Acheter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/marche_title"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/btn_vendre"
-        android:layout_width="122dp"
-        android:layout_height="40dp"
-        android:backgroundTint="#F30c0c"
-        android:text="Vendre"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.768"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/marche_title"
-        app:layout_constraintVertical_bias="0.0" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/march_recycle_view"
-        android:layout_width="match_parent"
-        android:layout_height="608dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="300dp"
+        android:layout_height="597dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/btnreturnshape"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_acheter"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/marche_title"
+        app:layout_constraintVertical_bias="0.446" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

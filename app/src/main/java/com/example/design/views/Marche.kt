@@ -1,22 +1,37 @@
 package com.example.design.views
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.RecyclerView
 import com.example.design.R
-import com.example.viewmodel.MainViewModel
+import com.example.model.data.Offre
 import com.example.viewmodel.MarcheViewModel
 
 class Marche : AppCompatActivity() {
 
     private lateinit var viewModel : MarcheViewModel
     private lateinit var adapter: OfferRecycleViewAdapter
+    private val myContextApp = this
+
+    interface OnOffreInteractionListener {
+        fun getOffreInteraction(item: Offre?)
+    }
+    private val listenerOffre : OnOffreInteractionListener = object : OnOffreInteractionListener {
+        override fun getOffreInteraction(item: Offre?) {
+            if (item != null) {
+                viewModel.selectOffre(item)
+                //Toast.makeText(applicationContext,"offer id :"+viewModel.getOffreSelect()!!.Offer_ID.toString(),Toast.LENGTH_SHORT).show()
+                val thread = Thread{ viewModel.acheter(myContextApp) }
+                thread.start()
+                thread.join()
+            }
+
+        }
+    }
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +43,7 @@ class Marche : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        adapter = OfferRecycleViewAdapter()
+        adapter = OfferRecycleViewAdapter(listenerOffre)
         var recycle : RecyclerView = findViewById(R.id.march_recycle_view)
         recycle.adapter = adapter
 

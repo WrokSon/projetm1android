@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.example.design.R
 import com.example.model.data.Offre
 
-class OfferRecycleViewAdapter : RecyclerView.Adapter<OfferRecycleViewAdapter.ViewHolder>() {
+class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteractionListener) : RecyclerView.Adapter<OfferRecycleViewAdapter.ViewHolder>() {
 
     private var listOffres : ArrayList<Offre> =  ArrayList<Offre>()
 
@@ -29,7 +29,7 @@ class OfferRecycleViewAdapter : RecyclerView.Adapter<OfferRecycleViewAdapter.Vie
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(listOffres[position])
         holder.getButton().setOnClickListener{
-            Toast.makeText(holder.mView.context,listOffres[position].Offer_ID.toString(),Toast.LENGTH_SHORT).show()
+            listenerOffre.getOffreInteraction(listOffres[position])
         }
     }
 

@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         val item = findViewById<TextView>(R.id.item_zone)
         btnCreuser.setOnClickListener {
             mapController.setZoom(20.0)
+            mapController.setCenter(myLoc.myLocation)
             myLoc.enableFollowLocation()
             val thread = Thread{
                 doccreuse = viewModel.creuser(this)
@@ -252,6 +253,7 @@ class MainActivity : AppCompatActivity() {
                         viewModel.updatePos(this,dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
                         textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
                         depthZone.setText("Profondeur : 0m")
+                        mapController.setCenter(myLoc.myLocation)
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")
