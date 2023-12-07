@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                     item.text = "Item : " + itemid
                     var itemm : Item? = null
                     val thread = Thread{
-                       itemm = viewModel.getItemDetail(itemid)
+                       itemm = viewModel.getItemDetail(itemid - 1)
                     }
                     thread.start()
                     thread.join()

@@ -63,7 +63,7 @@ class Inventaire : AppCompatActivity() {
                 'A' -> itemText.text = itemText.text as String + " (Artéfact)"
                 'M' -> itemText.text = itemText.text as String + " (Minerai)"
             }
-            itemText.text = itemText.text as String + "\nQuantité : " + item.value.toString()
+            itemText.text = itemText.text as String + "\nQuantité : " + item.value.toString() + " (" + item.key + ")"
             val line = TableRow(applicationContext)
             line.addView(itemIcon)
             line.addView(itemText)
@@ -77,6 +77,7 @@ class Inventaire : AppCompatActivity() {
             line.setBackgroundColor(Color.LTGRAY)
             itemList.addView(line)
         }
+
         val currentpick = viewModel.getPlayer().pick
         textpick.text = "Pioche actuelle : " + currentpick
         buttonpick.setOnClickListener {
@@ -126,7 +127,6 @@ class Inventaire : AppCompatActivity() {
                 if(status == Status.OK.value){
                     Toast.makeText(applicationContext,"Pioche améliorée !",Toast.LENGTH_SHORT).show()
                     viewModel.playerStatus(this)
-                    onBackPressedDispatcher.onBackPressed()
                 }
                 else if(status == Status.NOITEMS.value){
                     Toast.makeText(applicationContext,"Items manquants",Toast.LENGTH_SHORT).show()
