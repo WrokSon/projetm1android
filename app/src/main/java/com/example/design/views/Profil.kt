@@ -24,6 +24,7 @@ class Profil : AppCompatActivity() {
             viewModel.playerStatus()
         }
         thread.start()
+        thread.join()
         val login: TextView = findViewById(R.id.profil_name)
         val money: TextView = findViewById(R.id.profil_money)
         val picklevel: TextView = findViewById(R.id.profil_level)

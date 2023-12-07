@@ -129,7 +129,7 @@ class Inventaire : AppCompatActivity() {
                 Looper.prepare()
                 if(status == Status.OK.value){
                     Toast.makeText(applicationContext,"Pioche améliorée !",Toast.LENGTH_SHORT).show()
-                    viewModel.playerStatus(this)
+                    viewModel.playerStatus()
                 }
                 else if(status == Status.NOITEMS.value){
                     Toast.makeText(applicationContext,"Items manquants",Toast.LENGTH_SHORT).show()
