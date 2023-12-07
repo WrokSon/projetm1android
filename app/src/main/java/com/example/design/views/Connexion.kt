@@ -24,6 +24,7 @@ class Connexion : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ConnViewModel::class.java)
+        viewModel.initContext(this)
         saveData = SaveLocal(this)
 
         var constatus = ""
@@ -41,7 +42,7 @@ class Connexion : AppCompatActivity() {
         goGame.setOnClickListener {
             var thread = Thread {
                 if (login.text.isNotBlank() || passwd.text.isNotBlank()) {
-                    constatus = viewModel.connexion(this,login.text.toString(), passwd.text.toString())
+                    constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())
                     if (constatus == Status.OK.value) {
                         //enregistrer les identifiants
                         saveData.saveUser(login.text.toString(), passwd.text.toString())

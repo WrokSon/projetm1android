@@ -2,6 +2,7 @@ package com.example.model
 
 import android.util.Log
 import com.example.model.data.Item
+import com.example.model.data.Offre
 import com.example.model.data.Player
 
 class Repository private constructor() {
@@ -22,6 +23,12 @@ class Repository private constructor() {
     private var player : Player = Player("",0.0f,0.0f,0,1,HashMap<Int,Int>())
     private var reset : Boolean = false
     private var itemDetailList = ArrayList<Item>()
+
+    private var currentOfferSelect : Offre? = null
+
+    fun changeSelectOffre(offer : Offre?){
+        currentOfferSelect = offer
+    }
 
     fun collectCon(log : String,sess : Int, sign : Long){
         baselogin = log
@@ -83,6 +90,8 @@ class Repository private constructor() {
     fun getItemDetail(id : Int): Item{
         return itemDetailList[id]
     }
+
+    fun getOffre() = currentOfferSelect
 
 }
 

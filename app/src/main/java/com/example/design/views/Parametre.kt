@@ -21,7 +21,7 @@ class Parametre : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_parametre)
         val viewModel = ViewModelProvider(this).get(ParametreViewModel::class.java)
-
+        viewModel.initContext(this)
         var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
@@ -41,7 +41,7 @@ class Parametre : AppCompatActivity() {
             if (!changeNameET.text.isNullOrBlank()) {
                 val name = changeNameET.text.toString()
                 val thread = Thread {
-                    viewModel.changeName(this,name)
+                    viewModel.changeName(name)
                     changeNameET.text.clear()
                 }
                 thread.start()
@@ -51,7 +51,7 @@ class Parametre : AppCompatActivity() {
 
         var resetBtn : Button = findViewById(R.id.reinisialiser)
         resetBtn.setOnClickListener{
-            Thread{viewModel.reset(this)}.start()
+            Thread{viewModel.reset()}.start()
             viewModel.setResetValue(true)
             Toast.makeText(this,"frero c'est fait",Toast.LENGTH_LONG).show()
         }

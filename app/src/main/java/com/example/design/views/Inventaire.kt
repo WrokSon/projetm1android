@@ -27,15 +27,18 @@ class Inventaire : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inventaire)
         viewModel = ViewModelProvider(this).get(InvViewModel::class.java)
-        var goGame: ImageButton = findViewById(R.id.inventaire_retour)
-        goGame.setOnClickListener {
+
+        viewModel.initContext(this)
+        var goGame : ImageButton = findViewById(R.id.inventaire_retour)
+        goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
             finish()
         }
         val textpick: TextView = findViewById(R.id.textpick)
         val buttonpick: Button = findViewById(R.id.buttonpick)
-        var thread = Thread {
-            viewModel.playerStatus(this)
+
+        var thread = Thread{
+            viewModel.playerStatus()
         }
         thread.start()
         thread.join()

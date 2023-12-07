@@ -1,5 +1,6 @@
 package com.example.viewmodel
 
+import android.content.Context
 import android.content.Intent
 import android.os.Looper
 import android.widget.Toast
@@ -10,13 +11,14 @@ import com.example.model.Repository
 import com.example.model.data.Item
 import com.example.model.data.Player
 import com.example.model.tools.Status
+import java.net.ConnectException
 import java.net.URL
 import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
 
 open class ViewModelSuper : ViewModel() {
     protected val repository = Repository.getInstance()
-
+    protected lateinit var context : AppCompatActivity
     fun checkSession(status : String): String{
         if(status == Status.SESSIONEXPIRED.value || status == Status.SESSIONINVALID.value){
             return "Session de merde"
@@ -26,7 +28,11 @@ open class ViewModelSuper : ViewModel() {
         }
         return "OK"
     }
-    fun playerStatus(context : AppCompatActivity) {
+
+    fun initContext(contextApp : AppCompatActivity){
+        context = contextApp
+    }
+    fun playerStatus() {
         try{
             val url = URL(
                 repository.getBaseURL() + "status_joueur.php?session=" + repository.getSession() +
@@ -58,6 +64,10 @@ open class ViewModelSuper : ViewModel() {
                 )
             }
         }catch (e : UnknownHostException){
+            actionNoConnexion(context)
+        }catch (e : ConnectException){
+            // a gerer
+            e.printStackTrace()
             actionNoConnexion(context)
         }
     }

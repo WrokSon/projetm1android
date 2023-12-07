@@ -15,12 +15,13 @@ class Profil : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profil)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.initContext(this)
         var goGame : ImageButton = findViewById(R.id.profil_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
         }
         val thread = Thread {
-            viewModel.playerStatus(this)
+            viewModel.playerStatus()
         }
         thread.start()
         val login: TextView = findViewById(R.id.profil_name)
