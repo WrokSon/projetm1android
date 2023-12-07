@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.model.data.Item
 import com.example.model.data.Player
 import com.example.model.Repository
+import java.net.ConnectException
+import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
 
 class ConnViewModel : ViewModelSuper() {
-    fun connexion(context:AppCompatActivity, login : String, passwd : String): String{
+    fun connexion(login : String, passwd : String): String{
         var status = ""
         //SHA256
         val bytes = passwd.toByteArray()
@@ -38,10 +40,14 @@ class ConnViewModel : ViewModelSuper() {
                 repository.collectCon(login,doc.getElementsByTagName("SESSION").item(0).textContent.toInt(),
                     doc.getElementsByTagName("SIGNATURE").item(0).textContent.toLong())
                     Log.d("SESSION/SIGNATURE",doc.getElementsByTagName("SESSION").item(0).textContent+"/"+doc.getElementsByTagName("SIGNATURE").item(0).textContent)
-                playerStatus(context)
+                playerStatus()
             }
-        }catch (e : Exception){
+        }catch (e : UnknownHostException){
             Log.d("ERREURWEBSERVICE","Pas de connexion")
+        }catch (e : ConnectException){
+            // a gerer
+            e.printStackTrace()
+            actionNoConnexion(context)
         }
         return status
     }

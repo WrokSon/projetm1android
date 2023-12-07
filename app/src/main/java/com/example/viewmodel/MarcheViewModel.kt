@@ -1,20 +1,23 @@
 package com.example.viewmodel
 
 import android.app.Activity
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.model.data.Item
 import com.example.model.data.Offre
 import com.example.model.tools.Status
+import java.net.ConnectException
 import java.net.URL
+import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
 
 class MarcheViewModel : ViewModelSuper() {
 
     private  var lesOffres = ArrayList<Offre>()
 
-    fun getMarche(context : AppCompatActivity) {
+    fun getMarche() {
         try{
             val url = URL(
                 repository.getBaseURL() + "/market_list.php?session=" + repository.getSession() +
@@ -27,9 +30,9 @@ class MarcheViewModel : ViewModelSuper() {
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
             val offres = doc.getElementsByTagName("OFFERS").item(0).childNodes
-
+            lesOffres.clear()
             // extaitre les offres le la liste offfres
-            for (i in 0..offres.length){
+            for (i in 0..offres.length-1){
                 val item = offres.item(i).childNodes
                 Log.d("MARCHE","le len = "+item.length)
                 val offer_id = item.item(0).textContent
@@ -44,13 +47,17 @@ class MarcheViewModel : ViewModelSuper() {
                 Log.d("MARCHE","offer id = "+offer_id+" item id = " + item_id + " quantite = "+ qte+ " prix = "+ prix)
             }
 
-        }catch (e : Exception){
+        }catch (e : UnknownHostException){
             e.printStackTrace()
-            //actionNoConnexion(context)
+            actionNoConnexion(context)
+        }catch (e : ConnectException){
+            // a gerer
+            e.printStackTrace()
+            actionNoConnexion(context)
         }
     }
 
-    fun acheter(context: AppCompatActivity) {
+    fun acheter() {
         try{
             // pas de selection
             if (repository.getOffre() == null){
@@ -72,20 +79,23 @@ class MarcheViewModel : ViewModelSuper() {
             Log.d("MARCHERACHETER", "me voici'$status'")
             //resultat
             if (status == Status.OK.value){
+                Looper.prepare()
                 Toast.makeText(context,"Vous venez d'achez l'offre" + repository.getOffre()!!.Offer_ID.toString(),Toast.LENGTH_SHORT).show()
                 Log.d("MARCHERACHETER","me voici")
             }
             if (status == Status.NOMONEY.value) {
                 Log.d("MARCHERACHETER","me voici dedans")
-                Toast.makeText(context,"Vous n'avez pas assez d'aergent ",Toast.LENGTH_SHORT).show()
-
+                Looper.prepare()
+                Toast.makeText(context,"Vous n'avez pas assez d'argent ",Toast.LENGTH_SHORT).show()
             }
 
-
-
-        }catch (e : Exception){
+        }catch (e : UnknownHostException){
             e.printStackTrace()
-            //actionNoConnexion(context)
+            actionNoConnexion(context)
+        }catch (e : ConnectException){
+            // a gerer
+            e.printStackTrace()
+            actionNoConnexion(context)
         }
     }
 

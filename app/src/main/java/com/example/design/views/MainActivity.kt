@@ -48,13 +48,14 @@ class MainActivity : AppCompatActivity() {
             PreferenceManager.getDefaultSharedPreferences(applicationContext))
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.initContext(this)
         saveData = SaveLocal(this)
         initMap()
         gestionBtns()
         deplacement()
         loadUsername()
         val thread = Thread(){
-            viewModel.playerStatus(this)
+            viewModel.playerStatus()
         }
         thread.start()
     }
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             mapController.setCenter(myLoc.myLocation)
             myLoc.enableFollowLocation()
             val thread = Thread{
-                doccreuse = viewModel.creuser(this)
+                doccreuse = viewModel.creuser()
             }
             thread.start()
             thread.join()
@@ -250,10 +251,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d("VOILA","lon : " + dernierLoc.longitude + " lat: "+dernierLoc.latitude)
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 10.0f) {
-                        viewModel.updatePos(this,dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
+                        viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
                         textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
                         depthZone.setText("Profondeur : 0m")
-                        mapController.setCenter(myLoc.myLocation)
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")

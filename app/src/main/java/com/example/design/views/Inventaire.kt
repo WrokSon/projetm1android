@@ -22,13 +22,14 @@ class Inventaire : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inventaire)
         viewModel = ViewModelProvider(this).get(InvViewModel::class.java)
+        viewModel.initContext(this)
         var goGame : ImageButton = findViewById(R.id.inventaire_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
             finish()
         }
         var thread = Thread{
-            viewModel.playerStatus(this)
+            viewModel.playerStatus()
         }
         thread.start()
         thread.join()

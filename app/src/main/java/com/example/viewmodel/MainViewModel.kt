@@ -5,13 +5,15 @@ import android.provider.DocumentsContract
 import androidx.appcompat.app.AppCompatActivity
 import com.example.model.tools.Status
 import org.w3c.dom.Document
+import java.net.ConnectException
 import java.net.URL
 import java.net.URLConnection
+import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
 
 class MainViewModel : ViewModelSuper() {
     private lateinit var doc : Document
-    fun updatePos(contextApp: AppCompatActivity, lon: Float, lat: Float) {
+    fun updatePos(lon: Float, lat: Float) {
         try {
             val url = URL(
                 repository.getBaseURL() + "deplace.php?signature=" + repository.getSignature() +
@@ -26,7 +28,11 @@ class MainViewModel : ViewModelSuper() {
                 repository.updatePosition(lat, lon)
             }
         } catch (e: Exception) {
-            actionNoConnexion(contextApp)
+            actionNoConnexion(context)
+        }catch (e : ConnectException){
+            // a gerer
+            e.printStackTrace()
+            actionNoConnexion(context)
         }
     }
 
@@ -52,7 +58,7 @@ class MainViewModel : ViewModelSuper() {
         return distance[0]
     }
 
-    fun creuser(contextApp: AppCompatActivity): Document {
+    fun creuser(): Document {
         try {
             val url = URL(
                 repository.getBaseURL() + "creuse.php?session=" + repository.getSession() +
@@ -63,8 +69,12 @@ class MainViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             doc = db.parse(connection.getInputStream())
             return doc
-        } catch (e: Exception) {
-            actionNoConnexion(contextApp)
+        } catch (e: UnknownHostException) {
+            actionNoConnexion(context)
+        }catch (e : ConnectException){
+            // a gerer
+            e.printStackTrace()
+            actionNoConnexion(context)
         }
         return doc
     }

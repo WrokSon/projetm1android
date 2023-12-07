@@ -3,12 +3,14 @@ package com.example.viewmodel
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.model.tools.Status
+import java.net.ConnectException
 import java.net.URL
+import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
 
 class ParametreViewModel : ViewModelSuper() {
 
-    fun changeName(context:AppCompatActivity,name:String){
+    fun changeName(name:String){
         try{
             val url = URL(
                 repository.getBaseURL() + "changenom.php?signature=" + repository.getSignature() +
@@ -23,12 +25,12 @@ class ParametreViewModel : ViewModelSuper() {
                 Log.d("ICI", "je suis passé par là")
                 repository.setLogin(name)
             }
-        }catch (e : Exception){
+        }catch (e : UnknownHostException){
             actionNoConnexion(context)
         }
     }
 
-    fun reset(context:AppCompatActivity){
+    fun reset(){
         try{
             val url = URL(
                 repository.getBaseURL() + "reinit_joueur.php?signature=" + repository.getSignature() +
@@ -42,9 +44,13 @@ class ParametreViewModel : ViewModelSuper() {
             if (status == Status.OK.value) {
                 Log.d("IzzCI", "je suis passé par là")
                 repository.resetLogin()
-                playerStatus(context)
+                playerStatus()
             }
-        }catch (e : Exception){
+        }catch (e : UnknownHostException){
+            actionNoConnexion(context)
+        }catch (e : ConnectException){
+            // a gerer
+            e.printStackTrace()
             actionNoConnexion(context)
         }
     }
