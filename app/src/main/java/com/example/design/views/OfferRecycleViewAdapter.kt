@@ -1,8 +1,6 @@
 package com.example.design.views
 
 
-import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.view.LayoutInflater
@@ -10,7 +8,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.example.design.R
 import com.example.model.data.Offre
 import com.squareup.picasso.Picasso
@@ -36,7 +33,12 @@ class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteracti
         val imgOffer = listenerOffre.getBaseUrlImg()+detail.image
         holder.bind(imgOffer,detail.nom,detail.type.toString(),offer.prix.toString(),offer.Quantite.toString())
         holder.getButton().setOnClickListener{
-            listenerOffre.getOffreInteraction(listOffres[position])
+            val response = listenerOffre.offreInteraction(listOffres[position])
+            if (response){
+                listOffres.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position,listOffres.size)
+            }
         }
     }
 

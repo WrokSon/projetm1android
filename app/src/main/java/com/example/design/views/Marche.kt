@@ -3,9 +3,7 @@ package com.example.design.views
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.design.R
@@ -19,26 +17,25 @@ class Marche : AppCompatActivity() {
     private lateinit var adapter: OfferRecycleViewAdapter
 
     interface OnOffreInteractionListener {
-        fun getOffreInteraction(item: Offre?)
+        fun offreInteraction(item: Offre?) : Boolean
         fun getDetailItem(id : Int) : Item
 
         fun getBaseUrlImg() : String
     }
     private val listenerOffre : OnOffreInteractionListener = object : OnOffreInteractionListener {
-        override fun getOffreInteraction(item: Offre?) {
+        override fun offreInteraction(item: Offre?) : Boolean {
             if (item != null) {
                 viewModel.selectOffre(item)
                 val lOffreLen = viewModel.getListe().size
-                //Toast.makeText(applicationContext,"offer id :"+viewModel.getOffreSelect()!!.Offer_ID.toString(),Toast.LENGTH_SHORT).show()
                 val thread = Thread{ viewModel.acheter() }
                 thread.start()
                 thread.join()
                 val threadListe = Thread{viewModel.getMarche()}
                 threadListe.start()
                 threadListe.join()
-                Log.d("Hahahahahaha","La taille : "+viewModel.getListe()+ " " +lOffreLen.toString() +" " + viewModel.getListe().size.toString())
-                //if (lOffreLen != viewModel.getListe().size) adapter.updateList(viewModel.getListe())
+                if (lOffreLen != viewModel.getListe().size) return true
             }
+            return false
 
         }
 
