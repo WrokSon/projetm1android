@@ -17,6 +17,7 @@ class Repository private constructor() {
         }
     }
     private val baseURL = "https://test.vautard.fr/creuse_srv/"
+    private val baseURLImg = "https://test.vautard.fr/creuse_imgs/"
     private var session = 0
     private var signature : Long = 0
     private var baselogin = ""
@@ -68,6 +69,8 @@ class Repository private constructor() {
     }
 
     fun getBaseURL(): String = baseURL
+
+    fun getBaseLoginImg() : String = baseURLImg
 
     fun getSignature(): Long{
         return signature

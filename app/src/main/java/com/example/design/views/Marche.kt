@@ -21,6 +21,8 @@ class Marche : AppCompatActivity() {
     interface OnOffreInteractionListener {
         fun getOffreInteraction(item: Offre?)
         fun getDetailItem(id : Int) : Item
+
+        fun getBaseUrlImg() : String
     }
     private val listenerOffre : OnOffreInteractionListener = object : OnOffreInteractionListener {
         override fun getOffreInteraction(item: Offre?) {
@@ -43,6 +45,8 @@ class Marche : AppCompatActivity() {
         override fun getDetailItem(id: Int): Item {
             return viewModel.getItemDetail(id)
         }
+
+        override fun getBaseUrlImg(): String = viewModel.getBaseLoginImg()
     }
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,6 +1,11 @@
 package com.example.viewmodel
 
+import android.util.Log
+import android.widget.Toast
+import com.example.model.tools.Status
+import java.net.ConnectException
 import java.net.URL
+import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
 
 
@@ -37,5 +42,28 @@ class InvViewModel : ViewModelSuper() {
         val db = dbf.newDocumentBuilder()
         val doc = db.parse(connection.getInputStream())
         return doc.getElementsByTagName("STATUS").item(0).textContent
+    }
+
+    fun vendre(id : Int, prix : String, quantite : String) : String{
+        var status : String = ""
+        try{
+            val url = URL(
+                repository.getBaseURL() + "market_vendre.php?session=" + repository.getSession() +
+                        "&signature=" + repository.getSignature() + "&item_id=" + id + "&quantite=" + quantite + "&prix=" + prix
+            )
+
+            val connection = url.openConnection()
+            val dbf = DocumentBuilderFactory.newInstance()
+            val db = dbf.newDocumentBuilder()
+            val doc = db.parse(connection.getInputStream())
+            status = doc.getElementsByTagName("STATUS").item(0).textContent
+        }catch (e : UnknownHostException){
+            Log.d("ERREURWEBSERVICE","Pas de connexion")
+            actionNoConnexion(context)
+        }catch (e : ConnectException){
+            actionNoConnexion(context)
+        }
+        return status
+
     }
 }

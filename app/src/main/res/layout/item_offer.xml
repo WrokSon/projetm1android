@@ -3,29 +3,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <TextView
-        android:id="@+id/txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.36"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.523" />
-
     <Button
-        android:id="@+id/button"
-        android:layout_width="76dp"
-        android:layout_height="40dp"
+        android:id="@+id/btn_acheter"
+        android:layout_width="72dp"
+        android:layout_height="39dp"
+        android:backgroundTint="@color/btn"
         android:text="acheter"
         android:textSize="10dp"
-        android:backgroundTint="@color/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txt"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.981"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.489" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="280dp"
+        android:layout_height="96dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_acheter"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/img_offer"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:adjustViewBounds="true"
+            android:maxWidth="75dp"
+            android:maxHeight="75dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/img_loupe" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="87dp"
+            android:layout_marginLeft="7dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/name_offer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nom : item" />
+
+            <TextView
+                android:id="@+id/typ_offer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Type : " />
+
+            <TextView
+                android:id="@+id/price_offer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Prix : 0" />
+
+            <TextView
+                android:id="@+id/qte_offer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quatité : 0" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

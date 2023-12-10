@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Looper
+import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -47,7 +49,7 @@ class Inventaire : AppCompatActivity() {
         for (item in items) {
             val details = viewModel.getItemDetail(item.key - 1)
             val itemIcon = ImageView(applicationContext)
-            Picasso.with(this).load("https://test.vautard.fr/creuse_imgs/" + details.image)
+            Picasso.with(this).load(viewModel.getBaseLoginImg() + details.image)
                 .into(itemIcon)
             itemIcon.scaleType = ImageView.ScaleType.FIT_CENTER
             itemIcon.adjustViewBounds = true
@@ -72,13 +74,39 @@ class Inventaire : AppCompatActivity() {
             line.addView(itemText)
             line.setOnClickListener {
                 val popup = AlertDialog.Builder(this@Inventaire)
-                popup.setIcon(Drawable.createFromPath("https://test.vautard.fr/creuse_imgs/" + details.image))
-                popup.setTitle(details.nom)
+                popup.setIcon(Drawable.createFromPath(viewModel.getBaseLoginImg() + details.image))
                 popup.setMessage(itemText.text as String + "\n" + details.desc_fr)
                 popup.setPositiveButton("VENDRE") { dialog: DialogInterface, which: Int ->
                     val popupsell = AlertDialog.Builder(this@Inventaire)
-                    popupsell.setMessage(details.nom)
-                    //fais tes trucs ici connard
+                    val popupView = LayoutInflater.from(this).inflate(R.layout.popup_vendre, null)
+                    popupsell.setView(popupView)
+                    val btn_validate : Button = popupView.findViewById(R.id.btn_vendre_validate)
+                    val tVTitle : TextView = popupView.findViewById(R.id.vendre_titre)
+                    val tVQteDispo : TextView = popupView.findViewById(R.id.vendre_qte_dispo)
+                    val prix : EditText = popupView.findViewById(R.id.vendre_prix)
+                    val qte : EditText = popupView.findViewById(R.id.vendre_qte)
+                    tVTitle.setText(details.nom)
+                    tVQteDispo.setText("/ ${item.value}")
+                    btn_validate.setOnClickListener{
+                        if(prix.text.isNotEmpty() && qte.text.isNotEmpty()){
+                            var status = ""
+                            val thread = Thread {
+                                status = viewModel.vendre(details.id, prix.text.toString(), qte.text.toString())
+                            }
+                            thread.start()
+                            thread.join()
+                            if (status == Status.OK.value) {
+                                Toast.makeText(this,"Vous venez de vendre ${qte.text} ${details.nom} a ${prix.text}",Toast.LENGTH_SHORT).show()
+                            }else if (status == Status.NOITEMS.value){
+                                Toast.makeText(this,"La quatité est superieur a la quantité disponible ",Toast.LENGTH_SHORT).show()
+                            }else{
+                                Toast.makeText(this,"Il y a eu un probleme avec la vente",Toast.LENGTH_SHORT).show()
+                            }
+                        }else{
+                            Toast.makeText(this,"il y a des champs vides !)",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
                     popupsell.show()
                 }
                 popup.show()
@@ -104,7 +132,7 @@ class Inventaire : AppCompatActivity() {
                 for (item in items) {
                     val details = viewModel.getItemDetail(item.key - 1)
                     val itemIcon = ImageView(applicationContext)
-                    Picasso.with(this).load("https://test.vautard.fr/creuse_imgs/" + details.image)
+                    Picasso.with(this).load(viewModel.getBaseLoginImg() + details.image)
                         .into(itemIcon)
                     itemIcon.scaleType = ImageView.ScaleType.FIT_CENTER
                     itemIcon.adjustViewBounds = true

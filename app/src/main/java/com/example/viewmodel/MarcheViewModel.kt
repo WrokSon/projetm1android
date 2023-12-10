@@ -68,7 +68,7 @@ class MarcheViewModel : ViewModelSuper() {
             // requetes
             val url = URL(
                 repository.getBaseURL() + "/market_acheter.php?session=" + repository.getSession() +
-                        "&signature=" + repository.getSignature() + "&offer_id=" + repository.getOffre()!!.Offer_ID.toString()
+                        "&signature=" + repository.getSignature() + "&offer_id= " + repository.getOffre()!!.Offer_ID.toString()
             )
             val items = HashMap<Item, Int>()
             val connection = url.openConnection()
@@ -80,7 +80,7 @@ class MarcheViewModel : ViewModelSuper() {
             //resultat
             if (status == Status.OK.value){
                 Looper.prepare()
-                Toast.makeText(context,"Vous venez d'achez l'offre" + repository.getOffre()!!.Offer_ID.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Vous venez d'achez l'offre " + repository.getOffre()!!.Offer_ID.toString(),Toast.LENGTH_SHORT).show()
                 Log.d("MARCHERACHETER","me voici")
             }
             if (status == Status.NOMONEY.value) {

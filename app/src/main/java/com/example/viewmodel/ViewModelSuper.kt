@@ -116,6 +116,8 @@ open class ViewModelSuper : ViewModel() {
 
     fun getBaseLogin() = repository.getBaseLogin()
 
+    fun getBaseLoginImg() = repository.getBaseLoginImg()
+
     fun getPlayer(): Player {
         return repository.getPlayer()
     }
