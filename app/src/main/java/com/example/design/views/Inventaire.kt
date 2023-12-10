@@ -97,6 +97,9 @@ class Inventaire : AppCompatActivity() {
                             thread.join()
                             if (status == Status.OK.value) {
                                 Toast.makeText(this,"Vous venez de vendre ${qte.text} ${details.nom} a ${prix.text}",Toast.LENGTH_SHORT).show()
+                                tVQteDispo.setText("/ ${item.value - qte.text.toString().toInt()}")
+                                qte.text.clear()
+                                prix.text.clear()
                             }else if (status == Status.NOITEMS.value){
                                 Toast.makeText(this,"La quatité est superieur a la quantité disponible ",Toast.LENGTH_SHORT).show()
                             }else{
