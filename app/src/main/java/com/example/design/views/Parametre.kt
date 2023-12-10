@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.model.tools.SaveLocal
