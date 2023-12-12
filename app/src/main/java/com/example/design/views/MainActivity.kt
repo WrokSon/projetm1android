@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
@@ -25,14 +26,19 @@ import com.example.model.tools.Status
 import com.example.viewmodel.MainViewModel
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.ItemizedIconOverlay
+import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener
+import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import org.w3c.dom.Document
 import java.util.concurrent.TimeUnit
+import org.osmdroid.views.overlay.ItemizedOverlayControlView.ItemizedOverlayControlViewListener as ItemizedOverlayControlViewListener1
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -259,10 +265,35 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     Log.d("VOILA","Loc perdu")
                 }
+                addVoisinOnMap()
                 TimeUnit.SECONDS.sleep(5)
             }
         }
         thread.start()
+    }
+
+
+    fun addVoisinOnMap(){
+        val voisins = viewModel.getListeVoisins()
+        Log.d("VOISINHGDBJ","${map.overlays.size} ${voisins}")
+        // suprimez pour MAJ les items qui doivent etre dans la map
+        // on ne doit par retirer les 2 premiers (bar/echelle + player)
+        for (i in map.overlays.size-1 downTo 2){
+            map.overlays.removeAt(i)
+        }
+        //map.overlays.clear()
+        // ajoute le voisins
+        for (i in 0..voisins.size-1){
+            val voisin = voisins[i]
+            val itemVoisin = Marker(map)
+            itemVoisin.position = GeoPoint(voisin.lat.toDouble(),voisin.lon.toDouble())
+            itemVoisin.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+            itemVoisin.setTextIcon(voisin.name)
+            map.overlays.add(itemVoisin)
+            //MAJ de la map
+            map.invalidate()
+        }
+
     }
 
 

@@ -3,6 +3,7 @@ package com.example.viewmodel
 import android.content.Context
 import android.content.Intent
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.example.model.Repository
 import com.example.model.data.Item
 import com.example.model.data.Player
 import com.example.model.tools.Status
+import org.w3c.dom.Document
 import java.net.ConnectException
 import java.net.URL
 import java.net.UnknownHostException

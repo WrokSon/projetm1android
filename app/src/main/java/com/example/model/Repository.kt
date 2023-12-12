@@ -4,6 +4,8 @@ import android.util.Log
 import com.example.model.data.Item
 import com.example.model.data.Offre
 import com.example.model.data.Player
+import com.example.model.data.Voisin
+import org.w3c.dom.Document
 
 class Repository private constructor() {
     companion object {
@@ -24,6 +26,7 @@ class Repository private constructor() {
     private var player : Player = Player("",0.0f,0.0f,0,1,HashMap<Int,Int>())
     private var reset : Boolean = false
     private var itemDetailList = ArrayList<Item>()
+    private var voisins = ArrayList<Voisin>()
 
     private var currentOfferSelect : Offre? = null
 
@@ -53,6 +56,22 @@ class Repository private constructor() {
         player.pick = pick
         player.items = items
 
+    }
+
+    //fonction qui recupere les voisins
+    fun getVoisins(doc : Document){
+        val listeVoisins = doc.getElementsByTagName("VOISINS").item(0).childNodes
+        voisins.clear()
+        for (i in 0..listeVoisins.length-1){
+            val voisin = listeVoisins.item(i).childNodes
+            //nom
+            val nom = voisin.item(0).textContent
+            //position
+            val position = voisin.item(1).childNodes
+            val lon = position.item(0).textContent
+            val lat = position.item(1).textContent
+            voisins.add(Voisin(nom,lon.toFloat(),lat.toFloat()))
+        }
     }
 
     fun setLogin(log : String){
@@ -95,6 +114,8 @@ class Repository private constructor() {
     }
 
     fun getOffre() = currentOfferSelect
+
+    fun getListeVoisins() = voisins
 
 }
 

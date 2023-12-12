@@ -24,6 +24,7 @@ class MainViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
+            repository.getVoisins(doc)
             if (status == Status.OK.value) {
                 repository.updatePosition(lat, lon)
             }
@@ -38,6 +39,8 @@ class MainViewModel : ViewModelSuper() {
 
     fun getLatitude() = repository.getPlayer().lat
     fun getLongitude() = repository.getPlayer().long
+
+    fun getListeVoisins() = repository.getListeVoisins()
 
     fun distanceEntrePoints(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Float {
         val location1 = Location("")
