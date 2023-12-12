@@ -86,26 +86,31 @@ class Inventaire : AppCompatActivity() {
                     val prix : EditText = popupView.findViewById(R.id.vendre_prix)
                     val qte : EditText = popupView.findViewById(R.id.vendre_qte)
                     tVTitle.setText(details.nom)
-                    tVQteDispo.setText("/ ${item.value}")
+                    tVQteDispo.setText("/ "+viewModel.getPlayer().items[details.id]!!)
                     btn_validate.setOnClickListener{
-                        if(prix.text.isNotEmpty() && qte.text.isNotEmpty()){
+                        if(prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(details.id)){
                             var status = ""
                             val thread = Thread {
                                 status = viewModel.vendre(details.id, prix.text.toString(), qte.text.toString())
                             }
                             thread.start()
                             thread.join()
+                            var quant = viewModel.getPlayer().items[details.id]!!.toInt()
                             if (status == Status.OK.value) {
+                                quant -= qte.text.toString().toInt()
                                 Toast.makeText(this,"Vous venez de vendre ${qte.text} ${details.nom} a ${prix.text}",Toast.LENGTH_SHORT).show()
-                                tVQteDispo.setText("/ ${item.value - qte.text.toString().toInt()}")
+                                tVQteDispo.setText("/ "+ quant)
                                 qte.text.clear()
                                 prix.text.clear()
+                                Thread{viewModel.playerStatus()}.start()
                             }else if (status == Status.NOITEMS.value){
                                 Toast.makeText(this,"La quatité est superieur a la quantité disponible ",Toast.LENGTH_SHORT).show()
                             }else{
                                 Toast.makeText(this,"Il y a eu un probleme avec la vente",Toast.LENGTH_SHORT).show()
                             }
-                        }else{
+                        }else if(!viewModel.getPlayer().items.containsKey(details.id)){
+                            Toast.makeText(this,"Votre stock est vide :)",Toast.LENGTH_SHORT).show()
+                        } else{
                             Toast.makeText(this,"il y a des champs vides !)",Toast.LENGTH_SHORT).show()
                         }
                     }

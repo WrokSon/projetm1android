@@ -1,10 +1,8 @@
 package com.example.viewmodel
 
-import android.app.Activity
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.example.model.data.Item
 import com.example.model.data.Offre
 import com.example.model.tools.Status
@@ -15,7 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class MarcheViewModel : ViewModelSuper() {
 
-    private  var lesOffres = ArrayList<Offre>()
+    private var lesOffres  = mutableListOf<Offre>()
 
     fun getMarche() {
         try{
@@ -40,9 +38,9 @@ class MarcheViewModel : ViewModelSuper() {
                 val qte = item.item(2).textContent
                 val prix = item.item(3).textContent
 
-                val offer : Offre = Offre(offer_id.toInt(),item_id.toInt(),qte.toInt(),prix.toInt())
+                val offer = Offre(offer_id.toInt(),item_id.toInt(),qte.toInt(),prix.toInt())
 
-                lesOffres.add(offer)
+                lesOffres.add(i,offer)
 
                 Log.d("MARCHE","offer id = "+offer_id+" item id = " + item_id + " quantite = "+ qte+ " prix = "+ prix)
             }
@@ -80,7 +78,8 @@ class MarcheViewModel : ViewModelSuper() {
             //resultat
             if (status == Status.OK.value){
                 Looper.prepare()
-                Toast.makeText(context,"Vous venez d'achez l'offre " + repository.getOffre()!!.Offer_ID.toString(),Toast.LENGTH_SHORT).show()
+                val nomOffre = getItemDetail(repository.getOffre()!!.Item_ID - 1).nom
+                Toast.makeText(context,"Vous venez d'achez ${repository.getOffre()!!.Quantite} $nomOffre a ${repository.getOffre()!!.prix}",Toast.LENGTH_SHORT).show()
                 Log.d("MARCHERACHETER","me voici")
             }
             if (status == Status.NOMONEY.value) {

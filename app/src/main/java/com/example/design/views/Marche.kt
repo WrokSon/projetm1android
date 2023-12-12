@@ -17,13 +17,13 @@ class Marche : AppCompatActivity() {
     private lateinit var adapter: OfferRecycleViewAdapter
 
     interface OnOffreInteractionListener {
-        fun offreInteraction(item: Offre?) : Boolean
+        fun offreInteraction(item: Offre?)
         fun getDetailItem(id : Int) : Item
 
         fun getBaseUrlImg() : String
     }
     private val listenerOffre : OnOffreInteractionListener = object : OnOffreInteractionListener {
-        override fun offreInteraction(item: Offre?) : Boolean {
+        override fun offreInteraction(item: Offre?){
             if (item != null) {
                 viewModel.selectOffre(item)
                 val lOffreLen = viewModel.getListe().size
@@ -33,9 +33,8 @@ class Marche : AppCompatActivity() {
                 val threadListe = Thread{viewModel.getMarche()}
                 threadListe.start()
                 threadListe.join()
-                if (lOffreLen != viewModel.getListe().size) return true
+                if (lOffreLen != viewModel.getListe().size) adapter.updateList(viewModel.getListe())
             }
-            return false
 
         }
 
@@ -64,6 +63,7 @@ class Marche : AppCompatActivity() {
         val thread = Thread{viewModel.getMarche()}
         thread.start()
         thread.join()
+        //adapter.updateList(viewModel.tempo)
         adapter.updateList(viewModel.getListe())
     }
 }

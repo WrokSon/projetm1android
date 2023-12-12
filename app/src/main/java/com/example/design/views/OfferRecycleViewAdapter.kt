@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 
 class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteractionListener) : RecyclerView.Adapter<OfferRecycleViewAdapter.ViewHolder>() {
 
-    private var listOffres : ArrayList<Offre> =  ArrayList<Offre>()
+    private var listOffres = mutableListOf<Offre>()
 
     //creation de la view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,19 +33,14 @@ class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteracti
         val imgOffer = listenerOffre.getBaseUrlImg()+detail.image
         holder.bind(imgOffer,detail.nom,detail.type.toString(),offer.prix.toString(),offer.Quantite.toString())
         holder.getButton().setOnClickListener{
-            val response = listenerOffre.offreInteraction(listOffres[position])
-            if (response){
-                listOffres.removeAt(position)
-                notifyItemRemoved(position)
-                notifyItemRangeChanged(position,listOffres.size)
-            }
+            listenerOffre.offreInteraction(listOffres[position])
         }
     }
 
     // ajouter une offre dans la liste
-    fun updateList(liste : ArrayList<Offre>){
+    fun updateList(liste : List<Offre>){
         listOffres.clear()
-        listOffres = liste
+        listOffres.addAll(liste)
         notifyDataSetChanged()
     }
 
