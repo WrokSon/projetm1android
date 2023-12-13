@@ -1,5 +1,6 @@
 package com.example.model
 
+import android.graphics.Bitmap
 import android.util.Log
 import com.example.model.data.Item
 import com.example.model.data.Offre
@@ -26,6 +27,7 @@ class Repository private constructor() {
     private var player : Player = Player("",0.0f,0.0f,0,1,HashMap<Int,Int>())
     private var reset : Boolean = false
     private var itemDetailList = ArrayList<Item>()
+    private var itemImages = ArrayList<Bitmap>()
     private var voisins = ArrayList<Voisin>()
 
     private var currentOfferSelect : Offre? = null
@@ -54,6 +56,7 @@ class Repository private constructor() {
         player.long = long
         player.money = money
         player.pick = pick
+        Log.d("ITEMS",items.toString())
         player.items = items
 
     }
@@ -116,6 +119,12 @@ class Repository private constructor() {
     fun getOffre() = currentOfferSelect
 
     fun getListeVoisins() = voisins
+
+    fun getImage(id: Int): Bitmap = itemImages[id]
+
+    fun setImageList(list: ArrayList<Bitmap>){
+        itemImages = list
+    }
 
 }
 

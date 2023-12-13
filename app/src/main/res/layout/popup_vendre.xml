@@ -9,13 +9,13 @@
 
     <TextView
         android:id="@+id/vendre_titre"
-        android:layout_width="267dp"
-        android:layout_height="41dp"
+        android:layout_width="209dp"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Nom du produit"
-        android:textSize="20dp"
         android:textColor="@color/black"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -112,4 +112,14 @@
             android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imagevente"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/vendre_titre"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

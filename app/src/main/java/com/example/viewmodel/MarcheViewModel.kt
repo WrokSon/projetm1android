@@ -21,7 +21,6 @@ class MarcheViewModel : ViewModelSuper() {
                 repository.getBaseURL() + "/market_list.php?session=" + repository.getSession() +
                         "&signature=" + repository.getSignature()
             )
-            val items = HashMap<Item, Int>()
             val connection = url.openConnection()
             val dbf = DocumentBuilderFactory.newInstance()
             val db = dbf.newDocumentBuilder()

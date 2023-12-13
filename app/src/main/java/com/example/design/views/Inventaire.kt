@@ -47,10 +47,10 @@ class Inventaire : AppCompatActivity() {
         val itemList: TableLayout = findViewById(R.id.items)
         val items = viewModel.getPlayer().items
         for (item in items) {
+            if (item.value != 0) {
             val details = viewModel.getItemDetail(item.key - 1)
             val itemIcon = ImageView(applicationContext)
-            Picasso.with(this).load(viewModel.getBaseLoginImg() + details.image)
-                .into(itemIcon)
+            itemIcon.setImageBitmap(viewModel.getImage(details.id-1))
             itemIcon.scaleType = ImageView.ScaleType.FIT_CENTER
             itemIcon.adjustViewBounds = true
             itemIcon.maxWidth = 80
@@ -68,7 +68,8 @@ class Inventaire : AppCompatActivity() {
                 'A' -> itemText.text = itemText.text as String + " (Artéfact)"
                 'M' -> itemText.text = itemText.text as String + " (Minerai)"
             }
-            itemText.text = itemText.text as String + "\nQuantité : " + item.value.toString() + " (" + item.key + ")"
+            itemText.text =
+                itemText.text as String + "\nQuantité : " + item.value.toString() + " (" + item.key + ")"
             val line = TableRow(applicationContext)
             line.addView(itemIcon)
             line.addView(itemText)
@@ -80,38 +81,61 @@ class Inventaire : AppCompatActivity() {
                     val popupsell = AlertDialog.Builder(this@Inventaire)
                     val popupView = LayoutInflater.from(this).inflate(R.layout.popup_vendre, null)
                     popupsell.setView(popupView)
-                    val btn_validate : Button = popupView.findViewById(R.id.btn_vendre_validate)
-                    val tVTitle : TextView = popupView.findViewById(R.id.vendre_titre)
-                    val tVQteDispo : TextView = popupView.findViewById(R.id.vendre_qte_dispo)
-                    val prix : EditText = popupView.findViewById(R.id.vendre_prix)
-                    val qte : EditText = popupView.findViewById(R.id.vendre_qte)
+                    val imagevente: ImageView = popupView.findViewById(R.id.imagevente)
+                    val btn_validate: Button = popupView.findViewById(R.id.btn_vendre_validate)
+                    val tVTitle: TextView = popupView.findViewById(R.id.vendre_titre)
+                    val tVQteDispo: TextView = popupView.findViewById(R.id.vendre_qte_dispo)
+                    val prix: EditText = popupView.findViewById(R.id.vendre_prix)
+                    val qte: EditText = popupView.findViewById(R.id.vendre_qte)
+                    imagevente.setImageBitmap(viewModel.getImage(details.id - 1))
                     tVTitle.setText(details.nom)
-                    tVQteDispo.setText("/ "+viewModel.getPlayer().items[details.id]!!)
-                    btn_validate.setOnClickListener{
-                        if(prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(details.id)){
+                    tVQteDispo.setText("/ " + viewModel.getPlayer().items[details.id]!!)
+                    btn_validate.setOnClickListener {
+                        if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(
+                                details.id
+                            )
+                        ) {
                             var status = ""
                             val thread = Thread {
-                                status = viewModel.vendre(details.id, prix.text.toString(), qte.text.toString())
+                                status = viewModel.vendre(
+                                    details.id,
+                                    prix.text.toString(),
+                                    qte.text.toString()
+                                )
                             }
                             thread.start()
                             thread.join()
                             var quant = viewModel.getPlayer().items[details.id]!!.toInt()
                             if (status == Status.OK.value) {
                                 quant -= qte.text.toString().toInt()
-                                Toast.makeText(this,"Vous venez de vendre ${qte.text} ${details.nom} a ${prix.text}",Toast.LENGTH_SHORT).show()
-                                tVQteDispo.setText("/ "+ quant)
+                                Toast.makeText(
+                                    this,
+                                    "Vous venez de vendre ${qte.text} ${details.nom} a ${prix.text}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                tVQteDispo.setText("/ " + quant)
                                 qte.text.clear()
                                 prix.text.clear()
-                                Thread{viewModel.playerStatus()}.start()
-                            }else if (status == Status.NOITEMS.value){
-                                Toast.makeText(this,"La quatité est superieur a la quantité disponible ",Toast.LENGTH_SHORT).show()
-                            }else{
-                                Toast.makeText(this,"Il y a eu un probleme avec la vente",Toast.LENGTH_SHORT).show()
+                                Thread { viewModel.playerStatus() }.start()
+                            } else if (status == Status.NOITEMS.value) {
+                                Toast.makeText(
+                                    this,
+                                    "La quatité est superieur a la quantité disponible ",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Il y a eu un probleme avec la vente",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        }else if(!viewModel.getPlayer().items.containsKey(details.id)){
-                            Toast.makeText(this,"Votre stock est vide :)",Toast.LENGTH_SHORT).show()
-                        } else{
-                            Toast.makeText(this,"il y a des champs vides !)",Toast.LENGTH_SHORT).show()
+                        } else if (!viewModel.getPlayer().items.containsKey(details.id)) {
+                            Toast.makeText(this, "Votre stock est vide :)", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            Toast.makeText(this, "il y a des champs vides !)", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
 
@@ -121,6 +145,7 @@ class Inventaire : AppCompatActivity() {
             }
             line.setBackgroundColor(Color.LTGRAY)
             itemList.addView(line)
+        }
         }
 
         var currentpick = viewModel.getPlayer().pick
@@ -140,8 +165,7 @@ class Inventaire : AppCompatActivity() {
                 for (item in items) {
                     val details = viewModel.getItemDetail(item.key - 1)
                     val itemIcon = ImageView(applicationContext)
-                    Picasso.with(this).load(viewModel.getBaseLoginImg() + details.image)
-                        .into(itemIcon)
+                    itemIcon.setImageBitmap(viewModel.getImage(details.id - 1))
                     itemIcon.scaleType = ImageView.ScaleType.FIT_CENTER
                     itemIcon.adjustViewBounds = true
                     itemIcon.maxWidth = 80

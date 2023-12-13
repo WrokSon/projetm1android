@@ -2,6 +2,8 @@ package com.example.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
@@ -101,6 +103,16 @@ open class ViewModelSuper : ViewModel() {
         repository.setItemDetailList(list)
     }
 
+    fun getImages(){
+        var list = ArrayList<Bitmap>()
+        for(i in 1 .. 13){
+            val imageurl = URL(getBaseLoginImg() + repository.getItemDetail(i-1).image)
+            val bitmap = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream())
+            list.add(bitmap)
+        }
+        repository.setImageList(list)
+    }
+
     fun actionNoConnexion(context : AppCompatActivity){
         val intent: Intent = Intent(context, Connexion::class.java)
         Looper.prepare()
@@ -131,4 +143,6 @@ open class ViewModelSuper : ViewModel() {
     fun getResetValue() = repository.getResetValue()
 
     fun getItemDetail(id : Int) = repository.getItemDetail(id)
+
+    fun getImage(id: Int) = repository.getImage(id)
 }

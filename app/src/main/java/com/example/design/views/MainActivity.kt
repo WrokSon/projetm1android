@@ -58,8 +58,10 @@ class MainActivity : AppCompatActivity() {
         val thread = Thread(){
             viewModel.playerStatus()
             viewModel.getItemsDetails()
+            viewModel.getImages()
         }
         thread.start()
+        thread.join()
     }
 
     private fun gestionBtns() {

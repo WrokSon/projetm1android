@@ -1,6 +1,7 @@
 package com.example.design.views
 
 
+import android.graphics.Bitmap
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.view.LayoutInflater
@@ -30,7 +31,7 @@ class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteracti
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val offer = listOffres[position]
         val detail = listenerOffre.getDetailItem(offer.Item_ID-1)
-        val imgOffer = listenerOffre.getBaseUrlImg()+detail.image
+        val imgOffer = listenerOffre.getImage(detail.id - 1)
         holder.bind(imgOffer,detail.nom,detail.type.toString(),offer.prix.toString(),offer.Quantite.toString())
         holder.getButton().setOnClickListener{
             listenerOffre.offreInteraction(listOffres[position])
@@ -53,8 +54,8 @@ class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteracti
         val tVPrice : TextView = mView.findViewById(R.id.price_offer)
         val tVQte : TextView = mView.findViewById(R.id.qte_offer)
 
-        fun bind(image : String, name : String, type : String, prix : String, quantite : String){
-            Picasso.with(mView.context).load(image).into(img)
+        fun bind(image : Bitmap, name : String, type : String, prix : String, quantite : String){
+            img.setImageBitmap(image)
             tVName.setText("Nom : ${name}")
             tVTyp.setText("Type : ${type}")
             tVPrice.setText("Prix : ${prix}")

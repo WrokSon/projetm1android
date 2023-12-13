@@ -1,6 +1,7 @@
 package com.example.design.views
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
@@ -19,7 +20,7 @@ class Marche : AppCompatActivity() {
     interface OnOffreInteractionListener {
         fun offreInteraction(item: Offre?)
         fun getDetailItem(id : Int) : Item
-
+        fun getImage(id: Int): Bitmap
         fun getBaseUrlImg() : String
     }
     private val listenerOffre : OnOffreInteractionListener = object : OnOffreInteractionListener {
@@ -40,6 +41,10 @@ class Marche : AppCompatActivity() {
 
         override fun getDetailItem(id: Int): Item {
             return viewModel.getItemDetail(id)
+        }
+
+        override fun getImage(id: Int): Bitmap {
+            return viewModel.getImage(id)
         }
 
         override fun getBaseUrlImg(): String = viewModel.getBaseLoginImg()
