@@ -2,6 +2,7 @@ package com.example.design.views
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -26,6 +27,8 @@ class Connexion : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(ConnViewModel::class.java)
         viewModel.initContext(this)
         saveData = SaveLocal(this)
+        // Bloquer l'orientation en mode portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         var constatus = ""
         setContentView(R.layout.activity_connexion)
@@ -40,21 +43,20 @@ class Connexion : AppCompatActivity() {
         }
 
         goGame.setOnClickListener {
-            var thread = Thread {
-                if (login.text.isNotBlank() || passwd.text.isNotBlank()) {
-                    constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())
-                    if (constatus == Status.OK.value) {
-                        //enregistrer les identifiants
-                        saveData.saveUser(login.text.toString(), passwd.text.toString())
-                        val intent: Intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
 
+            if (login.text.isNotBlank() || passwd.text.isNotBlank()) {
+                var thread = Thread { constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())}
+                goGame.isEnabled = false
+                thread.start()
+                thread.join()
+                if (constatus == Status.OK.value) {
+                    //enregistrer les identifiants
+                    saveData.saveUser(login.text.toString(), passwd.text.toString())
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             }
-            thread.start()
-            thread.join()
             if (!(constatus == Status.OK.value)) {
                 if (constatus == Status.WRONGCREDENTIALS.value) {
                     ko.setText("Mauvais identifiants")

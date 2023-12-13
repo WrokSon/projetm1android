@@ -27,6 +27,7 @@ class MarcheViewModel : ViewModelSuper() {
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
             val offres = doc.getElementsByTagName("OFFERS").item(0).childNodes
+            checkSession(status)
             lesOffres.clear()
             // extaitre les offres le la liste offfres
             for (i in 0..offres.length-1){

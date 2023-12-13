@@ -2,9 +2,11 @@ package com.example.design.views
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -29,9 +31,12 @@ class Parametre : AppCompatActivity() {
         setContentView(R.layout.activity_parametre)
         val viewModel = ViewModelProvider(this).get(ParametreViewModel::class.java)
         viewModel.initContext(this)
+        // Bloquer l'orientation en mode portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         var goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
+            Log.d("PARAMETREMECOUILLE","oui on est la")
         }
 
         var goConnection : Button = findViewById(R.id.btn_deconnexion)
@@ -64,6 +69,7 @@ class Parametre : AppCompatActivity() {
         }
         // Langue
 
+        /*
         val languageSpinner : Spinner = findViewById(R.id.spinner)
 
         // Adapter pour le Spinner
@@ -90,7 +96,7 @@ class Parametre : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Ne rien faire dans ce cas
             }
-        }
+        }*/
     }
 
     private fun changeLanguage(position: Int) {

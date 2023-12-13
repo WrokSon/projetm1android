@@ -21,11 +21,15 @@ class ParametreViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
+            checkSession(status)
             if (status == Status.OK.value) {
                 Log.d("ICI", "je suis passé par là")
                 repository.setLogin(name)
             }
         }catch (e : UnknownHostException){
+            actionNoConnexion(context)
+        }catch (e : ConnectException){
+            e.printStackTrace()
             actionNoConnexion(context)
         }
     }
@@ -41,6 +45,7 @@ class ParametreViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
+            checkSession(status)
             if (status == Status.OK.value) {
                 Log.d("IzzCI", "je suis passé par là")
                 repository.resetLogin()
@@ -49,7 +54,6 @@ class ParametreViewModel : ViewModelSuper() {
         }catch (e : UnknownHostException){
             actionNoConnexion(context)
         }catch (e : ConnectException){
-            // a gerer
             e.printStackTrace()
             actionNoConnexion(context)
         }
