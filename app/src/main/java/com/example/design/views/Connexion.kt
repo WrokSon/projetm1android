@@ -56,6 +56,7 @@ class Connexion : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }
+                goGame.isEnabled = true
             }
             if (!(constatus == Status.OK.value)) {
                 if (constatus == Status.WRONGCREDENTIALS.value) {
