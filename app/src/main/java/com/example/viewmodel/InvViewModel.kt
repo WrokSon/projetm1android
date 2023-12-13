@@ -45,7 +45,7 @@ class InvViewModel : ViewModelSuper() {
     }
 
     fun vendre(id : Int, prix : String, quantite : String) : String{
-        var status : String = ""
+        var status = ""
         try{
             val url = URL(
                 repository.getBaseURL() + "market_vendre.php?session=" + repository.getSession() +
@@ -57,6 +57,7 @@ class InvViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             status = doc.getElementsByTagName("STATUS").item(0).textContent
+            checkSession(status)
         }catch (e : UnknownHostException){
             Log.d("ERREURWEBSERVICE","Pas de connexion")
             actionNoConnexion(context)

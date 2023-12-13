@@ -1,6 +1,7 @@
 package com.example.design.views
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
@@ -50,6 +51,8 @@ class Marche : AppCompatActivity() {
         setContentView(R.layout.activity_marche)
         viewModel = ViewModelProvider(this).get(MarcheViewModel::class.java)
         viewModel.initContext(this)
+        // Bloquer l'orientation en mode portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         var goGame : ImageButton = findViewById(R.id.marche_retour)
         goGame.setOnClickListener{

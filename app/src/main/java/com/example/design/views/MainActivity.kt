@@ -3,6 +3,7 @@ package com.example.design.views
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
@@ -51,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.initContext(this)
         saveData = SaveLocal(this)
+        // Bloquer l'orientation en mode portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         initMap()
         gestionBtns()
         deplacement()
@@ -280,6 +283,7 @@ class MainActivity : AppCompatActivity() {
         // ajoute le voisins
         for (i in 0..voisins.size-1){
             val voisin = voisins[i]
+            if (voisin.name == viewModel.getPlayer().username) continue
             val itemVoisin = Marker(map)
             itemVoisin.position = GeoPoint(voisin.lat.toDouble(),voisin.lon.toDouble())
             itemVoisin.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)

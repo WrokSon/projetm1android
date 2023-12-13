@@ -1,6 +1,7 @@
 package com.example.design.views
 
 import android.content.DialogInterface
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -29,8 +30,9 @@ class Inventaire : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inventaire)
         viewModel = ViewModelProvider(this).get(InvViewModel::class.java)
-
         viewModel.initContext(this)
+        // Bloquer l'orientation en mode portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         var goGame : ImageButton = findViewById(R.id.inventaire_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()

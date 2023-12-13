@@ -1,5 +1,6 @@
 package com.example.design.views
 
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
@@ -16,6 +17,8 @@ class Profil : AppCompatActivity() {
         setContentView(R.layout.activity_profil)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.initContext(this)
+        // Bloquer l'orientation en mode portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         var goGame : ImageButton = findViewById(R.id.profil_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
