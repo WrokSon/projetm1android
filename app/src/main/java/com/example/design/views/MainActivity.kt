@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
@@ -30,15 +29,11 @@ import org.osmdroid.views.overlay.Marker
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.ItemizedIconOverlay
-import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener
-import org.osmdroid.views.overlay.OverlayItem
 import org.osmdroid.views.overlay.ScaleBarOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import org.w3c.dom.Document
 import java.util.concurrent.TimeUnit
-import org.osmdroid.views.overlay.ItemizedOverlayControlView.ItemizedOverlayControlViewListener as ItemizedOverlayControlViewListener1
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -265,7 +260,7 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     Log.d("VOILA","Loc perdu")
                 }
-                addVoisinOnMap()
+                updateVoisinOnMap()
                 TimeUnit.SECONDS.sleep(5)
             }
         }
@@ -273,7 +268,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun addVoisinOnMap(){
+    fun updateVoisinOnMap(){
         val voisins = viewModel.getListeVoisins()
         Log.d("VOISINHGDBJ","${map.overlays.size} ${voisins}")
         // suprimez pour MAJ les items qui doivent etre dans la map
