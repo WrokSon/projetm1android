@@ -1,13 +1,8 @@
 package com.example.viewmodel
 
-import androidx.lifecycle.ViewModel
 import java.net.URL
 import java.security.MessageDigest
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import com.example.model.data.Item
-import com.example.model.data.Player
-import com.example.model.Repository
 import java.net.ConnectException
 import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory

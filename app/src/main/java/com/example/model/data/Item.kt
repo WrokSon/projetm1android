@@ -2,7 +2,7 @@ package com.example.model.data
 
 data class Item(
     var id : Int, var nom : String, var type : Char, var rarity : Int, var image : String,
-    var desc_en : String, var desc_fr : String)
+    var descEn : String, var descFr : String)
     /**
      * ressemble a ça
      * <PARAMS>

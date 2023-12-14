@@ -1,5 +1,6 @@
 package com.example.design.views
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.graphics.Color
@@ -14,26 +15,25 @@ import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.model.tools.Status
 import com.example.viewmodel.InvViewModel
-import com.squareup.picasso.Picasso
 
 class Inventaire : AppCompatActivity() {
     private lateinit var viewModel: InvViewModel
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inventaire)
-        viewModel = ViewModelProvider(this).get(InvViewModel::class.java)
+        viewModel = ViewModelProvider(this)[InvViewModel::class.java]
         viewModel.initContext(this)
         // Bloquer l'orientation en mode portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        var goGame : ImageButton = findViewById(R.id.inventaire_retour)
+        val goGame : ImageButton = findViewById(R.id.inventaire_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
             finish()
@@ -41,7 +41,7 @@ class Inventaire : AppCompatActivity() {
         val textpick: TextView = findViewById(R.id.textpick)
         val buttonpick: Button = findViewById(R.id.buttonpick)
 
-        var thread = Thread{
+        val thread = Thread{
             viewModel.playerStatus()
         }
         thread.start()
@@ -67,80 +67,77 @@ class Inventaire : AppCompatActivity() {
                 5 -> itemText.setTextColor(Color.YELLOW)
             }
             when (details.type) {
-                'A' -> itemText.text = itemText.text as String + " (Artéfact)"
-                'M' -> itemText.text = itemText.text as String + " (Minerai)"
+                'A' -> {
+                    val newText = itemText.text as String + " (Artéfact)"
+                    itemText.text = newText
+                }
+                'M' -> {
+                    val newText = itemText.text as String + " (Minerai)"
+                    itemText.text = newText
+                }
             }
-            itemText.text =
-                itemText.text as String + "\nQuantité : " + item.value.toString() + " (" + item.key + ")"
+            val newText = itemText.text as String + "\nQuantité : " + item.value.toString() + " (" + item.key + ")"
+            itemText.text = newText
             val line = TableRow(applicationContext)
             line.addView(itemIcon)
             line.addView(itemText)
             line.setOnClickListener {
                 val popup = AlertDialog.Builder(this@Inventaire)
                 popup.setIcon(Drawable.createFromPath(viewModel.getBaseLoginImg() + details.image))
-                popup.setMessage(itemText.text as String + "\n" + details.desc_fr)
-                popup.setPositiveButton("VENDRE") { dialog: DialogInterface, which: Int ->
+                popup.setMessage(itemText.text as String + "\n" + details.descFr)
+                popup.setPositiveButton("VENDRE") { _: DialogInterface, _: Int ->
                     val popupsell = AlertDialog.Builder(this@Inventaire)
                     val popupView = LayoutInflater.from(this).inflate(R.layout.popup_vendre, null)
                     popupsell.setView(popupView)
                     val imagevente: ImageView = popupView.findViewById(R.id.imagevente)
-                    val btn_validate: Button = popupView.findViewById(R.id.btn_vendre_validate)
+                    val btnValidate: Button = popupView.findViewById(R.id.btn_vendre_validate)
                     val tVTitle: TextView = popupView.findViewById(R.id.vendre_titre)
                     val tVQteDispo: TextView = popupView.findViewById(R.id.vendre_qte_dispo)
                     val prix: EditText = popupView.findViewById(R.id.vendre_prix)
                     val qte: EditText = popupView.findViewById(R.id.vendre_qte)
                     imagevente.setImageBitmap(viewModel.getImage(details.id - 1))
-                    tVTitle.setText(details.nom)
-                    tVQteDispo.setText("/ " + viewModel.getPlayer().items[details.id]!!)
-                    btn_validate.setOnClickListener {
+                    tVTitle.text = details.nom
+                    var newTextQteDispo = "/ " + viewModel.getPlayer().items[details.id]!!
+                    tVQteDispo.text = newTextQteDispo
+                    btnValidate.setOnClickListener {
                         if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(
                                 details.id
                             )
                         ) {
                             var status = ""
-                            val thread = Thread {
+                            val thread3 = Thread {
                                 status = viewModel.vendre(
                                     details.id,
                                     prix.text.toString(),
                                     qte.text.toString()
                                 )
                             }
-                            thread.start()
-                            thread.join()
+                            thread3.start()
+                            thread3.join()
                             var quant = viewModel.getPlayer().items[details.id]!!.toInt()
-                            if (status == Status.OK.value) {
-                                quant -= qte.text.toString().toInt()
-                                Toast.makeText(
-                                    this,
-                                    "Vous venez de vendre ${qte.text} ${details.nom} a ${prix.text}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                tVQteDispo.setText("/ " + quant)
-                                qte.text.clear()
-                                prix.text.clear()
-                                Thread { viewModel.playerStatus() }.start()
-                            } else if (status == Status.NOITEMS.value) {
-                                Toast.makeText(
-                                    this,
-                                    "La quatité est superieur a la quantité disponible ",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                Toast.makeText(
-                                    this,
-                                    "Il y a eu un probleme avec la vente",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            when (status) {
+                                Status.OK.value -> {
+                                    quant -= qte.text.toString().toInt()
+                                    viewModel.makePopupMessage(this, "Vous venez de vendre ${qte.text} ${details.nom} a ${prix.text}")
+                                    newTextQteDispo = "/ $quant"
+                                    tVQteDispo.text = newTextQteDispo
+                                    qte.text.clear()
+                                    prix.text.clear()
+                                    Thread { viewModel.playerStatus() }.start()
+                                }
+                                Status.NOITEMS.value -> {
+                                    viewModel.makePopupMessage(this, "La quantité est superieur a la quantité disponible ")
+                                }
+                                else -> {
+                                    viewModel.makePopupMessage(this, "Il y a eu un probleme avec la vente")
+                                }
                             }
                         } else if (!viewModel.getPlayer().items.containsKey(details.id)) {
-                            Toast.makeText(this, "Votre stock est vide :)", Toast.LENGTH_SHORT)
-                                .show()
+                            viewModel.makePopupMessage(this, "Votre stock est vide :)")
                         } else {
-                            Toast.makeText(this, "il y a des champs vides !)", Toast.LENGTH_SHORT)
-                                .show()
+                            viewModel.makePopupMessage(this, "il y a des champs vides !)")
                         }
                     }
-
                     popupsell.show()
                 }
                 popup.show()
@@ -151,20 +148,21 @@ class Inventaire : AppCompatActivity() {
         }
 
         var currentpick = viewModel.getPlayer().pick
-        textpick.text = "Pioche actuelle : " + currentpick
+        val newTextPick = "Pioche actuelle : $currentpick"
+        textpick.text = newTextPick
         buttonpick.setOnClickListener {
             if(currentpick < 5) {
-                var items = HashMap<Int, Int>()
-                val thread = Thread {
-                    items = viewModel.getCraft(currentpick + 1)
+                var items2 = HashMap<Int, Int>()
+                val thread2 = Thread {
+                    items2 = viewModel.getCraft(currentpick + 1)
                 }
-                thread.start()
-                thread.join()
+                thread2.start()
+                thread2.join()
                 val popupcraft = AlertDialog.Builder(this@Inventaire)
                 val viewpopup = this.layoutInflater.inflate(R.layout.popup_craft, null)
                 popupcraft.setView(viewpopup)
                 val layout = viewpopup.findViewById<TableLayout>(R.id.itemscraft)
-                for (item in items) {
+                for (item in items2) {
                     val details = viewModel.getItemDetail(item.key - 1)
                     val itemIcon = ImageView(applicationContext)
                     itemIcon.setImageBitmap(viewModel.getImage(details.id - 1))
@@ -182,11 +180,17 @@ class Inventaire : AppCompatActivity() {
                         5 -> itemText.setTextColor(Color.YELLOW)
                     }
                     when (details.type) {
-                        'A' -> itemText.text = itemText.text as String + " (Artéfact)"
-                        'M' -> itemText.text = itemText.text as String + " (Minerai)"
+                        'A' -> {
+                            val newText = itemText.text as String + " (Artéfact)"
+                            itemText.text = newText
+                        }
+                        'M' -> {
+                            val newText = itemText.text as String + " (Minerai)"
+                            itemText.text = newText
+                        }
                     }
-                    itemText.text =
-                        itemText.text as String + "\nQuantité : " + item.value.toString()
+                    val newTextItem = itemText.text as String + "\nQuantité : " + item.value.toString()
+                    itemText.text = newTextItem
                     val line = TableRow(applicationContext)
                     line.addView(itemIcon)
                     line.addView(itemText)
@@ -198,27 +202,30 @@ class Inventaire : AppCompatActivity() {
                 val threadcraft = Thread {
                     val status = viewModel.craftPickaxe(currentpick + 1)
                     Looper.prepare()
-                    if (status == Status.OK.value) {
-                        Toast.makeText(applicationContext, "Pioche améliorée !", Toast.LENGTH_SHORT)
-                            .show()
-                        viewModel.playerStatus()
-                    } else if (status == Status.NOITEMS.value) {
-                        Toast.makeText(applicationContext, "Items manquants", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(applicationContext, "Erreur", Toast.LENGTH_SHORT).show()
+                    when (status) {
+                        Status.OK.value -> {
+                            viewModel.makePopupMessage(this, "Pioche améliorée !")
+                            viewModel.playerStatus()
+                        }
+                        Status.NOITEMS.value -> {
+                            viewModel.makePopupMessage(this, "Items manquants")
+                        }
+                        else -> {
+                            viewModel.makePopupMessage(this, "Erreur")
+                        }
                     }
                 }
-                popupcraft.setPositiveButton("CRAFT") { dialog, which ->
+                popupcraft.setPositiveButton("CRAFT") { _, _ ->
                     threadcraft.start()
                     threadcraft.join()
                     currentpick = viewModel.getPlayer().pick
-                    textpick.text = "Pioche actuelle : " + currentpick
+                    val newText = "Pioche actuelle : $currentpick"
+                    textpick.text = newText
                 }
                 popupcraft.show()
             }
             else{
-                Toast.makeText(this,"Pioche maximum atteinte",Toast.LENGTH_SHORT).show()
+                viewModel.makePopupMessage(this,"Pioche maximum atteinte")
             }
         }
     }

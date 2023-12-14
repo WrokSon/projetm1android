@@ -1,5 +1,6 @@
 package com.example.design.views
 
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,14 +13,15 @@ import com.example.viewmodel.MainViewModel
 class Profil : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profil)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.initContext(this)
         // Bloquer l'orientation en mode portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        var goGame : ImageButton = findViewById(R.id.profil_retour)
+        val goGame : ImageButton = findViewById(R.id.profil_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
         }
@@ -33,8 +35,8 @@ class Profil : AppCompatActivity() {
         val picklevel: TextView = findViewById(R.id.profil_level)
         val player = viewModel.getPlayer()
 
-        login.setText(player.username)
-        money.setText(player.money.toString())
-        picklevel.setText(player.pick.toString())
+        login.text = player.username
+        money.text = player.money.toString()
+        picklevel.text = player.pick.toString()
     }
 }

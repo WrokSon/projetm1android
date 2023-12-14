@@ -1,20 +1,23 @@
 package com.example.viewmodel
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.example.design.R
 import com.example.design.views.Connexion
 import com.example.model.Repository
 import com.example.model.data.Item
 import com.example.model.data.Player
 import com.example.model.tools.Status
-import org.w3c.dom.Document
 import java.net.ConnectException
 import java.net.URL
 import java.net.UnknownHostException
@@ -22,26 +25,31 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 open class ViewModelSuper : ViewModel() {
     protected val repository = Repository.getInstance()
+    @SuppressLint("StaticFieldLeak")
     protected lateinit var context : AppCompatActivity
     fun checkSession(status : String) {
-        if (status == Status.SESSIONEXPIRED.value) {
-            Looper.prepare()
-            Toast.makeText(context, "Session expiré", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, Connexion::class.java)
-            context.startActivity(intent)
-            context.finish()
-        }else if (status == Status.SESSIONINVALID.value){
-            Looper.prepare()
-            Toast.makeText(context, "Session invalide", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, Connexion::class.java)
-            context.startActivity(intent)
-            context.finish()
-        }else if(status == Status.TECHNICALERROR.value){
-            Looper.prepare()
-            Toast.makeText(context,"Il y a eu un probeleme avec le seveur",Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, Connexion::class.java)
-            context.startActivity(intent)
-            context.finish()
+        when (status) {
+            Status.SESSIONEXPIRED.value -> {
+                Looper.prepare()
+                Toast.makeText(context, "Session expiré", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, Connexion::class.java)
+                context.startActivity(intent)
+                context.finish()
+            }
+            Status.SESSIONINVALID.value -> {
+                Looper.prepare()
+                Toast.makeText(context, "Session invalide", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, Connexion::class.java)
+                context.startActivity(intent)
+                context.finish()
+            }
+            Status.TECHNICALERROR.value -> {
+                Looper.prepare()
+                Toast.makeText(context,"Il y a eu un probeleme avec le seveur",Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, Connexion::class.java)
+                context.startActivity(intent)
+                context.finish()
+            }
         }
     }
 
@@ -92,7 +100,7 @@ open class ViewModelSuper : ViewModel() {
 
     //fonction qui récupère tout les détails de tout les items afin de pas avoir à appeler à chaque fois le ws
     fun getItemsDetails(){
-        var list = ArrayList<Item>()
+        val list = ArrayList<Item>()
         for(i in 1 .. 13){
             val url = URL(
                 repository.getBaseURL() + "item_detail.php?session=" + repository.getSession() +
@@ -109,8 +117,8 @@ open class ViewModelSuper : ViewModel() {
             item.type = infos.item(1).textContent[0]
             item.rarity = infos.item(2).textContent.toInt()
             item.image = infos.item(3).textContent
-            item.desc_en = infos.item(4).textContent
-            item.desc_fr = infos.item(5).textContent
+            item.descEn = infos.item(4).textContent
+            item.descFr = infos.item(5).textContent
 
             list.add(item)
         }
@@ -118,7 +126,7 @@ open class ViewModelSuper : ViewModel() {
     }
 
     fun getImages(){
-        var list = ArrayList<Bitmap>()
+        val list = ArrayList<Bitmap>()
         for(i in 1 .. 13){
             val imageurl = URL(getBaseLoginImg() + repository.getItemDetail(i-1).image)
             val bitmap = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream())
@@ -128,18 +136,24 @@ open class ViewModelSuper : ViewModel() {
     }
 
     fun actionNoConnexion(context : AppCompatActivity){
-        val intent: Intent = Intent(context, Connexion::class.java)
+        val intent = Intent(context, Connexion::class.java)
         Looper.prepare()
         Toast.makeText(context,"Connexion perdue",Toast.LENGTH_SHORT).show()
         context.startActivity(intent)
         context.finish()
     }
-    fun getSession(): Int{
-        return repository.getSession()
-    }
 
-    fun getSignature(): Long{
-        return repository.getSignature()
+    fun makePopupMessage(context : AppCompatActivity, msg : String){
+        // execute le code sur le thread principal
+        context.runOnUiThread {
+            val popup = AlertDialog.Builder(context)
+            val popupView = LayoutInflater.from(context).inflate(R.layout.popup_message, null)
+            popup.setView(popupView)
+            val content : TextView = popupView.findViewById(R.id.popup_txt_msg)
+            content.text = msg
+            Log.d("POPOUP", "on est la")
+            popup.show()
+        }
     }
 
     fun getBaseLogin() = repository.getBaseLogin()

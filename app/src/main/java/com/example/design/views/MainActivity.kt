@@ -13,7 +13,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.scale
@@ -43,13 +42,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var myLoc: MyLocationNewOverlay
     private lateinit var doccreuse : Document
     private lateinit var saveData: SaveLocal
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Configuration.getInstance().load(applicationContext,
             PreferenceManager.getDefaultSharedPreferences(applicationContext))
         setContentView(R.layout.activity_main)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.initContext(this)
         saveData = SaveLocal(this)
         // Bloquer l'orientation en mode portrait
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         gestionBtns()
         deplacement()
         loadUsername()
-        val thread = Thread(){
+        val thread = Thread{
             viewModel.playerStatus()
             viewModel.getItemsDetails()
             viewModel.getImages()
@@ -68,27 +67,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun gestionBtns() {
-        var goInv: ImageButton = findViewById(R.id.inv)
+        val goInv: ImageButton = findViewById(R.id.inv)
         goInv.setOnClickListener {
-            val intent: Intent = Intent(this, Inventaire::class.java)
+            val intent = Intent(this, Inventaire::class.java)
             startActivity(intent)
         }
 
-        var goMar: ImageButton = findViewById(R.id.mar)
+        val goMar: ImageButton = findViewById(R.id.mar)
         goMar.setOnClickListener {
-            val intent: Intent = Intent(this, Marche::class.java)
+            val intent = Intent(this, Marche::class.java)
             startActivity(intent)
         }
 
-        var goPro: ImageButton = findViewById(R.id.pro)
+        val goPro: ImageButton = findViewById(R.id.pro)
         goPro.setOnClickListener {
-            val intent: Intent = Intent(this, Profil::class.java)
+            val intent = Intent(this, Profil::class.java)
             startActivity(intent)
         }
 
-        var goPar: ImageButton = findViewById(R.id.par)
+        val goPar: ImageButton = findViewById(R.id.par)
         goPar.setOnClickListener {
-            val intent: Intent = Intent(this, Parametre::class.java)
+            val intent = Intent(this, Parametre::class.java)
             startActivity(intent)
         }
 
@@ -107,45 +106,48 @@ class MainActivity : AppCompatActivity() {
             val status = doccreuse.getElementsByTagName("STATUS").item(0).textContent
             Log.d("STATUSPICK",status)
             if(status == Status.OUTOFBOUNDS.value){
-                Toast.makeText(applicationContext,"t'es pas à l'université",Toast.LENGTH_SHORT).show()
+                viewModel.makePopupMessage(this,"t'es pas à l'université")
             }
             if(status == Status.BADPICKAXE.value){
-                Toast.makeText(applicationContext,"meilleur pioche requise",Toast.LENGTH_SHORT).show()
+                viewModel.makePopupMessage(this,"meilleur pioche requise")
             }
             if(status.startsWith(Status.TOOFAST.value)){
                 val time = 5 - status.takeLast(1).toInt()
-                Toast.makeText(applicationContext,"ralenti mon gars, " + time + " secondes",Toast.LENGTH_SHORT).show()
+                viewModel.makePopupMessage(this, "ralenti mon gars, $time secondes")
             }
             if(status == Status.OK.value){
                 val depth = doccreuse.getElementsByTagName("DEPTH").item(0).textContent + "m"
-                prof.text = "Profondeur : " + depth
+                val newTextprof = "Profondeur : $depth"
+                prof.text = newTextprof
                 if(doccreuse.getElementsByTagName("ITEM_ID").length != 0){
                     val itemid = doccreuse.getElementsByTagName("ITEM_ID").item(0).textContent.toInt()
-                    item.text = "Item : " + itemid
+                    val newTextItem = "Item : $itemid"
+                    item.text = newTextItem
                     var itemm : Item? = null
-                    val thread = Thread{
+                    val thread2 = Thread{
                        itemm = viewModel.getItemDetail(itemid - 1)
                     }
-                    thread.start()
-                    thread.join()
+                    thread2.start()
+                    thread2.join()
                     val popup = AlertDialog.Builder(this@MainActivity)
                     popup.setIcon(Drawable.createFromPath("https://test.vautard.fr/creuse_imgs/"+itemm?.image))
                     popup.setTitle("Item trouvé : "+itemm?.nom + " ( Profondeur : " + depth + ")")
-                    popup.setMessage(itemm?.desc_fr)
+                    popup.setMessage(itemm?.descFr)
                     popup.show()
                 }
                 else{
-                    item.text = "Item : non"
+                    val newTextItem = "Item : non"
+                    item.text = newTextItem
                 }
 
-                Toast.makeText(applicationContext,"tout va bien mec",Toast.LENGTH_SHORT).show()
+                viewModel.makePopupMessage(this,"tout va bien mec")
 
             }
         }
 
-        var btnMe: ImageButton = findViewById(R.id.btn_me)
+        val btnMe: ImageButton = findViewById(R.id.btn_me)
         btnMe.setOnClickListener {
-            Toast.makeText(this, "c'est fait, mec", Toast.LENGTH_SHORT).show()
+            viewModel.makePopupMessage(this, "c'est fait, mec")
             mapController.setZoom(20.0)
             myLoc.enableFollowLocation()
         }
@@ -155,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         map = findViewById(R.id.map)
         map.setTileSource(TileSourceFactory.MAPNIK) //type de la map
         map.setMultiTouchControls(true)
-        var startPoint: GeoPoint = GeoPoint(47.8467816, 1.9265369)
+        val startPoint = GeoPoint(47.8467816, 1.9265369)
         mapController = map.controller
         mapController.setZoom(18.0)
         mapController.setCenter(startPoint)
@@ -197,7 +199,7 @@ class MainActivity : AppCompatActivity() {
                 mapController.setCenter(myLoc.myLocation)
             }
         } else {
-            Toast.makeText(this, "Location permission is required to show your location.", Toast.LENGTH_SHORT).show()
+            viewModel.makePopupMessage(this, "La localisation frero")
         }
     }
 
@@ -212,6 +214,7 @@ class MainActivity : AppCompatActivity() {
         map.onResume()
         loadUsername()
     }
+    @Deprecated("Deprecated in Java")
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {}
 
@@ -249,18 +252,21 @@ class MainActivity : AppCompatActivity() {
     private fun deplacement(){
         val textZone : TextView = findViewById(R.id.texte_zone)
         val depthZone : TextView = findViewById(R.id.depth_zone)
-        textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
+        var newTextZone = "lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}"
+        textZone.text = newTextZone
         //met a jour la postion tous les 5 secondes
-        var thread = Thread {
+        Thread {
             while (true){
-                var dernierLoc = myLoc.myLocation
+                val dernierLoc = myLoc.myLocation
                 if(dernierLoc != null) {
                     Log.d("VOILA","lon : " + dernierLoc.longitude + " lat: "+dernierLoc.latitude)
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 10.0f) {
                         viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
-                        textZone.setText("lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}")
-                        depthZone.setText("Profondeur : 0m")
+                        newTextZone = "lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}"
+                        val newTextProf = "Profondeur : 0m"
+                        textZone.text = newTextZone
+                        depthZone.text = newTextProf
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")
@@ -268,14 +274,13 @@ class MainActivity : AppCompatActivity() {
                 updateVoisinOnMap()
                 TimeUnit.SECONDS.sleep(5)
             }
-        }
-        thread.start()
+        }.start()
     }
 
 
-    fun updateVoisinOnMap(){
+    private fun updateVoisinOnMap(){
         val voisins = viewModel.getListeVoisins()
-        Log.d("VOISINHGDBJ","${map.overlays.size} ${voisins}")
+        Log.d("VOISINHGDBJ","${map.overlays.size} ${voisins.size}")
         // suprimez pour MAJ les items qui doivent etre dans la map
         // on ne doit par retirer les 2 premiers (bar/echelle + player)
         for (i in map.overlays.size-1 downTo 2){
@@ -283,7 +288,7 @@ class MainActivity : AppCompatActivity() {
         }
         //map.overlays.clear()
         // ajoute le voisins
-        for (i in 0..voisins.size-1){
+        for (i in 0..<voisins.size){
             val voisin = voisins[i]
             if (voisin.name == viewModel.getPlayer().username) continue
             val itemVoisin = Marker(map)

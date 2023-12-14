@@ -1,6 +1,7 @@
 package com.example.design.views
 
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.design.R
 import com.example.model.data.Offre
-import com.squareup.picasso.Picasso
 
 class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteractionListener) : RecyclerView.Adapter<OfferRecycleViewAdapter.ViewHolder>() {
 
@@ -30,15 +30,16 @@ class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteracti
     // action a faire
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val offer = listOffres[position]
-        val detail = listenerOffre.getDetailItem(offer.Item_ID-1)
+        val detail = listenerOffre.getDetailItem(offer.itemID-1)
         val imgOffer = listenerOffre.getImage(detail.id - 1)
-        holder.bind(imgOffer,detail.nom,detail.type.toString(),offer.prix.toString(),offer.Quantite.toString())
+        holder.bind(imgOffer,detail.nom,detail.type.toString(),offer.prix.toString(),offer.quantite.toString())
         holder.getButton().setOnClickListener{
             listenerOffre.offreInteraction(listOffres[position])
         }
     }
 
     // ajouter une offre dans la liste
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(liste : List<Offre>){
         listOffres.clear()
         listOffres.addAll(liste)
@@ -46,20 +47,24 @@ class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteracti
     }
 
     // la view (element graphqiue)
-    class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val btn: Button = mView.findViewById(R.id.btn_acheter)
-        val img: ImageView = mView.findViewById(R.id.img_offer)
-        val tVName : TextView = mView.findViewById(R.id.name_offer)
-        val tVTyp : TextView = mView.findViewById(R.id.typ_offer)
-        val tVPrice : TextView = mView.findViewById(R.id.price_offer)
-        val tVQte : TextView = mView.findViewById(R.id.qte_offer)
+    class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
+        private val btn: Button = mView.findViewById(R.id.btn_acheter)
+        private val img: ImageView = mView.findViewById(R.id.img_offer)
+        private val tVName : TextView = mView.findViewById(R.id.name_offer)
+        private val tVTyp : TextView = mView.findViewById(R.id.typ_offer)
+        private val tVPrice : TextView = mView.findViewById(R.id.price_offer)
+        private val tVQte : TextView = mView.findViewById(R.id.qte_offer)
 
         fun bind(image : Bitmap, name : String, type : String, prix : String, quantite : String){
             img.setImageBitmap(image)
-            tVName.setText("Nom : ${name}")
-            tVTyp.setText("Type : ${type}")
-            tVPrice.setText("Prix : ${prix}")
-            tVQte.setText("Quantité : ${quantite}")
+            val newTextName = "Nom : $name"
+            val newTextType = "Type : $type"
+            val newTextPrix = "Prix : $prix"
+            val newTextQte = "Quantité : $quantite"
+            tVName.text = newTextName
+            tVTyp.text = newTextType
+            tVPrice.text = newTextPrix
+            tVQte.text = newTextQte
         }
 
         fun getButton() : Button = btn

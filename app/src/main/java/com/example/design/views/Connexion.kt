@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.viewmodel.ConnViewModel
@@ -19,12 +18,12 @@ import com.example.model.tools.Status
 class Connexion : AppCompatActivity() {
     private lateinit var viewModel: ConnViewModel
     private lateinit var saveData: SaveLocal
-    private lateinit var constatus: String
+    //private lateinit var constatus: String
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ConnViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ConnViewModel::class.java]
         viewModel.initContext(this)
         saveData = SaveLocal(this)
         // Bloquer l'orientation en mode portrait
@@ -34,8 +33,8 @@ class Connexion : AppCompatActivity() {
         setContentView(R.layout.activity_connexion)
         val goGame: Button = findViewById(R.id.btn_connexion)
         val ko: TextView = findViewById(R.id.titlecon)
-        var login: EditText = findViewById(R.id.user)
-        var passwd: EditText = findViewById(R.id.password)
+        val login: EditText = findViewById(R.id.user)
+        val passwd: EditText = findViewById(R.id.password)
 
         if (saveData.getLogin().toString() != "") {
             login.setText(this.saveData.getLogin().toString())
@@ -45,7 +44,7 @@ class Connexion : AppCompatActivity() {
         goGame.setOnClickListener {
 
             if (login.text.isNotBlank() || passwd.text.isNotBlank()) {
-                var thread = Thread { constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())}
+                val thread = Thread { constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())}
                 goGame.isEnabled = false
                 thread.start()
                 thread.join()
@@ -56,19 +55,22 @@ class Connexion : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }
-                goGame.isEnabled = true
             }
-            if (!(constatus == Status.OK.value)) {
+            if (constatus != Status.OK.value) {
+                goGame.isEnabled = true
                 if (constatus == Status.WRONGCREDENTIALS.value) {
-                    ko.setText("Mauvais identifiants")
+                    val msg = "Mauvais identifiants"
+                    ko.text = msg
                 }else{
-                  ko.setText("Pas de connexion ou champs vides")
+                    val msg = "Pas de connexion ou champs vides"
+                    ko.text = msg
                 }
             }
 
         }
     }
 
+    @Deprecated("Deprecated in Java")
     @SuppressLint("MissingSuperCall")
-    override fun onBackPressed() {}
+    override fun onBackPressed(){}
 }

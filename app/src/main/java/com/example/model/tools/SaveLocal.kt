@@ -28,9 +28,9 @@ class SaveLocal(activity: AppCompatActivity) {
 
     fun saveUserName(name:String) = putString(USERNAME,name)
 
-    fun putString(key: String, value: String?){
+    private fun putString(key: String, value: String?){
         sharedPreference.edit().putString(key,value).apply()
     }
-    fun getString(key: String) = sharedPreference.getString(key,"")
+    private fun getString(key: String) = sharedPreference.getString(key,"")
 
 }

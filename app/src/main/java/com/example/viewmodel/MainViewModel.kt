@@ -1,8 +1,6 @@
 package com.example.viewmodel
 
 import android.location.Location
-import android.provider.DocumentsContract
-import androidx.appcompat.app.AppCompatActivity
 import com.example.model.tools.Status
 import org.w3c.dom.Document
 import java.net.ConnectException

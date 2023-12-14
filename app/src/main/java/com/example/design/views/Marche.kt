@@ -50,22 +50,22 @@ class Marche : AppCompatActivity() {
 
         override fun getBaseUrlImg(): String = viewModel.getBaseLoginImg()
     }
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_marche)
-        viewModel = ViewModelProvider(this).get(MarcheViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MarcheViewModel::class.java]
         viewModel.initContext(this)
         // Bloquer l'orientation en mode portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        var goGame : ImageButton = findViewById(R.id.marche_retour)
+        val goGame : ImageButton = findViewById(R.id.marche_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
         }
 
         adapter = OfferRecycleViewAdapter(listenerOffre)
-        var recycle : RecyclerView = findViewById(R.id.march_recycle_view)
+        val recycle : RecyclerView = findViewById(R.id.march_recycle_view)
         recycle.adapter = adapter
 
         val thread = Thread{viewModel.getMarche()}

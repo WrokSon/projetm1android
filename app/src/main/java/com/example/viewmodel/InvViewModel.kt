@@ -1,8 +1,6 @@
 package com.example.viewmodel
 
 import android.util.Log
-import android.widget.Toast
-import com.example.model.tools.Status
 import java.net.ConnectException
 import java.net.URL
 import java.net.UnknownHostException
@@ -25,8 +23,8 @@ class InvViewModel : ViewModelSuper() {
         val nextcraft = crafts.item(id-2).childNodes.item(1).childNodes
         val items = HashMap<Int,Int>()
         for(i in 0..<nextcraft.length){
-            val id = nextcraft.item(i).childNodes.item(0).textContent.toInt()
-            items[id] = nextcraft.item(i).childNodes.item(1).textContent.toInt()
+            val idItem = nextcraft.item(i).childNodes.item(0).textContent.toInt()
+            items[idItem] = nextcraft.item(i).childNodes.item(1).textContent.toInt()
         }
         return items
     }

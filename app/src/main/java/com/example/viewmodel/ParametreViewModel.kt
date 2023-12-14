@@ -1,7 +1,6 @@
 package com.example.viewmodel
 
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.example.model.tools.Status
 import java.net.ConnectException
 import java.net.URL
