@@ -23,6 +23,7 @@ class ParametreViewModel : ViewModelSuper() {
             checkSession(status)
             if (status == Status.OK.value) {
                 Log.d("ICI", "je suis passé par là")
+                makePopupMessage(context,"Votre nouveau nom maintenant est $name")
                 repository.setLogin(name)
             }
         }catch (e : UnknownHostException){
@@ -47,6 +48,7 @@ class ParametreViewModel : ViewModelSuper() {
             checkSession(status)
             if (status == Status.OK.value) {
                 Log.d("IzzCI", "je suis passé par là")
+                makePopupMessage(context,"Votre compte a bien été reinitialiser")
                 repository.resetLogin()
                 playerStatus()
             }

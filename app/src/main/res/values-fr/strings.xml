@@ -10,4 +10,5 @@
     <string name="invalid_username">identifiant non valide</string>
     <string name="invalid_password">le mot de passe doit faire plus de 5 characters</string>
     <string name="login_failed">connexion a echoue</string>
+    <string name="mauvais_identifiants">Mauvais identifiants</string>
 </resources>

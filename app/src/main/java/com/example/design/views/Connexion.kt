@@ -59,8 +59,7 @@ class Connexion : AppCompatActivity() {
             if (constatus != Status.OK.value) {
                 goGame.isEnabled = true
                 if (constatus == Status.WRONGCREDENTIALS.value) {
-                    val msg = "Mauvais identifiants"
-                    ko.text = msg
+                    ko.text = getString(R.string.mauvais_identifiants)
                 }else{
                     val msg = "Pas de connexion ou champs vides"
                     ko.text = msg

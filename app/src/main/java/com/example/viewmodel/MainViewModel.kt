@@ -1,6 +1,7 @@
 package com.example.viewmodel
 
 import android.location.Location
+import android.util.Log
 import com.example.model.tools.Status
 import org.w3c.dom.Document
 import java.net.ConnectException
@@ -26,6 +27,8 @@ class MainViewModel : ViewModelSuper() {
             repository.getVoisins(doc)
             if (status == Status.OK.value) {
                 repository.updatePosition(lat, lon)
+            }else if(status == Status.BADLOCATIONFORMAT.value){
+                Log.d("DEPLACEMENT","mauvais type de donnée")
             }
         } catch (e: UnknownHostException) {
             actionNoConnexion(context)
