@@ -65,7 +65,7 @@ class Repository private constructor() {
     fun getVoisins(doc : Document){
         val listeVoisins = doc.getElementsByTagName("VOISINS").item(0).childNodes
         voisins.clear()
-        for (i in 0..listeVoisins.length-1){
+        for (i in 0..<listeVoisins.length){
             val voisin = listeVoisins.item(i).childNodes
             //nom
             val nom = voisin.item(0).textContent
