@@ -57,10 +57,10 @@ class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteracti
 
         fun bind(image : Bitmap, name : String, type : String, prix : String, quantite : String){
             img.setImageBitmap(image)
-            val newTextName = "Nom : $name"
-            val newTextType = "Type : $type"
-            val newTextPrix = "Prix : $prix"
-            val newTextQte = "Quantité : $quantite"
+            val newTextName = "${tVName.text} : $name"
+            val newTextType = "${tVTyp.text} : $type"
+            val newTextPrix = "${tVPrice.text} : $prix"
+            val newTextQte = "${tVQte.text} : $quantite"
             tVName.text = newTextName
             tVTyp.text = newTextType
             tVPrice.text = newTextPrix

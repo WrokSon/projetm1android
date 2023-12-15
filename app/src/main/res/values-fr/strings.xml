@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MotherLoad Orleans(fr)</string>
-    <string name="title_activity_login">activite de connexion</string>
-    <string name="prompt_email">mail</string>
-    <string name="prompt_password">mot de passe</string>
-    <string name="action_sign_in">connexion ou enregistrer</string>
-    <string name="action_sign_in_short">connexion</string>
-    <string name="welcome">bienvenue</string>
-    <string name="invalid_username">identifiant non valide</string>
-    <string name="invalid_password">le mot de passe doit faire plus de 5 characters</string>
-    <string name="login_failed">connexion a echoue</string>
-    <string name="mauvais_identifiants">Mauvais identifiants</string>
+    <string name="app_name">MotherLoad Orleans</string>
+    <string name="mauvaise_identifiants">Mauvaises identifiants</string>
+    <string name="title_activity_connexion">Connexion</string>
+    <string name="connexion_pas_de_connexion">Pas de connexion ou champs vides</string>
+    <string name="connexion_username">Identifiant</string>
+    <string name="connexion_password">Mot de passe</string>
+    <string name="text_btn_connexion">Connexion</string>
+    <string name="text_player_name">Nom du joueur</string>
+    <string name="text_pieces">Pieces</string>
+    <string name="text_pioche_actuelle">Pioche actuelle</string>
+    <string name="title_activity_settings">Parametre</string>
+    <string name="title_activity_market">Marché</string>
+    <string name="title_activity_invent">Inventaire</string>
+    <string name="text_name">Nom</string>
+    <string name="text_type">Type</string>
+    <string name="text_prix">Prix</string>
+    <string name="text_qte">Quantité</string>
+    <string name="btn_achete">Acheter</string>
+    <string name="text_btn_moi">Moi</string>
+    <string name="btn_deconnexion">Deconnexion</string>
+    <string name="btn_reset">Reinitialiser</string>
+    <string name="text_langue">Language</string>
+    <string name="text_valider">Valider</string>
+    <string name="text_depth">Profondeur</string>
 </resources>

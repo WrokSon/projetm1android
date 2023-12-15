@@ -15,7 +15,7 @@
         android:fontFamily="@font/font_title"
         android:gravity="center"
         android:textColor="@color/white"
-        android:text="Marché"
+        android:text="@string/title_activity_market"
         android:textSize="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.175"

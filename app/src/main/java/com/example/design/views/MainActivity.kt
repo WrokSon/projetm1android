@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             }
             if(status == Status.OK.value){
                 val depth = doccreuse.getElementsByTagName("DEPTH").item(0).textContent + "m"
-                val newTextprof = "Profondeur : $depth"
+                val newTextprof = "${getString(R.string.text_depth)} : $depth"
                 prof.text = newTextprof
                 if(doccreuse.getElementsByTagName("ITEM_ID").length != 0){
                     val itemid = doccreuse.getElementsByTagName("ITEM_ID").item(0).textContent.toInt()
@@ -269,7 +269,7 @@ class MainActivity : AppCompatActivity() {
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 10.0f) {
                         viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
-                        val newTextProf = "Profondeur : 0m"
+                        val newTextProf = "${getString(R.string.text_depth)} : 0m"
                         depthZone.text = newTextProf
                     }
                 }else{
