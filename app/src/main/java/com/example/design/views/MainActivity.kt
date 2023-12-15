@@ -300,7 +300,13 @@ class MainActivity : AppCompatActivity() {
             itemVoisin.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             itemVoisin.setTextIcon(voisin.name)
             val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),voisin.lat.toDouble(),voisin.lon.toDouble()).toInt()
-            itemVoisin.subDescription = "salut, je suis à $distance metres de toi"
+            val km = 1000
+            if(distance<km) {
+                itemVoisin.subDescription = "salut, je suis à $distance metres de toi"
+            }else{
+                val distanceKm : Int = distance/km
+                itemVoisin.subDescription = "salut, je suis à $distanceKm km et ${distance - (distanceKm * km)} metres de toi"
+            }
             map.overlays.add(itemVoisin)
             //MAJ de la map
             map.invalidate()
