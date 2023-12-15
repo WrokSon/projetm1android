@@ -10,7 +10,7 @@ import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -81,8 +81,23 @@ class MainActivity : AppCompatActivity() {
 
         val goPro: ImageButton = findViewById(R.id.pro)
         goPro.setOnClickListener {
-            val intent = Intent(this, Profil::class.java)
-            startActivity(intent)
+            val popup = AlertDialog.Builder(this)
+            val popupView = LayoutInflater.from(this).inflate(R.layout.popup_profil, null)
+            popup.setView(popupView)
+            val thread = Thread {
+                viewModel.playerStatus()
+            }
+            thread.start()
+            thread.join()
+            val login: TextView = popupView.findViewById(R.id.profil_name)
+            val money: TextView = popupView.findViewById(R.id.profil_money)
+            val picklevel: TextView = popupView.findViewById(R.id.profil_level)
+            val player = viewModel.getPlayer()
+
+            login.text = player.username
+            money.text = player.money.toString()
+            picklevel.text = player.pick.toString()
+            popup.show()
         }
 
         val goPar: ImageButton = findViewById(R.id.par)
@@ -91,9 +106,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val btnCreuser: Button = findViewById(R.id.pick)
+        val btnCreuser: ImageButton = findViewById(R.id.pick)
         val prof = findViewById<TextView>(R.id.depth_zone)
-        val item = findViewById<TextView>(R.id.item_zone)
         btnCreuser.setOnClickListener {
             mapController.setZoom(20.0)
             mapController.setCenter(myLoc.myLocation)
@@ -121,8 +135,6 @@ class MainActivity : AppCompatActivity() {
                 prof.text = newTextprof
                 if(doccreuse.getElementsByTagName("ITEM_ID").length != 0){
                     val itemid = doccreuse.getElementsByTagName("ITEM_ID").item(0).textContent.toInt()
-                    val newTextItem = "Item : $itemid"
-                    item.text = newTextItem
                     var itemm : Item? = null
                     val thread2 = Thread{
                        itemm = viewModel.getItemDetail(itemid - 1)
@@ -136,8 +148,6 @@ class MainActivity : AppCompatActivity() {
                     popup.show()
                 }
                 else{
-                    val newTextItem = "Item : non"
-                    item.text = newTextItem
                     viewModel.makePopupMessage(this,"tout va bien mec")
                 }
 
@@ -249,10 +259,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deplacement(){
-        val textZone : TextView = findViewById(R.id.texte_zone)
         val depthZone : TextView = findViewById(R.id.depth_zone)
-        var newTextZone = "lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}"
-        textZone.text = newTextZone
         //met a jour la postion tous les 5 secondes
         Thread {
             while (true){
@@ -262,9 +269,7 @@ class MainActivity : AppCompatActivity() {
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 10.0f) {
                         viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
-                        newTextZone = "lon: ${viewModel.getLongitude()} / lat: ${viewModel.getLatitude()}"
                         val newTextProf = "Profondeur : 0m"
-                        textZone.text = newTextZone
                         depthZone.text = newTextProf
                     }
                 }else{

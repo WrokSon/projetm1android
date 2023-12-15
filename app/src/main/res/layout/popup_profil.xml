@@ -3,64 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".views.Profil">
-
-    <TextView
-        android:id="@+id/profil_title"
-        android:layout_width="168dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:text="Profil"
-        android:fontFamily="@font/font_title"
-        android:textSize="50dp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/profil_retour"
-        android:layout_width="45dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/btnreturnshape"
-        android:src="@drawable/img_retour"
-        android:layout_gravity="center"
-        android:scaleType="fitCenter"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/profil_img"
-        android:layout_width="253dp"
-        android:layout_height="257dp"
-        android:layout_marginTop="28dp"
-        android:src="@drawable/img_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profil_title" />
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="354dp"
         android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.682"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profil_img">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/font_title"
             android:gravity="center"
             android:text="Nom Du Joueur"
-            android:fontFamily="@font/font_title"
             android:textSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.243"
@@ -72,9 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="28dp"
+            android:fontFamily="@font/font_title"
             android:gravity="center"
             android:text="Pieces"
-            android:fontFamily="@font/font_title"
             android:textSize="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,9 +50,9 @@
             android:id="@+id/profil_name"
             android:layout_width="131dp"
             android:layout_height="26dp"
+            android:fontFamily="@font/font_content"
             android:gravity="center"
             android:text=""
-            android:fontFamily="@font/font_content"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,10 +68,10 @@
             android:layout_marginStart="46dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="12dp"
+            android:fontFamily="@font/font_content"
             android:gravity="center"
             android:text=""
             android:textSize="20dp"
-            android:fontFamily="@font/font_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -149,15 +112,16 @@
 
     <ImageView
         android:id="@+id/img_profil_pick"
-        android:layout_width="120dp"
-        android:layout_height="90dp"
-        android:gravity="center"
-        android:src="@drawable/img_pioche"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profil_level"
-        app:layout_constraintVertical_bias="0.047" />
-
+        app:layout_constraintVertical_bias="0.047"
+        android:layout_width="120dp"
+        android:layout_height="90dp"
+        android:gravity="center"
+        android:src="@drawable/img_pioche"
+        tools:layout_editor_absoluteX="195dp"
+        tools:layout_editor_absoluteY="439dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -100,20 +100,19 @@ class Inventaire : AppCompatActivity() {
                     var newTextQteDispo = "/ " + viewModel.getPlayer().items[details.id]!!
                     tVQteDispo.text = newTextQteDispo
                     btnValidate.setOnClickListener {
-                        if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(
-                                details.id
-                            )
-                        ) {
+                        if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(details.id)) {
                             var status = ""
-                            val thread3 = Thread {
-                                status = viewModel.vendre(
-                                    details.id,
-                                    prix.text.toString(),
-                                    qte.text.toString()
-                                )
+                            if(prix.text.toString().toInt()>=0) {
+                                val thread3 = Thread {
+                                    status = viewModel.vendre(
+                                        details.id,
+                                        prix.text.toString(),
+                                        qte.text.toString()
+                                    )
+                                }
+                                thread3.start()
+                                thread3.join()
                             }
-                            thread3.start()
-                            thread3.join()
                             var quant = viewModel.getPlayer().items[details.id]!!.toInt()
                             when (status) {
                                 Status.OK.value -> {
