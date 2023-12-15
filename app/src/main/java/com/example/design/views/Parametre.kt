@@ -55,7 +55,6 @@ class Parametre : AppCompatActivity() {
         resetBtn.setOnClickListener{
             Thread{viewModel.reset()}.start()
             viewModel.setResetValue(true)
-            viewModel.makePopupMessage(this,"Tu viens de reinitialiser ton compte !}")
         }
     }
 

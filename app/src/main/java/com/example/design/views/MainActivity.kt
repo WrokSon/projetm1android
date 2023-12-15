@@ -138,9 +138,8 @@ class MainActivity : AppCompatActivity() {
                 else{
                     val newTextItem = "Item : non"
                     item.text = newTextItem
+                    viewModel.makePopupMessage(this,"tout va bien mec")
                 }
-
-                viewModel.makePopupMessage(this,"tout va bien mec")
 
             }
         }
@@ -282,7 +281,7 @@ class MainActivity : AppCompatActivity() {
         val voisins = viewModel.getListeVoisins()
         Log.d("VOISINHGDBJ","${map.overlays.size} ${voisins.size}")
         // suprimez pour MAJ les items qui doivent etre dans la map
-        // on ne doit par retirer les 2 premiers (bar/echelle + player)
+        // on ne doit pas retirer les 2 premiers (bar/echelle + player)
         for (i in map.overlays.size-1 downTo 2){
             map.overlays.removeAt(i)
         }
@@ -295,7 +294,7 @@ class MainActivity : AppCompatActivity() {
             itemVoisin.position = GeoPoint(voisin.lat.toDouble(),voisin.lon.toDouble())
             itemVoisin.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             itemVoisin.setTextIcon(voisin.name)
-            val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),voisin.lat.toDouble(),voisin.lon.toDouble())
+            val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),voisin.lat.toDouble(),voisin.lon.toDouble()).toInt()
             itemVoisin.subDescription = "salut, je suis à $distance metres de toi"
             map.overlays.add(itemVoisin)
             //MAJ de la map
