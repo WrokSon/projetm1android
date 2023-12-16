@@ -110,11 +110,15 @@ open class ViewModelSuper : ViewModel() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val infos = doc.getElementsByTagName("PARAMS").item(0).childNodes
-            val item = Item(-1,"",'_',0,"","","")
+            val item = Item(-1,"","",0,"","","")
 
             item.id = i
             item.nom = infos.item(0).textContent
-            item.type = infos.item(1).textContent[0]
+            val type = infos.item(1).textContent
+            when(type){
+                "A" -> item.type = "Artéfact"
+                "M" -> item.type = "Minerai"
+            }
             item.rarity = infos.item(2).textContent.toInt()
             item.image = infos.item(3).textContent
             item.descEn = infos.item(4).textContent

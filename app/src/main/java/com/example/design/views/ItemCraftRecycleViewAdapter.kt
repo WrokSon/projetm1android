@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.design.R
 import com.example.model.data.Offre
 
-class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.OnInventoryInteractionListener): RecyclerView.Adapter<ItemInventoryRecycleViewAdapter.ViewHolder>() {
+class ItemCraftRecycleViewAdapter(private val listenerInventory: Inventaire.OnInventoryInteractionListener): RecyclerView.Adapter<ItemCraftRecycleViewAdapter.ViewHolder>() {
     private var items = mutableListOf<Int>()
     private var qts = mutableListOf<Int>()
     class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
@@ -54,7 +54,6 @@ class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.
         qts.clear()
         items.addAll(liste.keys)
         qts.addAll(liste.values)
-        Log.d("ITEMSSSSS", "$items $qts")
     }
 
     override fun getItemCount(): Int {
@@ -64,11 +63,6 @@ class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val detail = listenerInventory.getDetailItem(items[position]-1)
         val img = listenerInventory.getImage(items[position]-1)
-        val desc = holder.bind(detail.nom,img,detail.type,qts[position],detail.rarity)
-        holder.itemView.setOnClickListener{
-            listenerInventory.clickItem(items[position],desc,position)
-        }
-
-
+        holder.bind(detail.nom,img,detail.type,qts[position],detail.rarity)
     }
 }

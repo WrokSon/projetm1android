@@ -30,12 +30,13 @@ import com.example.viewmodel.InvViewModel
 class Inventaire : AppCompatActivity() {
     private lateinit var viewModel: InvViewModel
     private lateinit var adapter: ItemInventoryRecycleViewAdapter
+    private lateinit var adapterCraft : ItemCraftRecycleViewAdapter
     interface OnInventoryInteractionListener {
         fun getDetailItem(id : Int) : Item
         fun getImage(id: Int): Bitmap
         fun getPlayer(): Player
 
-        fun clickItem(itemid : Int, text: String)
+        fun clickItem(itemid : Int, text: String, pos :Int)
     }
     private val listenerInventory : OnInventoryInteractionListener = object : OnInventoryInteractionListener {
 
@@ -51,7 +52,7 @@ class Inventaire : AppCompatActivity() {
             return viewModel.getPlayer()
         }
 
-        override fun clickItem(itemid: Int, text: String) {
+        override fun clickItem(itemid: Int, text: String, pos : Int) {
             val item = viewModel.getItemDetail(itemid - 1)
             val popup = AlertDialog.Builder(this@Inventaire)
             popup.setMessage(text + "\n" + item.descFr)
@@ -93,7 +94,11 @@ class Inventaire : AppCompatActivity() {
                                 tVQteDispo.text = newTextQteDispo
                                 qte.text.clear()
                                 prix.text.clear()
-                                Thread { viewModel.playerStatus() }.start()
+                                var thread = Thread { viewModel.playerStatus() }
+                                thread.start()
+                                thread.join()
+                                adapter.updateList(viewModel.getPlayer().items)
+                                adapter.notifyItemChanged(pos)
                             }
                             Status.NOITEMS.value -> {
                                 viewModel.makePopupMessage(this@Inventaire, "La quantité est superieur a la quantité disponible ")
@@ -111,11 +116,6 @@ class Inventaire : AppCompatActivity() {
                 popupsell.show()
             }
             popup.show()
-            val thread = Thread{
-                viewModel.playerStatus()
-            }
-            thread.start()
-            thread.join()
         }
 
 
@@ -147,6 +147,7 @@ class Inventaire : AppCompatActivity() {
         val recycle : RecyclerView = findViewById(R.id.items_recycle_view)
         recycle.adapter = adapter
         adapter.updateList(viewModel.getPlayer().items)
+
         var currentpick = viewModel.getPlayer().pick
         val newTextPick = "Pioche actuelle : $currentpick"
         textpick.text = newTextPick
@@ -158,46 +159,14 @@ class Inventaire : AppCompatActivity() {
                 }
                 thread2.start()
                 thread2.join()
+
                 val popupcraft = AlertDialog.Builder(this@Inventaire)
                 val viewpopup = this.layoutInflater.inflate(R.layout.popup_craft, null)
                 popupcraft.setView(viewpopup)
-                val layout = viewpopup.findViewById<TableLayout>(R.id.itemscraft)
-                for (item in items2) {
-                    val details = viewModel.getItemDetail(item.key - 1)
-                    val itemIcon = ImageView(applicationContext)
-                    itemIcon.setImageBitmap(viewModel.getImage(details.id - 1))
-                    itemIcon.scaleType = ImageView.ScaleType.FIT_CENTER
-                    itemIcon.adjustViewBounds = true
-                    itemIcon.maxWidth = 80
-                    itemIcon.maxHeight = 80
-                    val itemText = TextView(applicationContext)
-                    itemText.text = details.nom
-                    when (details.rarity) {
-                        1 -> itemText.setTextColor(Color.WHITE)
-                        2 -> itemText.setTextColor(Color.GREEN)
-                        3 -> itemText.setTextColor(Color.BLUE)
-                        4 -> itemText.setTextColor(Color.RED)
-                        5 -> itemText.setTextColor(Color.YELLOW)
-                    }
-                    when (details.type) {
-                        'A' -> {
-                            val newText = itemText.text as String + " (Artéfact)"
-                            itemText.text = newText
-                        }
-                        'M' -> {
-                            val newText = itemText.text as String + " (Minerai)"
-                            itemText.text = newText
-                        }
-                    }
-                    val newTextItem = itemText.text as String + "\nQuantité : " + item.value.toString()
-                    itemText.text = newTextItem
-                    val line = TableRow(applicationContext)
-                    line.addView(itemIcon)
-                    line.addView(itemText)
-                    line.setBackgroundColor(Color.LTGRAY)
-                    layout.addView(line)
-                }
-
+                adapterCraft = ItemCraftRecycleViewAdapter(listenerInventory)
+                val recycleCraft : RecyclerView = viewpopup.findViewById(R.id.craft_recycle_view)
+                recycleCraft.adapter = adapterCraft
+                adapterCraft.updateList(items2)
                 popupcraft.setTitle("Minerais requis : ")
                 val threadcraft = Thread {
                     val status = viewModel.craftPickaxe(currentpick + 1)
@@ -206,6 +175,7 @@ class Inventaire : AppCompatActivity() {
                         Status.OK.value -> {
                             viewModel.makePopupMessage(this, "Pioche améliorée !")
                             viewModel.playerStatus()
+                            adapter.notifyDataSetChanged()
                         }
                         Status.NOITEMS.value -> {
                             viewModel.makePopupMessage(this, "Items manquants")
