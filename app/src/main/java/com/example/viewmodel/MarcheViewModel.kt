@@ -2,6 +2,7 @@ package com.example.viewmodel
 
 import android.os.Looper
 import android.util.Log
+import com.example.design.R
 import com.example.model.data.Offre
 import com.example.model.tools.Status
 import java.net.ConnectException
@@ -25,7 +26,7 @@ class MarcheViewModel : ViewModelSuper() {
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
             val offres = doc.getElementsByTagName("OFFERS").item(0).childNodes
-            checkSession(status)
+            checkSessionAndStateServer(status)
             lesOffres.clear()
             // extaitre les offres le la liste offfres
             for (i in 0..<offres.length){
@@ -57,7 +58,7 @@ class MarcheViewModel : ViewModelSuper() {
         try{
             // pas de selection
             if (repository.getOffre() == null){
-                makePopupMessage(context,"Il y a un probleme de selection, Veuillez reselectionner votre Offre")
+                makePopupMessage(context,context.getString(R.string.msg_pb_select))
                 return
             }
 
@@ -76,13 +77,13 @@ class MarcheViewModel : ViewModelSuper() {
             if (status == Status.OK.value){
                 Looper.prepare()
                 val nomOffre = getItemDetail(repository.getOffre()!!.itemID - 1).nom
-                makePopupMessage(context,"Vous venez d'achez ${repository.getOffre()!!.quantite} $nomOffre a ${repository.getOffre()!!.prix}")
+                makePopupMessage(context,"${context.getString(R.string.msg_achat)} ${repository.getOffre()!!.quantite} $nomOffre ${context.getString(R.string.text_pour)} ${repository.getOffre()!!.prix}")
                 Log.d("MARCHERACHETER","me voici")
             }
             if (status == Status.NOMONEY.value) {
                 Log.d("MARCHERACHETER","me voici dedans")
                 Looper.prepare()
-                makePopupMessage(context,"Vous n'avez pas assez d'argent ")
+                makePopupMessage(context,context.getString(R.string.msg_no_money))
             }
 
         }catch (e : UnknownHostException){

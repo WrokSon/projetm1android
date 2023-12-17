@@ -1,6 +1,7 @@
 package com.example.viewmodel
 
 import android.util.Log
+import com.example.design.R
 import com.example.model.tools.Status
 import java.net.ConnectException
 import java.net.URL
@@ -20,10 +21,10 @@ class ParametreViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
-            checkSession(status)
+            checkSessionAndStateServer(status)
             if (status == Status.OK.value) {
                 Log.d("ICI", "je suis passé par là")
-                makePopupMessage(context,"Votre nouveau nom maintenant est $name")
+                makePopupMessage(context,"${context.getString(R.string.msg_change_name)} $name")
                 repository.setLogin(name)
             }
         }catch (e : UnknownHostException){
@@ -45,10 +46,10 @@ class ParametreViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
-            checkSession(status)
+            checkSessionAndStateServer(status)
             if (status == Status.OK.value) {
                 Log.d("IzzCI", "je suis passé par là")
-                makePopupMessage(context,"Votre compte a bien été reinitialiser")
+                makePopupMessage(context,context.getString(R.string.msg_reset))
                 repository.resetLogin()
                 playerStatus()
             }

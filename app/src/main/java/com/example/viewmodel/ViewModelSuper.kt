@@ -27,25 +27,25 @@ open class ViewModelSuper : ViewModel() {
     protected val repository = Repository.getInstance()
     @SuppressLint("StaticFieldLeak")
     protected lateinit var context : AppCompatActivity
-    fun checkSession(status : String) {
+    fun checkSessionAndStateServer(status : String) {
         when (status) {
             Status.SESSIONEXPIRED.value -> {
                 Looper.prepare()
-                Toast.makeText(context, "Session expiré", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.text_session_exp), Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, Connexion::class.java)
                 context.startActivity(intent)
                 context.finish()
             }
             Status.SESSIONINVALID.value -> {
                 Looper.prepare()
-                Toast.makeText(context, "Session invalide", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.text_session_invalide), Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, Connexion::class.java)
                 context.startActivity(intent)
                 context.finish()
             }
             Status.TECHNICALERROR.value -> {
                 Looper.prepare()
-                Toast.makeText(context,"Il y a eu un probeleme avec le seveur",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,context.getString(R.string.erreur_serveur),Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, Connexion::class.java)
                 context.startActivity(intent)
                 context.finish()
@@ -68,7 +68,7 @@ open class ViewModelSuper : ViewModel() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
-            checkSession(status)
+            checkSessionAndStateServer(status)
             var lat = doc.getElementsByTagName("LATITUDE").item(0).textContent
             var long = doc.getElementsByTagName("LONGITUDE").item(0).textContent
             val inv = doc.getElementsByTagName("ITEMS").item(0).childNodes
@@ -80,7 +80,7 @@ open class ViewModelSuper : ViewModel() {
                 lat = "0.0"
                 long = "0.0"
             }
-            checkSession(status)
+            checkSessionAndStateServer(status)
             if (status == "OK") {
                 repository.updatePlayer(
                     lat.toFloat(), long.toFloat(),
@@ -142,7 +142,7 @@ open class ViewModelSuper : ViewModel() {
     fun actionNoConnexion(context : AppCompatActivity){
         val intent = Intent(context, Connexion::class.java)
         Looper.prepare()
-        Toast.makeText(context,"Connexion perdue",Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,context.getString(R.string.text_connexion_perdue),Toast.LENGTH_SHORT).show()
         context.startActivity(intent)
         context.finish()
     }

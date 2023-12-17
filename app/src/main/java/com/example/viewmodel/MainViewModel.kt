@@ -23,7 +23,7 @@ class MainViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
-            checkSession(status)
+            checkSessionAndStateServer(status)
             repository.getVoisins(doc)
             if (status == Status.OK.value) {
                 repository.updatePosition(lat, lon)

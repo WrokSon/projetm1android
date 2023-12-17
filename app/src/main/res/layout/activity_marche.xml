@@ -4,19 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.Marche">
+    tools:context=".views.Marche"
+    android:background="@color/grey">
 
     <TextView
         android:id="@+id/marche_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:gravity="center"
         android:fontFamily="@font/font_title"
-        android:text="Marché"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="@string/title_activity_market"
         android:textSize="50dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintStart_toEndOf="@+id/marche_retour"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -25,7 +28,7 @@
         android:layout_height="39dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/btnreturnshape"
+        android:background="@drawable/custom_border"
         android:src="@drawable/img_retour"
         android:layout_gravity="center"
         android:scaleType="fitCenter"
@@ -38,8 +41,8 @@
         android:layout_width="300dp"
         android:layout_height="597dp"
         android:layout_margin="10dp"
-        android:background="@drawable/btnreturnshape"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:background= "@drawable/custom_liste"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/offer_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:background="@drawable/custom_item_liste"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Button
         android:id="@+id/btn_acheter"
         android:layout_width="72dp"
         android:layout_height="39dp"
-        android:backgroundTint="@color/btn"
-        android:text="acheter"
+        android:backgroundTint="@color/blue"
+        android:text="@string/btn_achete"
+        android:fontFamily="@font/font_content"
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,25 +63,33 @@
                 android:id="@+id/name_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nom : item" />
+                android:fontFamily="@font/font_content"
+                android:textSize="13dp"
+                android:text="@string/text_name" />
 
             <TextView
                 android:id="@+id/typ_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Type : " />
+                android:fontFamily="@font/font_content"
+                android:textSize="13dp"
+                android:text="@string/text_type" />
 
             <TextView
                 android:id="@+id/price_offer"
+                android:fontFamily="@font/font_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Prix : 0" />
+                android:textSize="13dp"
+                android:text="@string/text_prix" />
 
             <TextView
                 android:id="@+id/qte_offer"
+                android:fontFamily="@font/font_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Quatité : 0" />
+                android:textSize="13dp"
+                android:text="@string/text_qte" />
 
         </LinearLayout>
 
