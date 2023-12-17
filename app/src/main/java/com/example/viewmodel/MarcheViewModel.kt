@@ -77,7 +77,7 @@ class MarcheViewModel : ViewModelSuper() {
             if (status == Status.OK.value){
                 Looper.prepare()
                 val nomOffre = getItemDetail(repository.getOffre()!!.itemID - 1).nom
-                makePopupMessage(context,"${context.getString(R.string.msg_achat)} ${repository.getOffre()!!.quantite} $nomOffre ${R.string.text_pour} ${repository.getOffre()!!.prix}")
+                makePopupMessage(context,"${context.getString(R.string.msg_achat)} ${repository.getOffre()!!.quantite} $nomOffre ${context.getString(R.string.text_pour)} ${repository.getOffre()!!.prix}")
                 Log.d("MARCHERACHETER","me voici")
             }
             if (status == Status.NOMONEY.value) {
