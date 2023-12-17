@@ -5,7 +5,10 @@ import android.graphics.Bitmap
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.design.R
@@ -27,15 +30,31 @@ class Marche : AppCompatActivity() {
     private val listenerOffre : OnOffreInteractionListener = object : OnOffreInteractionListener {
         override fun offreInteraction(item: Offre?){
             if (item != null) {
-                viewModel.selectOffre(item)
-                val lOffreLen = viewModel.getListe().size
-                val thread = Thread{ viewModel.acheter() }
-                thread.start()
-                thread.join()
-                val threadListe = Thread{viewModel.getMarche()}
-                threadListe.start()
-                threadListe.join()
-                if (lOffreLen != viewModel.getListe().size) adapter.updateList(viewModel.getListe())
+                val popup = AlertDialog.Builder(this@Marche).create()
+                val popupView = LayoutInflater.from(this@Marche).inflate(R.layout.popup_confirm, null)
+                popup.setView(popupView)
+
+                // recuper les elements graphiques (button)
+                val yes : Button = popupView.findViewById(R.id.btn_confirm_yes)
+                val no : Button = popupView.findViewById(R.id.btn_confirm_no)
+
+                yes.setOnClickListener{
+                    viewModel.selectOffre(item)
+                    val lOffreLen = viewModel.getListe().size
+                    val thread = Thread{ viewModel.acheter() }
+                    thread.start()
+                    thread.join()
+                    val threadListe = Thread{viewModel.getMarche()}
+                    threadListe.start()
+                    threadListe.join()
+                    if (lOffreLen != viewModel.getListe().size) adapter.updateList(viewModel.getListe())
+                    popup.dismiss()
+                }
+                no.setOnClickListener{
+                    popup.dismiss()
+                }
+
+                popup.show()
             }
 
         }
@@ -71,7 +90,6 @@ class Marche : AppCompatActivity() {
         val thread = Thread{viewModel.getMarche()}
         thread.start()
         thread.join()
-        //adapter.updateList(viewModel.tempo)
         adapter.updateList(viewModel.getListe())
     }
 }

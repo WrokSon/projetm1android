@@ -30,7 +30,7 @@ class ConnViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             status = doc.getElementsByTagName("STATUS").item(0).textContent
-            checkSession(status)
+            checkSessionAndStateServer(status)
             //si bon identifiants -> redirection main activity
             if(status == "OK"){
                 repository.collectCon(login,doc.getElementsByTagName("SESSION").item(0).textContent.toInt(),

@@ -27,4 +27,19 @@
     <string name="text_langue">Language</string>
     <string name="text_valider">Valider</string>
     <string name="text_depth">Profondeur</string>
+    <string name="message_confirmation">Etes-vous sur ?</string>
+    <string name="text_oui">Oui</string>
+    <string name="text_non">Non</string>
+    <string name="text_connexion_perdue">Connexion perdue</string>
+    <string name="text_session_exp">Session expiré</string>
+    <string name="text_session_invalide">Session invalide</string>
+    <string name="erreur_serveur">Il y a eu un probeleme avec le seveur</string>
+    <string name="debut_desc_voisin">salut, je suis à</string>
+    <string name="fin_desc_voisin">mètres de toi</string>
+    <string name="msg_reset">Votre compte a bien été reinitialiser</string>
+    <string name="msg_change_name">Votre nouveau nom maintenant est</string>
+    <string name="msg_pb_select">Il y a un probleme de selection, Veuillez reselectionner votre Offre</string>
+    <string name="msg_no_money">Vous n\'avez pas assez d\'argent</string>
+    <string name="text_pour">pour</string>
+    <string name="msg_achat">Vous venez d\'acher</string>
 </resources>

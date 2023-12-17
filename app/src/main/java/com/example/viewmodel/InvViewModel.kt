@@ -55,7 +55,7 @@ class InvViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             status = doc.getElementsByTagName("STATUS").item(0).textContent
-            checkSession(status)
+            checkSessionAndStateServer(status)
         }catch (e : UnknownHostException){
             Log.d("ERREURWEBSERVICE","Pas de connexion")
             actionNoConnexion(context)

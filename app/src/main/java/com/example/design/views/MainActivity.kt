@@ -156,7 +156,6 @@ class MainActivity : AppCompatActivity() {
 
         val btnMe: ImageButton = findViewById(R.id.btn_me)
         btnMe.setOnClickListener {
-            viewModel.makePopupMessage(this, "c'est fait, mec")
             mapController.setZoom(20.0)
             myLoc.enableFollowLocation()
         }
@@ -211,7 +210,6 @@ class MainActivity : AppCompatActivity() {
             viewModel.makePopupMessage(this, "La localisation frero")
         }
     }
-
 
     override fun onPause() {
         super.onPause()
@@ -281,7 +279,6 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-
     private fun updateVoisinOnMap(){
         val voisins = viewModel.getListeVoisins()
         Log.d("VOISINHGDBJ","${map.overlays.size} ${voisins.size}")
@@ -302,10 +299,10 @@ class MainActivity : AppCompatActivity() {
             val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),voisin.lat.toDouble(),voisin.lon.toDouble()).toInt()
             val km = 1000
             if(distance<km) {
-                itemVoisin.subDescription = "salut, je suis à $distance metres de toi"
+                itemVoisin.subDescription = "${getString(R.string.debut_desc_voisin)} $distance ${getString(R.string.fin_desc_voisin)}"
             }else{
                 val distanceKm : Int = distance/km
-                itemVoisin.subDescription = "salut, je suis à $distanceKm km et ${distance - (distanceKm * km)} metres de toi"
+                itemVoisin.subDescription = "${getString(R.string.debut_desc_voisin)} $distanceKm km ${distance - (distanceKm * km)} ${getString(R.string.fin_desc_voisin)}"
             }
             map.overlays.add(itemVoisin)
             //MAJ de la map

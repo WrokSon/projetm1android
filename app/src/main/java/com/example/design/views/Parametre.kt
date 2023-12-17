@@ -6,9 +6,11 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.viewmodel.ParametreViewModel
@@ -53,8 +55,23 @@ class Parametre : AppCompatActivity() {
 
         val resetBtn : Button = findViewById(R.id.reinisialiser)
         resetBtn.setOnClickListener{
-            Thread{viewModel.reset()}.start()
-            viewModel.setResetValue(true)
+            val popup = AlertDialog.Builder(this).create()
+            val popupView = LayoutInflater.from(this).inflate(R.layout.popup_confirm, null)
+            popup.setView(popupView)
+
+            // recuper les elements graphiques (button)
+            val yes : Button = popupView.findViewById(R.id.btn_confirm_yes)
+            val no : Button = popupView.findViewById(R.id.btn_confirm_no)
+
+            yes.setOnClickListener{
+                Thread{viewModel.reset()}.start()
+                viewModel.setResetValue(true)
+                popup.dismiss()
+            }
+            no.setOnClickListener{
+                popup.dismiss()
+            }
+            popup.show()
         }
     }
 
