@@ -10,7 +10,7 @@
     <string name="text_player_name">Nom du joueur</string>
     <string name="text_pieces">Pieces</string>
     <string name="text_pioche_actuelle">Pioche actuelle</string>
-    <string name="title_activity_settings">Parametre</string>
+    <string name="title_activity_settings">Parametres</string>
     <string name="title_activity_market">Marché</string>
     <string name="title_activity_invent">Inventaire</string>
     <string name="text_name">Nom</string>
@@ -20,8 +20,8 @@
     <string name="btn_achete">Acheter</string>
     <string name="text_btn_moi">Moi</string>
     <string name="btn_deconnexion">Deconnexion</string>
-    <string name="btn_reset">Reinitialiser</string>
-    <string name="text_langue">Language</string>
+    <string name="btn_reset">Reinitialiser le compte</string>
+    <string name="text_langue">Langage</string>
     <string name="text_valider">Valider</string>
     <string name="text_depth">Profondeur</string>
     <string name="message_confirmation">Etes-vous sur ?</string>

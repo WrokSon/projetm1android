@@ -6,7 +6,7 @@
     <string name="connexion_pas_de_connexion">No connection or empty fields</string>
     <string name="connexion_username">Username</string>
     <string name="connexion_password">Password</string>
-    <string name="text_btn_connexion">Connection</string>
+    <string name="text_btn_connexion">Login</string>
     <string name="text_player_name">Player name</string>
     <string name="text_pieces">Money</string>
     <string name="text_pioche_actuelle">Current Pickaxe</string>
@@ -19,10 +19,10 @@
     <string name="text_qte">Quantity</string>
     <string name="btn_achete">Buy</string>
     <string name="text_btn_moi">Me</string>
-    <string name="btn_deconnexion">Disconnection</string>
-    <string name="btn_reset">Reset</string>
+    <string name="btn_deconnexion">Logout</string>
+    <string name="btn_reset">Reset account</string>
     <string name="text_langue">Language</string>
-    <string name="text_valider">Validate</string>
+    <string name="text_valider">Confirm</string>
     <string name="text_depth">Depth</string>
     <string name="message_confirmation">Are you sure ?</string>
     <string name="text_oui">Yes</string>

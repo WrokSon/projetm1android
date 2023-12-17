@@ -10,7 +10,7 @@
         android:id="@+id/inventaire_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/font_title"
         android:gravity="center"
         android:text="@string/title_activity_invent"
@@ -34,55 +34,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="357dp"
-        android:layout_height="595dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/items_recycle_view"
+        android:layout_width="265dp"
+        android:layout_height="562dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/custom_border"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inventaire_title"
-        app:layout_constraintVertical_bias="0.301">
-
-        <!--<TableLayout
-            android:id="@+id/items"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:orientation="vertical">
-
-        </TableLayout>-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/items_recycle_view"
-            android:layout_width="300dp"
-            android:layout_height="597dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/btnreturnshape"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.446" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/inventaire_title" />
 
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="333dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/items_recycle_view">
+
         <TextView
             android:id="@+id/textpick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            />
+            android:text="" />
+
         <Button
             android:id="@+id/buttonpick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recette prochaine pioche"/>
+            android:text="Recette prochaine pioche" />
     </LinearLayout>
 
 
