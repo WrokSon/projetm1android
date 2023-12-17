@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -142,9 +143,14 @@ class MainActivity : AppCompatActivity() {
                     thread2.start()
                     thread2.join()
                     val popup = AlertDialog.Builder(this@MainActivity)
-                    popup.setIcon(Drawable.createFromPath("https://test.vautard.fr/creuse_imgs/"+itemm?.image))
-                    popup.setTitle("Item trouvé : "+itemm?.nom + " ( Profondeur : " + depth + ")")
-                    popup.setMessage(itemm?.descFr)
+                    val viewpopup = this.layoutInflater.inflate(R.layout.popup_newitem, null)
+                    popup.setView(viewpopup)
+                    val image_item = viewpopup.findViewById<ImageView>(R.id.newitem_image)
+                    image_item.setImageBitmap(viewModel.getImage(itemid - 1))
+                    val title_item = viewpopup.findViewById<TextView>(R.id.newitem_title)
+                    title_item.text = "Item trouvé : "+itemm?.nom + " ( Profondeur : " + depth + ")"
+                    val desc_item = viewpopup.findViewById<TextView>(R.id.newitem_desc)
+                    desc_item.text = itemm?.descFr
                     popup.show()
                 }
                 else{

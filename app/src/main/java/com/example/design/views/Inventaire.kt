@@ -52,73 +52,99 @@ class Inventaire : AppCompatActivity() {
             return viewModel.getPlayer()
         }
 
-        override fun clickItem(itemid: Int, text: String, pos : Int) {
-            val item = viewModel.getItemDetail(itemid - 1)
-            val popup = AlertDialog.Builder(this@Inventaire)
-            popup.setMessage(text + "\n" + item.descFr)
-            popup.setPositiveButton("VENDRE") { _: DialogInterface, _: Int ->
-                val popupsell = AlertDialog.Builder(this@Inventaire)
-                val popupView = LayoutInflater.from(this@Inventaire).inflate(R.layout.popup_vendre, null)
-                popupsell.setView(popupView)
-                val imagevente: ImageView = popupView.findViewById(R.id.imagevente)
-                val btnValidate: Button = popupView.findViewById(R.id.btn_vendre_validate)
-                val tVTitle: TextView = popupView.findViewById(R.id.vendre_titre)
-                val tVQteDispo: TextView = popupView.findViewById(R.id.vendre_qte_dispo)
-                val prix: EditText = popupView.findViewById(R.id.vendre_prix)
-                val qte: EditText = popupView.findViewById(R.id.vendre_qte)
-                imagevente.setImageBitmap(viewModel.getImage(itemid - 1))
-                tVTitle.text = item.nom
-                var newTextQteDispo = "/ " + viewModel.getPlayer().items[itemid]!!
-                tVQteDispo.text = newTextQteDispo
-                btnValidate.setOnClickListener {
-                    if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(
-                            itemid
-                        )
-                    ) {
-                        var status = ""
-                        val thread3 = Thread {
-                            status = viewModel.vendre(
-                                itemid,
-                                prix.text.toString(),
-                                qte.text.toString()
+        override fun clickItem(itemid: Int, text: String, pos: Int) {
+            try {
+                val item = viewModel.getItemDetail(itemid - 1)
+                val popup = AlertDialog.Builder(this@Inventaire)
+                val viewpopup = layoutInflater.inflate(R.layout.popup_item, null)
+                popup.setView(viewpopup)
+                val image_item = viewpopup.findViewById<ImageView>(R.id.image_item)
+                image_item.setImageBitmap(viewModel.getImage(itemid - 1))
+                val title_item = viewpopup.findViewById<TextView>(R.id.item_titledesc)
+                title_item.text = text
+                val desc_item = viewpopup.findViewById<TextView>(R.id.item_desc)
+                desc_item.text = item.descFr
+                popup.setPositiveButton("VENDRE") { _: DialogInterface, _: Int ->
+                    val popupsell = AlertDialog.Builder(this@Inventaire)
+                    val popupView =
+                        LayoutInflater.from(this@Inventaire).inflate(R.layout.popup_vendre, null)
+                    popupsell.setView(popupView)
+                    val imagevente: ImageView = popupView.findViewById(R.id.imagevente)
+                    val btnValidate: Button = popupView.findViewById(R.id.btn_vendre_validate)
+                    val tVTitle: TextView = popupView.findViewById(R.id.vendre_titre)
+                    val tVQteDispo: TextView = popupView.findViewById(R.id.vendre_qte_dispo)
+                    val prix: EditText = popupView.findViewById(R.id.vendre_prix)
+                    val qte: EditText = popupView.findViewById(R.id.vendre_qte)
+                    imagevente.setImageBitmap(viewModel.getImage(itemid - 1))
+                    tVTitle.text = item.nom
+                    var newTextQteDispo = "/ " + viewModel.getPlayer().items[itemid]!!
+                    tVQteDispo.text = newTextQteDispo
+                    btnValidate.setOnClickListener {
+                        if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(
+                                itemid
+                            )
+                        ) {
+                            var status = ""
+                            val thread3 = Thread {
+                                status = viewModel.vendre(
+                                    itemid,
+                                    prix.text.toString(),
+                                    qte.text.toString()
+                                )
+                            }
+                            thread3.start()
+                            thread3.join()
+                            var quant = viewModel.getPlayer().items[itemid]!!.toInt()
+                            when (status) {
+                                Status.OK.value -> {
+                                    quant -= qte.text.toString().toInt()
+                                    viewModel.makePopupMessage(
+                                        this@Inventaire,
+                                        "Vous venez de vendre ${qte.text} ${item.nom} a ${prix.text}"
+                                    )
+                                    newTextQteDispo = "/ $quant"
+                                    tVQteDispo.text = newTextQteDispo
+                                    qte.text.clear()
+                                    prix.text.clear()
+                                    var thread = Thread { viewModel.playerStatus() }
+                                    thread.start()
+                                    thread.join()
+                                    adapter.updateList(viewModel.getPlayer().items)
+                                    adapter.notifyItemChanged(pos)
+                                }
+
+                                Status.NOITEMS.value -> {
+                                    viewModel.makePopupMessage(
+                                        this@Inventaire,
+                                        "La quantité est superieur a la quantité disponible "
+                                    )
+                                }
+
+                                else -> {
+                                    viewModel.makePopupMessage(
+                                        this@Inventaire,
+                                        "Il y a eu un probleme avec la vente"
+                                    )
+                                }
+                            }
+                        } else if (!viewModel.getPlayer().items.containsKey(itemid)) {
+                            viewModel.makePopupMessage(this@Inventaire, "Votre stock est vide :)")
+                        } else {
+                            viewModel.makePopupMessage(
+                                this@Inventaire,
+                                "il y a des champs vides !)"
                             )
                         }
-                        thread3.start()
-                        thread3.join()
-                        var quant = viewModel.getPlayer().items[itemid]!!.toInt()
-                        when (status) {
-                            Status.OK.value -> {
-                                quant -= qte.text.toString().toInt()
-                                viewModel.makePopupMessage(this@Inventaire, "Vous venez de vendre ${qte.text} ${item.nom} a ${prix.text}")
-                                newTextQteDispo = "/ $quant"
-                                tVQteDispo.text = newTextQteDispo
-                                qte.text.clear()
-                                prix.text.clear()
-                                var thread = Thread { viewModel.playerStatus() }
-                                thread.start()
-                                thread.join()
-                                adapter.updateList(viewModel.getPlayer().items)
-                                adapter.notifyItemChanged(pos)
-                            }
-                            Status.NOITEMS.value -> {
-                                viewModel.makePopupMessage(this@Inventaire, "La quantité est superieur a la quantité disponible ")
-                            }
-                            else -> {
-                                viewModel.makePopupMessage(this@Inventaire, "Il y a eu un probleme avec la vente")
-                            }
-                        }
-                    } else if (!viewModel.getPlayer().items.containsKey(itemid)) {
-                        viewModel.makePopupMessage(this@Inventaire, "Votre stock est vide :)")
-                    } else {
-                        viewModel.makePopupMessage(this@Inventaire, "il y a des champs vides !)")
                     }
+                    popupsell.show()
                 }
-                popupsell.show()
+                popup.show()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            popup.show()
+
         }
-
-
     }
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -175,6 +201,7 @@ class Inventaire : AppCompatActivity() {
                         Status.OK.value -> {
                             viewModel.makePopupMessage(this, "Pioche améliorée !")
                             viewModel.playerStatus()
+                            adapter.updateList(viewModel.getPlayer().items)
                             adapter.notifyDataSetChanged()
                         }
                         Status.NOITEMS.value -> {
