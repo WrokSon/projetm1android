@@ -2,25 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/image_item"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_titledesc"/>
+        <ImageView
+            android:id="@+id/image_item"
+            android:layout_width="147dp"
+            android:layout_gravity="center"
+            android:layout_height="109dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_titledesc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:fontFamily="@font/font_title"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/item_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_content"
+                android:justificationMode="inter_word"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_desc"/>
+    <Button
+        android:id="@+id/btn_inv_vendre"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="vendre"
+        android:fontFamily="@font/font_content"
+        android:backgroundTint="@color/blue"/>
 </LinearLayout>

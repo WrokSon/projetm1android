@@ -3,23 +3,19 @@ package com.example.design.views
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.design.R
-import com.example.model.data.Offre
 
 class ItemCraftRecycleViewAdapter(private val listenerInventory: Inventaire.OnInventoryInteractionListener): RecyclerView.Adapter<ItemCraftRecycleViewAdapter.ViewHolder>() {
     private var items = mutableListOf<Int>()
     private var qts = mutableListOf<Int>()
     class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-        private val text = mView.findViewById<TextView>(R.id.text_item)
+        private val text = mView.findViewById<TextView>(R.id.name_item)
         private val image = mView.findViewById<ImageView>(R.id.img_item)
         fun bind(name: String, img : Bitmap, type : String, qt : Int, rarity : Int) : String{
             image.setImageBitmap(img)

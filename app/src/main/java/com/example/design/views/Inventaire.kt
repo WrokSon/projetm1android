@@ -55,7 +55,7 @@ class Inventaire : AppCompatActivity() {
         override fun clickItem(itemid: Int, text: String, pos: Int) {
             try {
                 val item = viewModel.getItemDetail(itemid - 1)
-                val popup = AlertDialog.Builder(this@Inventaire)
+                val popup = AlertDialog.Builder(this@Inventaire).create()
                 val viewpopup = layoutInflater.inflate(R.layout.popup_item, null)
                 popup.setView(viewpopup)
                 val image_item = viewpopup.findViewById<ImageView>(R.id.image_item)
@@ -64,8 +64,9 @@ class Inventaire : AppCompatActivity() {
                 title_item.text = text
                 val desc_item = viewpopup.findViewById<TextView>(R.id.item_desc)
                 desc_item.text = item.descFr
-                popup.setPositiveButton("VENDRE") { _: DialogInterface, _: Int ->
-                    val popupsell = AlertDialog.Builder(this@Inventaire)
+                val btn_vendre = viewpopup.findViewById<Button>(R.id.btn_inv_vendre)
+                btn_vendre.setOnClickListener{
+                    val popupsell = AlertDialog.Builder(this@Inventaire).create()
                     val popupView =
                         LayoutInflater.from(this@Inventaire).inflate(R.layout.popup_vendre, null)
                     popupsell.setView(popupView)
@@ -106,7 +107,7 @@ class Inventaire : AppCompatActivity() {
                                     tVQteDispo.text = newTextQteDispo
                                     qte.text.clear()
                                     prix.text.clear()
-                                    var thread = Thread { viewModel.playerStatus() }
+                                    val thread = Thread { viewModel.playerStatus() }
                                     thread.start()
                                     thread.join()
                                     adapter.updateList(viewModel.getPlayer().items)
@@ -137,6 +138,7 @@ class Inventaire : AppCompatActivity() {
                         }
                     }
                     popupsell.show()
+                    popup.dismiss()
                 }
                 popup.show()
 
@@ -186,14 +188,13 @@ class Inventaire : AppCompatActivity() {
                 thread2.start()
                 thread2.join()
 
-                val popupcraft = AlertDialog.Builder(this@Inventaire)
+                val popupcraft = AlertDialog.Builder(this@Inventaire).create()
                 val viewpopup = this.layoutInflater.inflate(R.layout.popup_craft, null)
                 popupcraft.setView(viewpopup)
                 adapterCraft = ItemCraftRecycleViewAdapter(listenerInventory)
                 val recycleCraft : RecyclerView = viewpopup.findViewById(R.id.craft_recycle_view)
                 recycleCraft.adapter = adapterCraft
                 adapterCraft.updateList(items2)
-                popupcraft.setTitle("Minerais requis : ")
                 val threadcraft = Thread {
                     val status = viewModel.craftPickaxe(currentpick + 1)
                     Looper.prepare()
@@ -212,12 +213,14 @@ class Inventaire : AppCompatActivity() {
                         }
                     }
                 }
-                popupcraft.setPositiveButton("CRAFT") { _, _ ->
+                val btnCraft = viewpopup.findViewById<Button>(R.id.btn_craft)
+                btnCraft.setOnClickListener{
                     threadcraft.start()
                     threadcraft.join()
                     currentpick = viewModel.getPlayer().pick
                     val newText = "Pioche actuelle : $currentpick"
                     textpick.text = newText
+                    popupcraft.dismiss()
                 }
                 popupcraft.show()
             }

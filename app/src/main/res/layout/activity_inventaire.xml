@@ -4,21 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
     tools:context=".views.Inventaire">
 
     <TextView
         android:id="@+id/inventaire_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:fontFamily="@font/font_title"
         android:gravity="center"
         android:text="@string/title_activity_invent"
+        android:textColor="@color/white"
         android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toEndOf="@+id/inventaire_retour"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 
     <ImageButton
         android:id="@+id/inventaire_retour"
@@ -36,36 +39,48 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/items_recycle_view"
-        android:layout_width="265dp"
-        android:layout_height="562dp"
+        android:layout_width="309dp"
+        android:layout_height="584dp"
         android:layout_margin="10dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/custom_border"
-
+        android:background="@drawable/custom_item_liste"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inventaire_title" />
+        app:layout_constraintTop_toBottomOf="@+id/inventaire_title"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:layout_width="333dp"
         android:layout_height="43dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="4dp"
+        android:layout_margin="16dp"
+        android:gravity="center"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/items_recycle_view">
+        android:background="@drawable/custom_item_liste"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/items_recycle_view"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textpick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:textColor="@color/black"
+            android:fontFamily="@font/font_content"
+            android:text="Pioche actuelle : 1" />
 
         <Button
             android:id="@+id/buttonpick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font_content"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/blue"
+            android:textSize="10dp"
             android:text="Recette prochaine pioche" />
     </LinearLayout>
 
