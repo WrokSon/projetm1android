@@ -37,52 +37,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/items_recycle_view"
-        android:layout_width="309dp"
-        android:layout_height="584dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="40dp"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="335dp"
+        android:layout_height="59dp"
+        android:layout_margin="16dp"
         android:background="@drawable/custom_item_liste"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inventaire_title"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <LinearLayout
-        android:layout_width="333dp"
-        android:layout_height="43dp"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/custom_item_liste"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/items_recycle_view"
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textpick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:fontFamily="@font/font_content"
-            android:text="Pioche actuelle : 1" />
+            android:text="Pioche actuelle : 1"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/buttonpick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font_content"
-            android:textColor="@color/white"
             android:backgroundTint="@color/blue"
-            android:textSize="10dp"
-            android:text="Recette prochaine pioche" />
+            android:fontFamily="@font/font_content"
+            android:text="Recette prochaine pioche"
+            android:textColor="@color/white"
+            android:textSize="10dp" />
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/items_recycle_view"
+        android:layout_width="287dp"
+        android:layout_height="565dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/custom_item_liste"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
