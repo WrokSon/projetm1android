@@ -21,6 +21,7 @@ class Connexion : AppCompatActivity() {
     @SuppressLint("MissingInflatedId", "SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //initialisation du viewmodel
         viewModel = ViewModelProvider(this)[ConnViewModel::class.java]
         viewModel.initContext(this)
         saveData = SaveLocal(this)
@@ -29,22 +30,27 @@ class Connexion : AppCompatActivity() {
 
         var constatus = ""
         setContentView(R.layout.activity_connexion)
+        //récupération des views
         val goGame: Button = findViewById(R.id.btn_connexion)
         val login: EditText = findViewById(R.id.user)
         val passwd: EditText = findViewById(R.id.password)
 
+        //pré-remplit les champs si une connexion a été faite
         if (saveData.getLogin().toString() != "") {
             login.setText(this.saveData.getLogin().toString())
             passwd.setText(this.saveData.getPassword().toString())
         }
-
+        //clic du bouton de connexion
         goGame.setOnClickListener {
-
+            //si les champs remplis
             if (login.text.isNotBlank() || passwd.text.isNotBlank()) {
+                //appel de la fonction connexion dans le ws + récupère le status
                 val thread = Thread { constatus = viewModel.connexion(login.text.toString(), passwd.text.toString())}
+                //blocage du bouton évitant de multiplier les requêtes
                 goGame.isEnabled = false
                 thread.start()
                 thread.join()
+                //si ok alors enregistrement des champs et redirection sur main
                 if (constatus == Status.OK.value) {
                     //enregistrer les identifiants
                     saveData.saveUser(login.text.toString(), passwd.text.toString())
@@ -53,6 +59,7 @@ class Connexion : AppCompatActivity() {
                     finish()
                 }
             }
+            //sinon afficher erreur
             if (constatus != Status.OK.value) {
                 goGame.isEnabled = true
                 if (constatus == Status.WRONGCREDENTIALS.value) {

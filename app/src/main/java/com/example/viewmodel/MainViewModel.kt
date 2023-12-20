@@ -8,9 +8,10 @@ import java.net.URL
 import java.net.URLConnection
 import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
-
+//gère les appels au ws pour la vue main
 class MainViewModel : ViewModelSuper() {
     private var doc : Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
+    //appel au ws de déplacement
     fun updatePos(lon: Float, lat: Float) {
         try {
             val url = URL(
@@ -40,7 +41,7 @@ class MainViewModel : ViewModelSuper() {
     fun getLongitude() = repository.getPlayer().long
 
     fun getListeVoisins() = repository.getListeVoisins()
-
+    //calcul de distance en 2 points
     fun distanceEntrePoints(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Float {
         val location1 = Location("")
         location1.latitude = lat1

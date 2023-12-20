@@ -25,6 +25,7 @@ class Inventaire : AppCompatActivity() {
     private lateinit var viewModel: InvViewModel
     private lateinit var adapter: ItemInventoryRecycleViewAdapter
     private lateinit var adapterCraft : ItemInventoryRecycleViewAdapter
+    //déclaration des méthodes utilisées par l'adapter
     interface OnInventoryInteractionListener {
         fun getDetailItem(id : Int) : Item
         fun getImage(id: Int): Bitmap
@@ -32,6 +33,7 @@ class Inventaire : AppCompatActivity() {
 
         fun clickItem(itemid : Int, text: String, pos :Int)
     }
+    //implémentation des méthodes déclarées
     private val listenerInventory : OnInventoryInteractionListener = object : OnInventoryInteractionListener {
 
         override fun getDetailItem(id: Int): Item {
@@ -45,10 +47,12 @@ class Inventaire : AppCompatActivity() {
         override fun getPlayer(): Player {
             return viewModel.getPlayer()
         }
-
+        //gère le clic sur un item dans le recycler view
         override fun clickItem(itemid: Int, text: String, pos: Int) {
             try {
+                //récupération item
                 val item = viewModel.getItemDetail(itemid - 1)
+                //création popup
                 val popup = AlertDialog.Builder(this@Inventaire).create()
                 val viewpopup = layoutInflater.inflate(R.layout.popup_item, null)
                 popup.setView(viewpopup)
@@ -59,8 +63,10 @@ class Inventaire : AppCompatActivity() {
                 val descItem = viewpopup.findViewById<TextView>(R.id.item_desc)
                 if(resources.configuration.locales.toString().startsWith("[fr")) descItem.text = item.descFr
                 if(resources.configuration.locales.toString().startsWith("[en")) descItem.text = item.descEn
+                //gestion du clic sur le bouton vendre de la popup
                 val btnVendre = viewpopup.findViewById<Button>(R.id.btn_inv_vendre)
                 btnVendre.setOnClickListener{
+                    //création popup vente
                     val popupsell = AlertDialog.Builder(this@Inventaire).create()
                     val popupView =
                         LayoutInflater.from(this@Inventaire).inflate(R.layout.popup_vendre, null)
@@ -73,9 +79,12 @@ class Inventaire : AppCompatActivity() {
                     val qte: EditText = popupView.findViewById(R.id.vendre_qte)
                     imagevente.setImageBitmap(viewModel.getImage(itemid - 1))
                     tVTitle.text = item.nom
+                    //affiche quantité possedée de l'item
                     var newTextQteDispo = "/ " + viewModel.getPlayer().items[itemid]!!
                     tVQteDispo.text = newTextQteDispo
+                    //gestion clic vente
                     btnValidate.setOnClickListener {
+                        //si champs non-vides + item dans inventaire + prix supérieur à 0 -> appel de ws
                         if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(itemid)
                             && prix.text.toString().toInt() > 0
                         ) {
@@ -91,6 +100,7 @@ class Inventaire : AppCompatActivity() {
                             thread3.join()
                             var quant = viewModel.getPlayer().items[itemid]!!.toInt()
                             when (status) {
+                                //si ok alors affiche popup info puis update liste item
                                 Status.OK.value -> {
                                     quant -= qte.text.toString().toInt()
                                     viewModel.makePopupMessage(
@@ -101,10 +111,13 @@ class Inventaire : AppCompatActivity() {
                                     tVQteDispo.text = newTextQteDispo
                                     qte.text.clear()
                                     prix.text.clear()
+                                    //update player
                                     val thread = Thread { viewModel.playerStatus() }
                                     thread.start()
                                     thread.join()
+                                    //update liste dans l'adapter
                                     adapter.updateList(viewModel.getPlayer().items)
+                                    //si quantité = 0 suppression item du recycler view sinon juste update quantité
                                     if(newTextQteDispo.split(" ")[1].toInt() == 0){
                                         adapter.notifyItemRemoved(pos)
                                     }
@@ -113,7 +126,7 @@ class Inventaire : AppCompatActivity() {
                                     }
                                     adapter.notifyItemRangeChanged(0,viewModel.getPlayer().items.size)
                                 }
-
+                                //quantité incorrecte seulement vu que si l'item n'est pas dans l'inventaire il ne passe pas le premier if
                                 Status.NOITEMS.value -> {
                                     viewModel.makePopupMessage(this@Inventaire, getString(R.string.msg_qte_sup))
                                 }
@@ -146,6 +159,7 @@ class Inventaire : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inventaire)
+        //initilisation viewmodel
         viewModel = ViewModelProvider(this)[InvViewModel::class.java]
         viewModel.initContext(this)
         // Bloquer l'orientation en mode portrait
@@ -163,17 +177,18 @@ class Inventaire : AppCompatActivity() {
         }
         thread.start()
         thread.join()
-
+        //déclaration adapter pour l'afficchage de l'inventaire
         adapter = ItemInventoryRecycleViewAdapter(listenerInventory)
         val recycle : RecyclerView = findViewById(R.id.items_recycle_view)
         recycle.adapter = adapter
         adapter.updateList(viewModel.getPlayer().items)
         adapter.updateClick(true)
-
+        //partie gestion craft et recette pioches
         var currentpick = viewModel.getPlayer().pick
         val newTextPick = "${getString(R.string.text_cur_pick)} : $currentpick"
         textpick.text = newTextPick
         buttonpick.setOnClickListener {
+            //si pioche max pas atteinte -> appel au ws des recette
             if(currentpick < 5) {
                 var items2 = HashMap<Int, Int>()
                 val thread2 = Thread {
@@ -181,19 +196,22 @@ class Inventaire : AppCompatActivity() {
                 }
                 thread2.start()
                 thread2.join()
-
+                //popup affichage recette craft
                 val popupcraft = AlertDialog.Builder(this@Inventaire).create()
                 val viewpopup = this.layoutInflater.inflate(R.layout.popup_craft, null)
                 popupcraft.setView(viewpopup)
+                //déclaration adapter recette pioche
                 adapterCraft = ItemInventoryRecycleViewAdapter(listenerInventory)
                 val recycleCraft : RecyclerView = viewpopup.findViewById(R.id.craft_recycle_view)
                 recycleCraft.adapter = adapterCraft
                 adapterCraft.updateList(items2)
                 val threadcraft = Thread {
                     try {
+                        //appel du ws de craft pour craft la pioche suivante
                         val status = viewModel.craftPickaxe(currentpick + 1)
                         Looper.prepare()
                         when (status) {
+                            //si ok on update le player + la liste des items de l'inventaire dans l'adapter
                             Status.OK.value -> {
                                 viewModel.makePopupMessage(this, getString(R.string.text_pioche_amel))
                                 viewModel.playerStatus()

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.design.R
 
 class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.OnInventoryInteractionListener): RecyclerView.Adapter<ItemInventoryRecycleViewAdapter.ViewHolder>() {
+    //déclaration des listes data
     private var items = mutableListOf<Int>()
     private var qts = mutableListOf<Int>()
     private var click = false
@@ -25,6 +26,7 @@ class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.
         private val textName = name.text
         private val textQte = qte.text
         private val textType = type.text
+        //affichage d'un item dans le recycler view
         fun bind(name: String, img : Bitmap, type : String, qt : Int, rarity : Int){
             image.setImageBitmap(img)
             image.scaleType = ImageView.ScaleType.FIT_CENTER
@@ -56,15 +58,17 @@ class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.
 
 
     }
-
+    //xml de base du recycler
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_inventory, parent, false)
         return ViewHolder(view)
     }
+    //permet de cliquer ou non sur un item du recycler view
     fun updateClick(value : Boolean){
         click = value
     }
+    //mise à jour de la liste
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(liste : HashMap<Int,Int>){
         items.clear()

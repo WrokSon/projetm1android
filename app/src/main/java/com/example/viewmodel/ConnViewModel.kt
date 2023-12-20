@@ -5,8 +5,9 @@ import java.security.MessageDigest
 import java.net.ConnectException
 import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
-
+//gère les appels au ws pour la vue connexion
 class ConnViewModel : ViewModelSuper() {
+    //appel au ws connexion -> retourne le status pour faire nos traitements dans la vue
     fun connexion(login : String, passwd : String): String{
         var status = ""
         //SHA256
@@ -39,7 +40,6 @@ class ConnViewModel : ViewModelSuper() {
             e.printStackTrace()
             actionNoConnexion(context)
         }catch (e : ConnectException){
-            // a gerer
             e.printStackTrace()
             actionNoConnexion(context)
         }

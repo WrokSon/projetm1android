@@ -60,5 +60,5 @@
     <string name="text_vendre">Vendre</string>
     <string name="text_recette">Recette prochaine pioche</string>
     <string name="text_miner_req">Minerais requis</string>
-    <string name="text_redemarer">et redemarer</string>
+    <string name="text_redemarer">et redemarrer l\'application</string>
 </resources>

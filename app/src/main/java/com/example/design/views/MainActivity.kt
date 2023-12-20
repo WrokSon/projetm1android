@@ -53,8 +53,10 @@ class MainActivity : AppCompatActivity() {
         saveData = SaveLocal(this)
         // Bloquer l'orientation en mode portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        //création carte
         initMap()
         gestionBtns()
+        //initialisation de player + "téléchargement" des détails des items et images
         val thread = Thread{
             viewModel.playerStatus()
             viewModel.getItemsDetails()
@@ -67,18 +69,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun gestionBtns() {
+        //redirection inventaire
         val goInv: ImageButton = findViewById(R.id.inv)
         goInv.setOnClickListener {
             val intent = Intent(this, Inventaire::class.java)
             startActivity(intent)
         }
-
+        //redirection marché
         val goMar: ImageButton = findViewById(R.id.mar)
         goMar.setOnClickListener {
             val intent = Intent(this, Marche::class.java)
             startActivity(intent)
         }
-
+        //affichage popup profil
         val goPro: ImageButton = findViewById(R.id.pro)
         goPro.setOnClickListener {
             val popup = AlertDialog.Builder(this)
@@ -99,13 +102,13 @@ class MainActivity : AppCompatActivity() {
             picklevel.text = player.pick.toString()
             popup.show()
         }
-
+        //redirection parametres
         val goPar: ImageButton = findViewById(R.id.par)
         goPar.setOnClickListener {
             val intent = Intent(this, Parametre::class.java)
             startActivity(intent)
         }
-
+        //gestion creuser
         val btnCreuser: ImageButton = findViewById(R.id.pick)
         val prof = findViewById<TextView>(R.id.depth_zone)
         btnCreuser.setOnClickListener {
@@ -113,22 +116,27 @@ class MainActivity : AppCompatActivity() {
             val pointPlayer = GeoPoint(viewModel.getPlayer().lat.toDouble(),viewModel.getPlayer().long.toDouble())
             mapController.setCenter(pointPlayer)
             myLoc.enableFollowLocation()
+            //on recupère le document parce qu'on besoin de plusieurs choses
             val thread = Thread{
                 doccreuse = viewModel.creuser()
             }
             thread.start()
             thread.join()
             val status = doccreuse.getElementsByTagName("STATUS").item(0).textContent
+            //si pas à l'université
             if(status == Status.OUTOFBOUNDS.value){
                 viewModel.makePopupMessage(this,getString(R.string.text_out_area))
             }
+            //si pas assez bonne pioche
             if(status == Status.BADPICKAXE.value){
                 viewModel.makePopupMessage(this,getString(R.string.text_best_pickaxe_req))
             }
+            //si trop rapide
             if(status.startsWith(Status.TOOFAST.value)){
                 val time = 5 - status.takeLast(1).toInt()
                 viewModel.makePopupMessage(this, "${getString(R.string.text_debut_no_item)} $time ${getString(R.string.text_sec)}")
             }
+            //si ok alors affiche d'une popup nouvel item si on trouve un item sinon une popup avec la profondeur actuelle
             if(status == Status.OK.value){
                 val depth = doccreuse.getElementsByTagName("DEPTH").item(0).textContent + "m"
                 val newTextprof = "${getString(R.string.text_depth)} : $depth"
@@ -163,7 +171,7 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-
+        //recenter carte sur pos actuelle
         val btnMe: ImageButton = findViewById(R.id.btn_me)
         btnMe.setOnClickListener {
             mapController.setZoom(20.0)
@@ -192,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         myLoc.setPersonIcon(BitmapFactory.decodeResource(resources, R.drawable.marker_profil).scale(100, 100))
         map.overlays.add(myLoc)
 
-        // verifi si on a permisson de la location
+        // verifie si on a permission de la location
         if (checkLocationPermission()) {
             map.post {
                 mapController.setZoom(16.0)

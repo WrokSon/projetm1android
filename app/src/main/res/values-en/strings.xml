@@ -60,5 +60,5 @@
     <string name="text_vendre">Sell</string>
     <string name="text_recette">Next pickaxe recipe</string>
     <string name="text_miner_req">Required ores</string>
-    <string name="text_redemarer">and restart</string>
+    <string name="text_redemarer">and restart the app</string>
 </resources>
