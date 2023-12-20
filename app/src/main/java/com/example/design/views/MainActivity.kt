@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -145,12 +144,15 @@ class MainActivity : AppCompatActivity() {
                     val popup = AlertDialog.Builder(this@MainActivity)
                     val viewpopup = this.layoutInflater.inflate(R.layout.popup_newitem, null)
                     popup.setView(viewpopup)
-                    val image_item = viewpopup.findViewById<ImageView>(R.id.newitem_image)
-                    image_item.setImageBitmap(viewModel.getImage(itemid - 1))
-                    val title_item = viewpopup.findViewById<TextView>(R.id.newitem_title)
-                    title_item.text = "Item trouvé : "+itemm?.nom + " ( Profondeur : " + depth + ")"
-                    val desc_item = viewpopup.findViewById<TextView>(R.id.newitem_desc)
-                    desc_item.text = itemm?.descFr
+                    val tprof = "${getString(R.string.text_depth)} : $depth"
+                    val newItemPro = viewpopup.findViewById<TextView>(R.id.new_item_profondeur)
+                    newItemPro.text = tprof
+                    val imageItem = viewpopup.findViewById<ImageView>(R.id.newitem_image)
+                    imageItem.setImageBitmap(viewModel.getImage(itemid - 1))
+                    val titleItem = viewpopup.findViewById<TextView>(R.id.newitem_title)
+                    titleItem.text = itemm?.nom.toString()
+                    val descItem = viewpopup.findViewById<TextView>(R.id.newitem_desc)
+                    descItem.text = itemm?.descFr
                     popup.show()
                 }
                 else{
