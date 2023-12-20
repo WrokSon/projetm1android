@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MotherLoad Orleans</string>
-    <string name="mauvaise_identifiants">Mauvaises identifiants</string>
+    <string name="mauvaise_identifiants">Mauvais identifiants</string>
     <string name="title_activity_connexion">Connexion</string>
     <string name="connexion_pas_de_connexion">Pas de connexion ou champs vides</string>
     <string name="connexion_username">Identifiant</string>
@@ -30,15 +30,15 @@
     <string name="text_connexion_perdue">Connexion perdue</string>
     <string name="text_session_exp">Session expiré</string>
     <string name="text_session_invalide">Session invalide</string>
-    <string name="erreur_serveur">Il y a eu un probeleme avec le seveur</string>
+    <string name="erreur_serveur">Il y a eu un probleme avec le seveur</string>
     <string name="debut_desc_voisin">salut, je suis à</string>
     <string name="fin_desc_voisin">mètres de toi</string>
-    <string name="msg_reset">Votre compte a bien été reinitialiser</string>
+    <string name="msg_reset">Votre compte a bien été reinitialisé</string>
     <string name="msg_change_name">Votre nouveau nom maintenant est</string>
-    <string name="msg_pb_select">Il y a un probleme de selection, Veuillez reselectionner votre Offre</string>
+    <string name="msg_pb_select">Il y a un probleme de selection, veuillez reselectionner votre offre</string>
     <string name="msg_no_money">Vous n\'avez pas assez d\'argent</string>
     <string name="text_pour">pour</string>
-    <string name="msg_achat">Vous venez d\'acher</string>
+    <string name="msg_achat">Vous venez d\'acheter</string>
     <string name="text_msg_localisation">Veuillez autoriser la localisation</string>
     <string name="text_new_prof">Nouvelle profondeur</string>
     <string name="text_sec">secondes</string>

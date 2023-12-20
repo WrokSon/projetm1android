@@ -83,7 +83,7 @@ class Parametre : AppCompatActivity() {
         val dm = res.displayMetrics
         val conf = res.configuration
         if(conf.locales.toString().startsWith("[fr")) switchlanguage.isChecked = false
-        if(conf.locales.toString().startsWith("[en")) switchlanguage.isChecked = true
+        if(conf.locales.toString().startsWith("[en") ) switchlanguage.isChecked = true
         switchlanguage.setOnClickListener {
 
             if(switchlanguage.isChecked){
