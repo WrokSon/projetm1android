@@ -11,22 +11,26 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class MarcheViewModel : ViewModelSuper() {
 
-    private var lesOffres  = mutableListOf<Offre>()
-
+    // Méthode pour récupérer la liste des offres sur le marché
     fun getMarche() {
         try{
+            // Construction de l'URL pour récupérer la liste des offres
             val url = URL(
                 repository.getBaseURL() + "/market_list.php?session=" + repository.getSession() +
                         "&signature=" + repository.getSignature()
             )
             val connection = url.openConnection()
+            // Parsing du document XML de la réponse
             val dbf = DocumentBuilderFactory.newInstance()
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
+            // Récupération du statut de l'opération
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
             val offres = doc.getElementsByTagName("OFFERS").item(0).childNodes
+            // Vérification de l'état du serveur et de la session
             checkSessionAndStateServer(status)
-            lesOffres.clear()
+            // Mise à jour de la liste des offres dans le repository
+            repository.getlesOffres().clear()
             // extaitre les offres le la liste offfres
             for (i in 0..<offres.length){
                 val item = offres.item(i).childNodes
@@ -37,38 +41,44 @@ class MarcheViewModel : ViewModelSuper() {
 
                 val offer = Offre(offerID.toInt(),itemID.toInt(),qte.toInt(),prix.toInt())
 
-                lesOffres.add(i,offer)
+                repository.getlesOffres().add(i,offer)
             }
 
         }catch (e : UnknownHostException){
+            // Gestion de l'absence de connexion
             e.printStackTrace()
             actionNoConnexion(context)
         }catch (e : ConnectException){
-            // a gerer
+            // Gestion des erreurs de connexion
             e.printStackTrace()
             actionNoConnexion(context)
         }
     }
 
+    // Méthode pour effectuer l'achat d'une offre
     fun acheter() {
         try{
-            // pas de selection
-            if (repository.getOffre() == null){
+            // Vérification de la sélection d'une offre
+            if (repository.getOffre() == null){ // pas de selection
                 makePopupMessage(context,context.getString(R.string.msg_pb_select))
                 return
             }
 
-            // requetes
+            // Construction de l'URL pour l'achat de l'offre sélectionnée
             val url = URL(
                 repository.getBaseURL() + "/market_acheter.php?session=" + repository.getSession() +
                         "&signature=" + repository.getSignature() + "&offer_id= " + repository.getOffre()!!.offerID.toString()
             )
             val connection = url.openConnection()
+            // Parsing du document XML de la réponse
             val dbf = DocumentBuilderFactory.newInstance()
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
+            // Récupération du statut de l'opération
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
-            //resultat
+            // Vérification de l'état du serveur et de la session
+            checkSessionAndStateServer(status)
+            // Résultat de l'opération
             if (status == Status.OK.value){
                 Looper.prepare()
                 val nomOffre = getItemDetail(repository.getOffre()!!.itemID - 1).nom
@@ -80,18 +90,21 @@ class MarcheViewModel : ViewModelSuper() {
             }
 
         }catch (e : UnknownHostException){
+            // Gestion de l'absence de connexion
             e.printStackTrace()
             actionNoConnexion(context)
         }catch (e : ConnectException){
-            // a gerer
+            // Gestion des erreurs de connexion
             e.printStackTrace()
             actionNoConnexion(context)
         }
     }
 
-    fun getListe() = lesOffres
-
+    // Méthode pour changer l'offre actuellement sélectionnée
     fun selectOffre(offer : Offre?) = repository.changeSelectOffre(offer)
+
+    // Méthode pour obtenir la liste des offres du repository
+    fun getListe() = repository.getlesOffres()
 
 
 }

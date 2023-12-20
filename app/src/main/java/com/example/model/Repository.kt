@@ -18,6 +18,8 @@ class Repository private constructor() {
             }
         }
     }
+
+    // Propriétés pour les URLs, la session, la signature, etc.
     private val baseURL = "https://test.vautard.fr/creuse_srv/"
     private val baseURLImg = "https://test.vautard.fr/creuse_imgs/"
     private var session = 0
@@ -28,13 +30,15 @@ class Repository private constructor() {
     private var itemDetailList = ArrayList<Item>()
     private var itemImages = ArrayList<Bitmap>()
     private var voisins = ArrayList<Voisin>()
-
+    private var lesOffres  = mutableListOf<Offre>()
     private var currentOfferSelect : Offre? = null
 
+    // Méthode pour changer l'offre actuellement sélectionnée
     fun changeSelectOffre(offer : Offre?){
         currentOfferSelect = offer
     }
 
+    // Méthode pour collecter les informations de connexion
     fun collectCon(log : String,sess : Int, sign : Long){
         baselogin = log
         player.username = baselogin
@@ -42,12 +46,15 @@ class Repository private constructor() {
         signature = sign
     }
 
+    // Méthode pour réinitialiser le nom d'utilisateur (objet Player)
     fun resetLogin(){
         player.username = baselogin
     }
 
+    // Méthode pour récupérer le nom d'utilisateur par defaut
     fun getBaseLogin() : String = baselogin
 
+    // Méthode pour mettre à jour les informations du joueur
     fun updatePlayer(lat : Float, long : Float, money : Int, pick : Int, items : HashMap<Int,Int>){
         player.lat = lat
         player.long = long
@@ -57,7 +64,7 @@ class Repository private constructor() {
 
     }
 
-    //fonction qui recupere les voisins
+    // Méthode pour récupérer les voisins à partir d'un document XML
     fun getVoisins(doc : Document){
         val listeVoisins = doc.getElementsByTagName("VOISINS").item(0).childNodes
         voisins.clear()
@@ -73,51 +80,69 @@ class Repository private constructor() {
         }
     }
 
+    // Méthode pour récupérer les offres
+    fun getlesOffres() = lesOffres
+
+    // Méthode pour définir le nom d'utilisateur (objet Player)
     fun setLogin(log : String){
         player.username = log
     }
 
+    // Méthode pour mettre à jour la position du joueur
     fun updatePosition(lat:Float, long: Float){
         player.lat = lat
         player.long = long
     }
 
+    // Méthode pour récupérer la session
     fun getSession(): Int{
         return session
     }
 
+    // Méthode pour récupérer l'URL du serveur
     fun getBaseURL(): String = baseURL
 
+    // Méthode pour récupérer l'URL pour les images
     fun getBaseLoginImg() : String = baseURLImg
 
+    // Méthode pour récupérer la signature
     fun getSignature(): Long{
         return signature
     }
 
+    // Méthode pour récupérer le joueur
     fun getPlayer(): Player {
         return player
     }
 
+    // Méthode pour changer la valeur de réinitialisation
+    // pour forcer le changement de nom en local
     fun setResetValue(value:Boolean){
         reset = value
     }
 
+    // Méthode pour récupérer la valeur de réinitialisation
     fun getResetValue() = reset
 
+    // Méthode pour changer la liste des détails des items
     fun setItemDetailList(list : ArrayList<Item>){
         itemDetailList = list
     }
-
+    // Méthode pour récupérer les détails d'un item
     fun getItemDetail(id : Int): Item{
         return itemDetailList[id]
     }
 
+    // Méthode pour récupérer l'offre actuelle
     fun getOffre() = currentOfferSelect
 
+    // Méthode pour récupérer la liste des voisins
     fun getListeVoisins() = voisins
 
+    // Méthode pour récupérer une image par son ID
     fun getImage(id: Int): Bitmap = itemImages[id]
 
+    // Méthode pour changer la liste des images d'articles
     fun setImageList(list: ArrayList<Bitmap>){
         itemImages = list
     }
