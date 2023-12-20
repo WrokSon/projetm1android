@@ -104,7 +104,13 @@ class Inventaire : AppCompatActivity() {
                                     thread.start()
                                     thread.join()
                                     adapter.updateList(viewModel.getPlayer().items)
-                                    adapter.notifyItemChanged(pos)
+                                    if(newTextQteDispo.split(" ")[1].toInt() == 0){
+                                        adapter.notifyItemRemoved(pos)
+                                    }
+                                    else{
+                                        adapter.notifyItemChanged(pos)
+                                    }
+                                    adapter.notifyItemRangeChanged(0,viewModel.getPlayer().items.size)
                                 }
 
                                 Status.NOITEMS.value -> {
@@ -192,26 +198,33 @@ class Inventaire : AppCompatActivity() {
                 recycleCraft.adapter = adapterCraft
                 adapterCraft.updateList(items2)
                 val threadcraft = Thread {
-                    val status = viewModel.craftPickaxe(currentpick + 1)
-                    Looper.prepare()
-                    when (status) {
-                        Status.OK.value -> {
-                            viewModel.makePopupMessage(this, "Pioche améliorée !")
-                            viewModel.playerStatus()
-                            adapter.updateList(viewModel.getPlayer().items)
+                    try {
+                        val status = viewModel.craftPickaxe(currentpick + 1)
+                        Looper.prepare()
+                        when (status) {
+                            Status.OK.value -> {
+                                viewModel.makePopupMessage(this, "Pioche améliorée !")
+                                viewModel.playerStatus()
+                                adapter.updateList(viewModel.getPlayer().items)
+                            }
+
+                            Status.NOITEMS.value -> {
+                                viewModel.makePopupMessage(this, "Items manquants")
+                            }
+
+                            else -> {
+                                viewModel.makePopupMessage(this, "Erreur")
+                            }
                         }
-                        Status.NOITEMS.value -> {
-                            viewModel.makePopupMessage(this, "Items manquants")
-                        }
-                        else -> {
-                            viewModel.makePopupMessage(this, "Erreur")
-                        }
+                    }catch(e : Exception){
+                        e.printStackTrace()
                     }
                 }
                 val btnCraft = viewpopup.findViewById<Button>(R.id.btn_craft)
                 btnCraft.setOnClickListener{
                     threadcraft.start()
                     threadcraft.join()
+                    adapter.notifyDataSetChanged()
                     currentpick = viewModel.getPlayer().pick
                     val newText = "Pioche actuelle : $currentpick"
                     textpick.text = newText

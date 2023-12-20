@@ -72,8 +72,6 @@ class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.
         qts.clear()
         items.addAll(liste.keys)
         qts.addAll(liste.values)
-        notifyDataSetChanged()
-        Log.d("ITEMSSSSS", "$items $qts")
     }
 
     override fun getItemCount(): Int {

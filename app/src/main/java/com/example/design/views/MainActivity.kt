@@ -53,10 +53,7 @@ class MainActivity : AppCompatActivity() {
         saveData = SaveLocal(this)
         // Bloquer l'orientation en mode portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        initMap()
         gestionBtns()
-        deplacement()
-        loadUsername()
         val thread = Thread{
             viewModel.playerStatus()
             viewModel.getItemsDetails()
@@ -64,6 +61,9 @@ class MainActivity : AppCompatActivity() {
         }
         thread.start()
         thread.join()
+        initMap()
+        deplacement()
+        loadUsername()
     }
 
     private fun gestionBtns() {
@@ -120,14 +120,14 @@ class MainActivity : AppCompatActivity() {
             val status = doccreuse.getElementsByTagName("STATUS").item(0).textContent
             Log.d("STATUSPICK",status)
             if(status == Status.OUTOFBOUNDS.value){
-                viewModel.makePopupMessage(this,"t'es pas à l'université")
+                viewModel.makePopupMessage(this,"Vous êtes hors zone")
             }
             if(status == Status.BADPICKAXE.value){
-                viewModel.makePopupMessage(this,"meilleur pioche requise")
+                viewModel.makePopupMessage(this,"Meilleure pioche requise")
             }
             if(status.startsWith(Status.TOOFAST.value)){
                 val time = 5 - status.takeLast(1).toInt()
-                viewModel.makePopupMessage(this, "ralenti mon gars, $time secondes")
+                viewModel.makePopupMessage(this, "Prochaine action possible dans $time secondes")
             }
             if(status == Status.OK.value){
                 val depth = doccreuse.getElementsByTagName("DEPTH").item(0).textContent + "m"
@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                     popup.show()
                 }
                 else{
-                    viewModel.makePopupMessage(this,"tout va bien mec")
+                    viewModel.makePopupMessage(this,"Nouvelle profondeur : $depth")
                 }
 
             }
@@ -265,7 +265,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deplacement(){
-        val depthZone : TextView = findViewById(R.id.depth_zone)
         //met a jour la postion tous les 5 secondes
         Thread {
             while (true){
@@ -275,8 +274,6 @@ class MainActivity : AppCompatActivity() {
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 10.0f) {
                         viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
-                        val newTextProf = "${getString(R.string.text_depth)} : 0m"
-                        depthZone.text = newTextProf
                     }
                 }else{
                     Log.d("VOILA","Loc perdu")

@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="Nouveau Item"
+        android:text="Nouvel Item"
         android:textColor="@color/black"
         android:fontFamily="@font/font_title"
         android:layout_width="wrap_content"
