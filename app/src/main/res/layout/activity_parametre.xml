@@ -89,6 +89,7 @@
         android:id="@+id/parametre_name"
         android:layout_width="54dp"
         android:layout_height="39dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/font_content"
         android:gravity="center"
         android:text="@string/text_name"
@@ -97,7 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_language" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
     <Button
         android:id="@+id/btn_change_name"
@@ -132,12 +133,37 @@
         app:layout_constraintTop_toBottomOf="@+id/name_player"
         app:layout_constraintVertical_bias="0.96" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_language"
-        android:layout_width="44dp"
-        android:layout_height="22dp"
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spin_lang" />
+        app:layout_constraintTop_toBottomOf="@+id/spin_lang">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/font_content"
+            android:text="Français" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_language"
+            android:layout_width="44dp"
+            android:layout_height="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spin_lang" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_content"
+            android:textColor="@color/white"
+            android:text="English" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,4 +42,25 @@
     <string name="msg_no_money">Vous n\'avez pas assez d\'argent</string>
     <string name="text_pour">pour</string>
     <string name="msg_achat">Vous venez d\'acher</string>
+    <string name="text_msg_localisation">Veuillez autoriser la localisation</string>
+    <string name="text_new_prof">Nouvelle profondeur</string>
+    <string name="text_sec">secondes</string>
+    <string name="text_debut_no_item">Prochaine action possible dans</string>
+    <string name="text_best_pickaxe_req">Meilleure pioche requise</string>
+    <string name="text_out_area">Vous êtes hors zone</string>
+    <string name="text_max_pick">Pioche maximum atteinte</string>
+    <string name="text_cur_pick">Pioche actuelle</string>
+    <string name="text_erreur">Erreur</string>
+    <string name="text_pioche_amel">Pioche améliorée</string>
+    <string name="text_item_manquant">Items manquants</string>
+    <string name="msg_vente">Vous venez de vendre</string>
+    <string name="msg_qte_sup">La quantité est superieur a la quantité disponible</string>
+    <string name="msg_vent_prob">Il y a eu un probleme avec la vente</string>
+    <string name="msg_prix_min">Prix de vente minimum</string>
+    <string name="msg_stock_vide">Votre stock est vide</string>
+    <string name="msg_champs_vide">il y a des champs vides</string>
+    <string name="text_nouvel_item">Nouvel Item</string>
+    <string name="text_vendre">Vendre</string>
+    <string name="text_recette">Recette prochaine pioche</string>
+    <string name="text_miner_req">Minerais requis</string>
 </resources>

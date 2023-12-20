@@ -10,19 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Minerais requis"
+        android:text="@string/text_miner_req"
         android:textColor="@color/black"
         android:fontFamily="@font/font_title"
         android:gravity="center" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/craft_recycle_view"
-        android:padding="10dp"
-        android:layout_width="248dp"
-        android:layout_height="200dp"
+        android:layout_width="317dp"
+        android:layout_height="195dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:background="@drawable/custom_liste"
+        android:padding="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <Button

@@ -42,7 +42,7 @@
         android:id="@+id/btn_inv_vendre"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="vendre"
+        android:text="@string/text_vendre"
         android:fontFamily="@font/font_content"
         android:backgroundTint="@color/blue"/>
 </LinearLayout>

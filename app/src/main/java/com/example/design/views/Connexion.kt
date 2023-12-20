@@ -32,7 +32,6 @@ class Connexion : AppCompatActivity() {
         var constatus = ""
         setContentView(R.layout.activity_connexion)
         val goGame: Button = findViewById(R.id.btn_connexion)
-        val ko: TextView = findViewById(R.id.titlecon)
         val login: EditText = findViewById(R.id.user)
         val passwd: EditText = findViewById(R.id.password)
 
@@ -59,9 +58,9 @@ class Connexion : AppCompatActivity() {
             if (constatus != Status.OK.value) {
                 goGame.isEnabled = true
                 if (constatus == Status.WRONGCREDENTIALS.value) {
-                    ko.text = getString(R.string.mauvaise_identifiants)
+                    viewModel.makePopupMessage(this,getString(R.string.mauvaise_identifiants))
                 }else{
-                    ko.text = getString(R.string.connexion_pas_de_connexion)
+                    viewModel.makePopupMessage(this, getString(R.string.connexion_pas_de_connexion))
                 }
             }
 

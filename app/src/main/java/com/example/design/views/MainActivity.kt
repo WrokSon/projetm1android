@@ -120,14 +120,14 @@ class MainActivity : AppCompatActivity() {
             val status = doccreuse.getElementsByTagName("STATUS").item(0).textContent
             Log.d("STATUSPICK",status)
             if(status == Status.OUTOFBOUNDS.value){
-                viewModel.makePopupMessage(this,"Vous êtes hors zone")
+                viewModel.makePopupMessage(this,getString(R.string.text_out_area))
             }
             if(status == Status.BADPICKAXE.value){
-                viewModel.makePopupMessage(this,"Meilleure pioche requise")
+                viewModel.makePopupMessage(this,getString(R.string.text_best_pickaxe_req))
             }
             if(status.startsWith(Status.TOOFAST.value)){
                 val time = 5 - status.takeLast(1).toInt()
-                viewModel.makePopupMessage(this, "Prochaine action possible dans $time secondes")
+                viewModel.makePopupMessage(this, "${getString(R.string.text_debut_no_item)} $time ${getString(R.string.text_sec)}")
             }
             if(status == Status.OK.value){
                 val depth = doccreuse.getElementsByTagName("DEPTH").item(0).textContent + "m"
@@ -152,13 +152,13 @@ class MainActivity : AppCompatActivity() {
                     val titleItem = viewpopup.findViewById<TextView>(R.id.newitem_title)
                     titleItem.text = itemm?.nom.toString()
                     val descItem = viewpopup.findViewById<TextView>(R.id.newitem_desc)
-                    if(resources.configuration.locales.toString() == "[fr_FR]") descItem.text = itemm?.descFr
-                    if(resources.configuration.locales.toString() == "[en]") descItem.text = itemm?.descEn
+                    if(resources.configuration.locales.toString().startsWith("[fr")) descItem.text = itemm?.descFr
+                    if(resources.configuration.locales.toString().startsWith("[en")) descItem.text = itemm?.descEn
 
                     popup.show()
                 }
                 else{
-                    viewModel.makePopupMessage(this,"Nouvelle profondeur : $depth")
+                    viewModel.makePopupMessage(this,"${getString(R.string.text_new_prof)} : $depth")
                 }
 
             }
@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
                 mapController.setCenter(myLoc.myLocation)
             }
         } else {
-            viewModel.makePopupMessage(this, "La localisation frero")
+            viewModel.makePopupMessage(this, getString(R.string.text_msg_localisation))
         }
     }
 

@@ -57,8 +57,8 @@ class Inventaire : AppCompatActivity() {
                 val title_item = viewpopup.findViewById<TextView>(R.id.item_titledesc)
                 title_item.text = text
                 val desc_item = viewpopup.findViewById<TextView>(R.id.item_desc)
-                if(resources.configuration.locales.toString() == "[fr_FR]") desc_item.text = item.descFr
-                if(resources.configuration.locales.toString() == "[en]") desc_item.text = item.descEn
+                if(resources.configuration.locales.toString().startsWith("[fr")) desc_item.text = item.descFr
+                if(resources.configuration.locales.toString().startsWith("[en")) desc_item.text = item.descEn
                 val btn_vendre = viewpopup.findViewById<Button>(R.id.btn_inv_vendre)
                 btn_vendre.setOnClickListener{
                     val popupsell = AlertDialog.Builder(this@Inventaire).create()
@@ -95,7 +95,7 @@ class Inventaire : AppCompatActivity() {
                                     quant -= qte.text.toString().toInt()
                                     viewModel.makePopupMessage(
                                         this@Inventaire,
-                                        "Vous venez de vendre ${qte.text} ${item.nom} a ${prix.text}"
+                                        "${getString(R.string.msg_vente)} ${qte.text} ${item.nom} ${getString(R.string.text_pour)} ${prix.text}"
                                     )
                                     newTextQteDispo = "/ $quant"
                                     tVQteDispo.text = newTextQteDispo
@@ -115,28 +115,19 @@ class Inventaire : AppCompatActivity() {
                                 }
 
                                 Status.NOITEMS.value -> {
-                                    viewModel.makePopupMessage(
-                                        this@Inventaire,
-                                        "La quantité est superieur a la quantité disponible "
-                                    )
+                                    viewModel.makePopupMessage(this@Inventaire, getString(R.string.msg_qte_sup))
                                 }
 
                                 else -> {
-                                    viewModel.makePopupMessage(
-                                        this@Inventaire,
-                                        "Il y a eu un probleme avec la vente"
-                                    )
+                                    viewModel.makePopupMessage(this@Inventaire, getString(R.string.msg_vent_prob))
                                 }
                             }
                         } else if (prix.text.toString().toInt() <= 1) {
-                            viewModel.makePopupMessage(this@Inventaire, "Prix de vente minimum : 1")
+                            viewModel.makePopupMessage(this@Inventaire, "${getString(R.string.msg_prix_min)} : 1")
                         } else if (!viewModel.getPlayer().items.containsKey(itemid)) {
-                            viewModel.makePopupMessage(this@Inventaire, "Votre stock est vide :)")
+                            viewModel.makePopupMessage(this@Inventaire, "${getString(R.string.msg_stock_vide)} :)")
                         } else {
-                            viewModel.makePopupMessage(
-                                this@Inventaire,
-                                "il y a des champs vides !)"
-                            )
+                            viewModel.makePopupMessage(this@Inventaire, "${getString(R.string.msg_champs_vide)} !)")
                         }
                     }
                     popupsell.show()
@@ -180,7 +171,7 @@ class Inventaire : AppCompatActivity() {
         adapter.updateClick(true)
 
         var currentpick = viewModel.getPlayer().pick
-        val newTextPick = "Pioche actuelle : $currentpick"
+        val newTextPick = "${getString(R.string.text_cur_pick)} : $currentpick"
         textpick.text = newTextPick
         buttonpick.setOnClickListener {
             if(currentpick < 5) {
@@ -204,17 +195,17 @@ class Inventaire : AppCompatActivity() {
                         Looper.prepare()
                         when (status) {
                             Status.OK.value -> {
-                                viewModel.makePopupMessage(this, "Pioche améliorée !")
+                                viewModel.makePopupMessage(this, getString(R.string.text_pioche_amel))
                                 viewModel.playerStatus()
                                 adapter.updateList(viewModel.getPlayer().items)
                             }
 
                             Status.NOITEMS.value -> {
-                                viewModel.makePopupMessage(this, "Items manquants")
+                                viewModel.makePopupMessage(this, getString(R.string.text_item_manquant))
                             }
 
                             else -> {
-                                viewModel.makePopupMessage(this, "Erreur")
+                                viewModel.makePopupMessage(this, getString(R.string.text_erreur))
                             }
                         }
                     }catch(e : Exception){
@@ -227,14 +218,14 @@ class Inventaire : AppCompatActivity() {
                     threadcraft.join()
                     adapter.notifyDataSetChanged()
                     currentpick = viewModel.getPlayer().pick
-                    val newText = "Pioche actuelle : $currentpick"
+                    val newText = "${getString(R.string.text_cur_pick)} : $currentpick"
                     textpick.text = newText
                     popupcraft.dismiss()
                 }
                 popupcraft.show()
             }
             else{
-                viewModel.makePopupMessage(this,"Pioche maximum atteinte")
+                viewModel.makePopupMessage(this,getString(R.string.text_max_pick))
             }
         }
     }
