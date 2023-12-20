@@ -75,9 +75,8 @@ class Inventaire : AppCompatActivity() {
                     var newTextQteDispo = "/ " + viewModel.getPlayer().items[itemid]!!
                     tVQteDispo.text = newTextQteDispo
                     btnValidate.setOnClickListener {
-                        if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(
-                                itemid
-                            )
+                        if (prix.text.isNotEmpty() && qte.text.isNotEmpty() && viewModel.getPlayer().items.containsKey(itemid)
+                            && prix.text.toString().toInt() > 0
                         ) {
                             var status = ""
                             val thread3 = Thread {
@@ -122,6 +121,8 @@ class Inventaire : AppCompatActivity() {
                                     )
                                 }
                             }
+                        } else if (prix.text.toString().toInt() <= 1) {
+                            viewModel.makePopupMessage(this@Inventaire, "Prix de vente minimum : 1")
                         } else if (!viewModel.getPlayer().items.containsKey(itemid)) {
                             viewModel.makePopupMessage(this@Inventaire, "Votre stock est vide :)")
                         } else {
