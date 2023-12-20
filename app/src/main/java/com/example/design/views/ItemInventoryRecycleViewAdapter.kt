@@ -15,6 +15,7 @@ import com.example.design.R
 class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.OnInventoryInteractionListener): RecyclerView.Adapter<ItemInventoryRecycleViewAdapter.ViewHolder>() {
     private var items = mutableListOf<Int>()
     private var qts = mutableListOf<Int>()
+    private var click = false
     class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         private val name = mView.findViewById<TextView>(R.id.name_item)
         private val type = mView.findViewById<TextView>(R.id.type_item)
@@ -62,12 +63,16 @@ class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.
             .inflate(R.layout.item_inventory, parent, false)
         return ViewHolder(view)
     }
+    fun updateClick(value : Boolean){
+        click = value
+    }
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(liste : HashMap<Int,Int>){
         items.clear()
         qts.clear()
         items.addAll(liste.keys)
         qts.addAll(liste.values)
+        notifyDataSetChanged()
         Log.d("ITEMSSSSS", "$items $qts")
     }
 
@@ -79,8 +84,10 @@ class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.
         val detail = listenerInventory.getDetailItem(items[position]-1)
         val img = listenerInventory.getImage(items[position]-1)
         holder.bind(detail.nom,img,detail.type,qts[position],detail.rarity)
-        holder.itemView.setOnClickListener{
-            listenerInventory.clickItem(items[position],detail.nom,position)
+        if(click){
+            holder.itemView.setOnClickListener {
+                listenerInventory.clickItem(items[position], detail.nom, position)
+            }
         }
 
 

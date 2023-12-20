@@ -1,11 +1,8 @@
 package com.example.design.views
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
@@ -13,8 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.design.R
 import com.example.model.data.Item
-import com.example.model.data.Offre
 import com.example.model.data.Player
 import com.example.model.tools.Status
 import com.example.viewmodel.InvViewModel
@@ -30,7 +24,7 @@ import com.example.viewmodel.InvViewModel
 class Inventaire : AppCompatActivity() {
     private lateinit var viewModel: InvViewModel
     private lateinit var adapter: ItemInventoryRecycleViewAdapter
-    private lateinit var adapterCraft : ItemCraftRecycleViewAdapter
+    private lateinit var adapterCraft : ItemInventoryRecycleViewAdapter
     interface OnInventoryInteractionListener {
         fun getDetailItem(id : Int) : Item
         fun getImage(id: Int): Bitmap
@@ -175,6 +169,7 @@ class Inventaire : AppCompatActivity() {
         val recycle : RecyclerView = findViewById(R.id.items_recycle_view)
         recycle.adapter = adapter
         adapter.updateList(viewModel.getPlayer().items)
+        adapter.updateClick(true)
 
         var currentpick = viewModel.getPlayer().pick
         val newTextPick = "Pioche actuelle : $currentpick"
@@ -191,7 +186,7 @@ class Inventaire : AppCompatActivity() {
                 val popupcraft = AlertDialog.Builder(this@Inventaire).create()
                 val viewpopup = this.layoutInflater.inflate(R.layout.popup_craft, null)
                 popupcraft.setView(viewpopup)
-                adapterCraft = ItemCraftRecycleViewAdapter(listenerInventory)
+                adapterCraft = ItemInventoryRecycleViewAdapter(listenerInventory)
                 val recycleCraft : RecyclerView = viewpopup.findViewById(R.id.craft_recycle_view)
                 recycleCraft.adapter = adapterCraft
                 adapterCraft.updateList(items2)
@@ -203,7 +198,6 @@ class Inventaire : AppCompatActivity() {
                             viewModel.makePopupMessage(this, "Pioche améliorée !")
                             viewModel.playerStatus()
                             adapter.updateList(viewModel.getPlayer().items)
-                            adapter.notifyDataSetChanged()
                         }
                         Status.NOITEMS.value -> {
                             viewModel.makePopupMessage(this, "Items manquants")

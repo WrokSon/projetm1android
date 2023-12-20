@@ -32,7 +32,7 @@ class OfferRecycleViewAdapter(private val listenerOffre: Marche.OnOffreInteracti
         val offer = listOffres[position]
         val detail = listenerOffre.getDetailItem(offer.itemID-1)
         val imgOffer = listenerOffre.getImage(detail.id - 1)
-        holder.bind(imgOffer,detail.nom,detail.type.toString(),offer.prix.toString(),offer.quantite.toString())
+        holder.bind(imgOffer,detail.nom,detail.type,offer.prix.toString(),offer.quantite.toString())
         holder.getButton().setOnClickListener{
             listenerOffre.offreInteraction(listOffres[position])
         }
