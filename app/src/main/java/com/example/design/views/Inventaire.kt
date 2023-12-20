@@ -57,7 +57,8 @@ class Inventaire : AppCompatActivity() {
                 val title_item = viewpopup.findViewById<TextView>(R.id.item_titledesc)
                 title_item.text = text
                 val desc_item = viewpopup.findViewById<TextView>(R.id.item_desc)
-                desc_item.text = item.descFr
+                if(resources.configuration.locales.toString() == "[fr_FR]") desc_item.text = item.descFr
+                if(resources.configuration.locales.toString() == "[en]") desc_item.text = item.descEn
                 val btn_vendre = viewpopup.findViewById<Button>(R.id.btn_inv_vendre)
                 btn_vendre.setOnClickListener{
                     val popupsell = AlertDialog.Builder(this@Inventaire).create()

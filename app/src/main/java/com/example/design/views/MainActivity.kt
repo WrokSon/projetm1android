@@ -152,7 +152,9 @@ class MainActivity : AppCompatActivity() {
                     val titleItem = viewpopup.findViewById<TextView>(R.id.newitem_title)
                     titleItem.text = itemm?.nom.toString()
                     val descItem = viewpopup.findViewById<TextView>(R.id.newitem_desc)
-                    descItem.text = itemm?.descFr
+                    if(resources.configuration.locales.toString() == "[fr_FR]") descItem.text = itemm?.descFr
+                    if(resources.configuration.locales.toString() == "[en]") descItem.text = itemm?.descEn
+
                     popup.show()
                 }
                 else{
