@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         saveData = SaveLocal(this)
         // Bloquer l'orientation en mode portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        initMap()
         gestionBtns()
         val thread = Thread{
             viewModel.playerStatus()
@@ -60,7 +62,6 @@ class MainActivity : AppCompatActivity() {
         }
         thread.start()
         thread.join()
-        initMap()
         deplacement()
         loadUsername()
     }
@@ -109,7 +110,8 @@ class MainActivity : AppCompatActivity() {
         val prof = findViewById<TextView>(R.id.depth_zone)
         btnCreuser.setOnClickListener {
             mapController.setZoom(20.0)
-            mapController.setCenter(myLoc.myLocation)
+            val pointPlayer = GeoPoint(viewModel.getPlayer().lat.toDouble(),viewModel.getPlayer().long.toDouble())
+            mapController.setCenter(pointPlayer)
             myLoc.enableFollowLocation()
             val thread = Thread{
                 doccreuse = viewModel.creuser()
@@ -185,11 +187,9 @@ class MainActivity : AppCompatActivity() {
         // Configure and add a MyLocation overlay
         myLoc = MyLocationNewOverlay(GpsMyLocationProvider(this),map)
         myLoc.enableMyLocation() //activation de la localisation
-        myLoc.disableFollowLocation() //ne passe centrer sur la carte
+        myLoc.enableFollowLocation() //ne passe centrer sur la carte
         //changer le marqueur (personnage)
-        myLoc.setPersonIcon(
-            BitmapFactory.decodeResource(resources, R.drawable.marker_profil).scale(100, 100)
-        )
+        myLoc.setPersonIcon(BitmapFactory.decodeResource(resources, R.drawable.marker_profil).scale(100, 100))
         map.overlays.add(myLoc)
 
         // verifi si on a permisson de la location
@@ -198,7 +198,8 @@ class MainActivity : AppCompatActivity() {
                 mapController.setZoom(16.0)
                 // on centre par sa position
                 myLoc.enableFollowLocation()
-                mapController.setCenter(myLoc.myLocation)
+                val pointPlayer = GeoPoint(viewModel.getPlayer().lat.toDouble(),viewModel.getPlayer().long.toDouble())
+                mapController.setCenter(pointPlayer)
             }
         } else {
             // demander la permission de la location
@@ -214,8 +215,24 @@ class MainActivity : AppCompatActivity() {
                 myLoc.enableFollowLocation()
                 mapController.setCenter(myLoc.myLocation)
             }
-        } else {
-            viewModel.makePopupMessage(this, getString(R.string.text_msg_localisation))
+        } else if (!checkLocationPermission()){
+            // redirection pour vers les parametres
+            val settingsIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(settingsIntent)
+            if(!checkLocationPermission()) {
+                // popup qui ne peut être fermé
+                val popupLoc = AlertDialog.Builder(this).create()
+                val popupLocView = LayoutInflater.from(this).inflate(R.layout.popup_message, null)
+                val msg: TextView = popupLocView.findViewById(R.id.popup_txt_msg)
+                val msgNoLoc =
+                    "${getString(R.string.text_msg_localisation)} ${getString(R.string.text_redemarer)}"
+                msg.text = msgNoLoc
+
+                popupLoc.setView(popupLocView)
+                popupLoc.show()
+                popupLoc.setCancelable(false)
+                popupLoc.setCanceledOnTouchOutside(false)
+            }
         }
     }
 
