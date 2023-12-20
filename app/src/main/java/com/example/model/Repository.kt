@@ -24,7 +24,7 @@ class Repository private constructor() {
     private var session = 0
     private var signature : Long = 0
     private var baselogin = ""
-    private var player : Player = Player("",0.0f,0.0f,0,1,HashMap<Int,Int>())
+    private var player : Player = Player("",0.0f,0.0f,0,1,HashMap())
     private var reset : Boolean = false
     private var itemDetailList = ArrayList<Item>()
     private var itemImages = ArrayList<Bitmap>()

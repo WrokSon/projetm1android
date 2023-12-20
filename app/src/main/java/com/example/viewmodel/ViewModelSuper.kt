@@ -114,8 +114,7 @@ open class ViewModelSuper : ViewModel() {
 
             item.id = i
             item.nom = infos.item(0).textContent
-            val type = infos.item(1).textContent
-            when(type){
+            when(infos.item(1).textContent){
                 "A" -> item.type = "Artéfact"
                 "M" -> item.type = "Minerai"
             }

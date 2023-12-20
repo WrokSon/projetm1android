@@ -8,7 +8,6 @@ import android.os.Bundle
 
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.viewmodel.ConnViewModel

@@ -10,16 +10,14 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.Switch
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.design.R
 import com.example.viewmodel.ParametreViewModel
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.util.Locale
 
+@Suppress("DEPRECATION")
 class Parametre : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId", "SourceLockedOrientationActivity")

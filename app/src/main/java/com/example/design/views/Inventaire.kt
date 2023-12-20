@@ -52,15 +52,15 @@ class Inventaire : AppCompatActivity() {
                 val popup = AlertDialog.Builder(this@Inventaire).create()
                 val viewpopup = layoutInflater.inflate(R.layout.popup_item, null)
                 popup.setView(viewpopup)
-                val image_item = viewpopup.findViewById<ImageView>(R.id.image_item)
-                image_item.setImageBitmap(viewModel.getImage(itemid - 1))
-                val title_item = viewpopup.findViewById<TextView>(R.id.item_titledesc)
-                title_item.text = text
-                val desc_item = viewpopup.findViewById<TextView>(R.id.item_desc)
-                if(resources.configuration.locales.toString().startsWith("[fr")) desc_item.text = item.descFr
-                if(resources.configuration.locales.toString().startsWith("[en")) desc_item.text = item.descEn
-                val btn_vendre = viewpopup.findViewById<Button>(R.id.btn_inv_vendre)
-                btn_vendre.setOnClickListener{
+                val imageItem = viewpopup.findViewById<ImageView>(R.id.image_item)
+                imageItem.setImageBitmap(viewModel.getImage(itemid - 1))
+                val titleItem = viewpopup.findViewById<TextView>(R.id.item_titledesc)
+                titleItem.text = text
+                val descItem = viewpopup.findViewById<TextView>(R.id.item_desc)
+                if(resources.configuration.locales.toString().startsWith("[fr")) descItem.text = item.descFr
+                if(resources.configuration.locales.toString().startsWith("[en")) descItem.text = item.descEn
+                val btnVendre = viewpopup.findViewById<Button>(R.id.btn_inv_vendre)
+                btnVendre.setOnClickListener{
                     val popupsell = AlertDialog.Builder(this@Inventaire).create()
                     val popupView =
                         LayoutInflater.from(this@Inventaire).inflate(R.layout.popup_vendre, null)
@@ -141,7 +141,7 @@ class Inventaire : AppCompatActivity() {
 
         }
     }
-    @SuppressLint("SourceLockedOrientationActivity")
+    @SuppressLint("SourceLockedOrientationActivity", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)

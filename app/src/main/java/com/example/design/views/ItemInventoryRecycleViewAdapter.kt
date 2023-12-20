@@ -3,7 +3,6 @@ package com.example.design.views
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,7 @@ class ItemInventoryRecycleViewAdapter(private val listenerInventory: Inventaire.
             image.adjustViewBounds = true
             image.maxWidth = 80
             image.maxHeight = 80
-            var newText = name
+            val newText = name
             color = when (rarity) {
                 1 -> Color.WHITE
                 2 -> Color.GREEN
