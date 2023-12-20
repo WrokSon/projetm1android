@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
@@ -31,7 +30,6 @@ class Parametre : AppCompatActivity() {
         val goGame : ImageButton = findViewById(R.id.parametre_retour)
         goGame.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
-            Log.d("PARAMETREMECOUILLE","oui on est la")
         }
 
         val goConnection : Button = findViewById(R.id.btn_deconnexion)

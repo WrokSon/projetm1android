@@ -2,7 +2,6 @@ package com.example.viewmodel
 
 import java.net.URL
 import java.security.MessageDigest
-import android.util.Log
 import java.net.ConnectException
 import java.net.UnknownHostException
 import javax.xml.parsers.DocumentBuilderFactory
@@ -17,7 +16,6 @@ class ConnViewModel : ViewModelSuper() {
 
 
         val hashedpass = digest.fold("") { str, it -> str + "%02x".format(it) }
-        Log.d("statushash",hashedpass)
 
         //connexion
         try{
@@ -35,11 +33,11 @@ class ConnViewModel : ViewModelSuper() {
             if(status == "OK"){
                 repository.collectCon(login,doc.getElementsByTagName("SESSION").item(0).textContent.toInt(),
                     doc.getElementsByTagName("SIGNATURE").item(0).textContent.toLong())
-                    Log.d("SESSION/SIGNATURE",doc.getElementsByTagName("SESSION").item(0).textContent+"/"+doc.getElementsByTagName("SIGNATURE").item(0).textContent)
-                playerStatus()
+                    playerStatus()
             }
         }catch (e : UnknownHostException){
-            Log.d("ERREURWEBSERVICE","Pas de connexion")
+            e.printStackTrace()
+            actionNoConnexion(context)
         }catch (e : ConnectException){
             // a gerer
             e.printStackTrace()

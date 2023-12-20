@@ -1,6 +1,5 @@
 package com.example.viewmodel
 
-import android.util.Log
 import com.example.design.R
 import com.example.model.tools.Status
 import java.net.ConnectException
@@ -23,7 +22,6 @@ class ParametreViewModel : ViewModelSuper() {
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
             checkSessionAndStateServer(status)
             if (status == Status.OK.value) {
-                Log.d("ICI", "je suis passé par là")
                 makePopupMessage(context,"${context.getString(R.string.msg_change_name)} $name")
                 repository.setLogin(name)
             }
@@ -48,7 +46,6 @@ class ParametreViewModel : ViewModelSuper() {
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
             checkSessionAndStateServer(status)
             if (status == Status.OK.value) {
-                Log.d("IzzCI", "je suis passé par là")
                 makePopupMessage(context,context.getString(R.string.msg_reset))
                 repository.resetLogin()
                 playerStatus()

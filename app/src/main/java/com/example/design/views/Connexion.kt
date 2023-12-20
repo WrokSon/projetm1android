@@ -17,7 +17,6 @@ import com.example.model.tools.Status
 class Connexion : AppCompatActivity() {
     private lateinit var viewModel: ConnViewModel
     private lateinit var saveData: SaveLocal
-    //private lateinit var constatus: String
 
     @SuppressLint("MissingInflatedId", "SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {

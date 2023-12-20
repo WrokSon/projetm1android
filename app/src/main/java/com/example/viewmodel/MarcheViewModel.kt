@@ -1,7 +1,6 @@
 package com.example.viewmodel
 
 import android.os.Looper
-import android.util.Log
 import com.example.design.R
 import com.example.model.data.Offre
 import com.example.model.tools.Status
@@ -31,7 +30,6 @@ class MarcheViewModel : ViewModelSuper() {
             // extaitre les offres le la liste offfres
             for (i in 0..<offres.length){
                 val item = offres.item(i).childNodes
-                Log.d("MARCHE","le len = "+item.length)
                 val offerID = item.item(0).textContent
                 val itemID = item.item(1).textContent
                 val qte = item.item(2).textContent
@@ -40,8 +38,6 @@ class MarcheViewModel : ViewModelSuper() {
                 val offer = Offre(offerID.toInt(),itemID.toInt(),qte.toInt(),prix.toInt())
 
                 lesOffres.add(i,offer)
-
-                Log.d("MARCHE", "offer id = $offerID item id = $itemID quantite = $qte prix = $prix")
             }
 
         }catch (e : UnknownHostException){
@@ -72,16 +68,13 @@ class MarcheViewModel : ViewModelSuper() {
             val db = dbf.newDocumentBuilder()
             val doc = db.parse(connection.getInputStream())
             val status = doc.getElementsByTagName("STATUS").item(0).textContent
-            Log.d("MARCHERACHETER", "me voici'$status'")
             //resultat
             if (status == Status.OK.value){
                 Looper.prepare()
                 val nomOffre = getItemDetail(repository.getOffre()!!.itemID - 1).nom
                 makePopupMessage(context,"${context.getString(R.string.msg_achat)} ${repository.getOffre()!!.quantite} $nomOffre ${context.getString(R.string.text_pour)} ${repository.getOffre()!!.prix}")
-                Log.d("MARCHERACHETER","me voici")
             }
             if (status == Status.NOMONEY.value) {
-                Log.d("MARCHERACHETER","me voici dedans")
                 Looper.prepare()
                 makePopupMessage(context,context.getString(R.string.msg_no_money))
             }

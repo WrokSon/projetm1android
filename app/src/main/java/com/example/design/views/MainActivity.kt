@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -118,7 +117,6 @@ class MainActivity : AppCompatActivity() {
             thread.start()
             thread.join()
             val status = doccreuse.getElementsByTagName("STATUS").item(0).textContent
-            Log.d("STATUSPICK",status)
             if(status == Status.OUTOFBOUNDS.value){
                 viewModel.makePopupMessage(this,getString(R.string.text_out_area))
             }
@@ -272,13 +270,10 @@ class MainActivity : AppCompatActivity() {
             while (true){
                 val dernierLoc = myLoc.myLocation
                 if(dernierLoc != null) {
-                    Log.d("VOILA","lon : " + dernierLoc.longitude + " lat: "+dernierLoc.latitude)
                     val distance = viewModel.distanceEntrePoints(viewModel.getLatitude().toDouble(),viewModel.getLongitude().toDouble(),dernierLoc.latitude,dernierLoc.longitude)
                     if (distance >= 10.0f) {
                         viewModel.updatePos(dernierLoc.longitude.toFloat(), dernierLoc.latitude.toFloat())
                     }
-                }else{
-                    Log.d("VOILA","Loc perdu")
                 }
                 updateVoisinOnMap()
                 TimeUnit.SECONDS.sleep(5)
@@ -288,7 +283,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateVoisinOnMap(){
         val voisins = viewModel.getListeVoisins()
-        Log.d("VOISINHGDBJ","${map.overlays.size} ${voisins.size}")
         // suprimez pour MAJ les items qui doivent etre dans la map
         // on ne doit pas retirer les 2 premiers (bar/echelle + player)
         for (i in map.overlays.size-1 downTo 2){

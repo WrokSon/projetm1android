@@ -1,7 +1,6 @@
 package com.example.model
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.example.model.data.Item
 import com.example.model.data.Offre
 import com.example.model.data.Player
@@ -41,8 +40,6 @@ class Repository private constructor() {
         player.username = baselogin
         session = sess
         signature = sign
-        Log.d("SESSION",session.toString())
-        Log.d("SIGNATURE",signature.toString())
     }
 
     fun resetLogin(){
@@ -56,7 +53,6 @@ class Repository private constructor() {
         player.long = long
         player.money = money
         player.pick = pick
-        Log.d("ITEMS",items.toString())
         player.items = items
 
     }

@@ -1,6 +1,5 @@
 package com.example.viewmodel
 
-import android.util.Log
 import java.net.ConnectException
 import java.net.URL
 import java.net.UnknownHostException
@@ -57,7 +56,6 @@ class InvViewModel : ViewModelSuper() {
             status = doc.getElementsByTagName("STATUS").item(0).textContent
             checkSessionAndStateServer(status)
         }catch (e : UnknownHostException){
-            Log.d("ERREURWEBSERVICE","Pas de connexion")
             actionNoConnexion(context)
         }catch (e : ConnectException){
             actionNoConnexion(context)

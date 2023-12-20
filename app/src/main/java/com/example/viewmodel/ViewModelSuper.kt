@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
@@ -154,7 +153,6 @@ open class ViewModelSuper : ViewModel() {
             popup.setView(popupView)
             val content : TextView = popupView.findViewById(R.id.popup_txt_msg)
             content.text = msg
-            Log.d("POPOUP", "on est la")
             popup.show()
         }
     }
