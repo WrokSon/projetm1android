@@ -6,6 +6,7 @@ enum class Status(val value : String) {
     SESSIONINVALID("KO - SESSION INVALID"),
     SESSIONEXPIRED("KO - SESSION EXPIRED"),
     WRONGCREDENTIALS("KO - WRONG CREDENTIALS"),
+    // pas utiliser cas on convertit la localisation en float avant de faire le webservice
     //BADLOCATIONFORMAT("KO - BAD LOCATION FORMAT"),
     TOOFAST("KO  - TOO FAST"),
     BADPICKAXE("KO  - BAD PICKAXE"),
